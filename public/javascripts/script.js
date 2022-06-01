@@ -17,7 +17,7 @@ formElm.addEventListener('submit', (e) => {
     totalCGPAElm.innerHTML = ''
 
     // Get the student's info
-    const url = `http://119.18.149.45/StudentAPI/api/studentinfo/get?studentIdNo=${id}`
+    const url = `/get-student-info/${id}`
 
     fetch(url)
       .then(res => res.json())
@@ -60,7 +60,7 @@ formElm.addEventListener('submit', (e) => {
 
     allTrimesters.forEach((trimester, indx) => {
       // id format - CSE 019 06800
-      const url = `http://119.18.149.45/StudentAPI/api/StudentResult/get?studentIdNo=${id}&Trimester=${trimester}`
+      const url = `/get-trimester-result/${id}/${trimester}`
       fetch(url)
         .then(res => res.json())
         .then(data => {
