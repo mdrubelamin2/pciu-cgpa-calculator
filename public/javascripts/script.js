@@ -55,9 +55,8 @@ formElm.addEventListener('submit', (e) => {
     resultsElm.appendChild(trimesterHeaders)
 
     // set the fetch-count, total credit & total cgpa to 0 so we can keep track of how many trimesters we have fetched
-    localStorage.setItem('fetch-count', 0)
-    // empty the trimester-result array
-    localStorage.setItem('trimester-result', JSON.stringify([]))
+    let fetchCount = 0
+    const trimesterResultArray = []
 
     allTrimesters.forEach((trimester, indx) => {
       // id format - CSE 019 06800
@@ -67,7 +66,7 @@ formElm.addEventListener('submit', (e) => {
         .then(data => {
 
           // store the count of current fetch in local storage 
-          localStorage.setItem('fetch-count', indx + 1)
+          fetchCount = indx + 1
 
           if (data.length > 0) {
             console.log(data)
@@ -86,121 +85,110 @@ formElm.addEventListener('submit', (e) => {
               totalCreditHrs: totalCreditHrs,
               currentGPA: currentGPA
             }
-            // get the trimester-result array from local storage
-            const trimesterResultArray = JSON.parse(localStorage.getItem('trimester-result')) || []
             // unshift the trimester result to the array
             trimesterResultArray.unshift(trimesterResult)
-            // set the trimester-result array to local storage
-            localStorage.setItem('trimester-result', JSON.stringify(trimesterResultArray))
           }
         })
     })
-  }
 
-  // wait for all trimesters to be fetched by checking the fetch-count in setInterval
-  const interval = setInterval(() => {
-    const fetchCount = localStorage.getItem('fetch-count')
 
-    if (fetchCount >= (allTrimesters.length - 1)) {
-      // clear the interval
-      clearInterval(interval)
+    // wait for all trimesters to be fetched by checking the fetch-count in setInterval
+    const interval = setInterval(() => {
+      if (fetchCount >= (allTrimesters.length - 1)) {
+        // clear the interval
+        clearInterval(interval)
 
-      // append a tr in results table to input the creditHrs and CGPA for Spring 2022
-      const spring2022Tr = document.createElement('tr')
-      const trimesterTd = document.createElement('td')
-      trimesterTd.textContent = 'Spring 2022'
-      spring2022Tr.appendChild(trimesterTd)
-      const totalCreditHrsTd = document.createElement('td')
-      totalCreditHrsTd.textContent = 15
-      spring2022Tr.appendChild(totalCreditHrsTd)
-      const cgpaTd = document.createElement('td')
-      const cgpaInput = document.createElement('input')
-      cgpaInput.setAttribute('type', 'number')
-      cgpaInput.setAttribute('step', '0.01')
-      cgpaInput.setAttribute('min', '0')
-      cgpaInput.setAttribute('max', '4')
-      cgpaInput.setAttribute('placeholder', '0.00')
-      // dont allow to input more than 4 in the input
-      cgpaInput.addEventListener('input', (e) => {
-        if (e.target.value > 4) {
-          e.target.value = 4
-        }
-        // set the value to trimester-result array & unshift a new array for spring 2022 if not exist
-        const trimesterResultArray = JSON.parse(localStorage.getItem('trimester-result'))
-        const spring2022TrimesterResult = trimesterResultArray.find(trimester => trimester.trimester == 'Spring 2022')
-        if (spring2022TrimesterResult) {
-          spring2022TrimesterResult.currentGPA = e.target.value
-        } else {
-          trimesterResultArray.unshift({
-            trimester: 'Spring 2022',
-            totalCreditHrs: 15,
-            currentGPA: e.target.value
-          })
-        }
-        localStorage.setItem('trimester-result', JSON.stringify(trimesterResultArray))
+        // append a tr in results table to input the creditHrs and CGPA for Spring 2022
+        const spring2022Tr = document.createElement('tr')
+        const trimesterTd = document.createElement('td')
+        trimesterTd.textContent = 'Spring 2022'
+        spring2022Tr.appendChild(trimesterTd)
+        const totalCreditHrsTd = document.createElement('td')
+        totalCreditHrsTd.textContent = 15
+        spring2022Tr.appendChild(totalCreditHrsTd)
+        const cgpaTd = document.createElement('td')
+        const cgpaInput = document.createElement('input')
+        cgpaInput.setAttribute('type', 'number')
+        cgpaInput.setAttribute('step', '0.01')
+        cgpaInput.setAttribute('min', '0')
+        cgpaInput.setAttribute('max', '4')
+        cgpaInput.setAttribute('placeholder', '0.00')
+        // dont allow to input more than 4 in the input
+        cgpaInput.addEventListener('input', (e) => {
+          if (e.target.value > 4) {
+            e.target.value = 4
+          }
+          // set the value to trimester-result array & unshift a new array for spring 2022 if not exist
+          const spring2022TrimesterResult = trimesterResultArray.find(trimester => trimester.trimester == 'Spring 2022')
+          if (spring2022TrimesterResult) {
+            spring2022TrimesterResult.currentGPA = e.target.value
+          } else {
+            trimesterResultArray.unshift({
+              trimester: 'Spring 2022',
+              totalCreditHrs: 15,
+              currentGPA: e.target.value
+            })
+          }
 
-        // calculate the total CGPA & total credit hours
+          // calculate the total CGPA & total credit hours
+          let totalCGPA = 0
+          let totalCreditHrs = 0
+          trimesterResultArray.forEach(trimester => {
+            totalCGPA += trimester.currentGPA * trimester.totalCreditHrs
+            totalCreditHrs += trimester.totalCreditHrs
+          }
+          )
+          // set the total CGPA & total credit hours to the table
+          const totalCGPAElm = document.querySelector('#total-cgpa')
+          const totalAverageCGPA = Math.round((totalCGPA / totalCreditHrs) * 100) / 100
+          totalCGPAElm.textContent = `Total CGPA: ${totalAverageCGPA}`
+        })
+        cgpaTd.appendChild(cgpaInput)
+        spring2022Tr.appendChild(cgpaTd)
+        resultsElm.appendChild(spring2022Tr)
+
+        // sort the trimester-result array by allTrimesters in descending order
+        trimesterResultArray.sort((a, b) => {
+          return allTrimesters.indexOf(b.trimester) - allTrimesters.indexOf(a.trimester)
+        })
+
+        // show the result in the table
+        trimesterResultArray.forEach(trimesterResult => {
+          const trimesterElm = document.createElement('tr')
+          const trimesterNameElm = document.createElement('td')
+          trimesterNameElm.textContent = trimesterResult.trimester
+          trimesterElm.appendChild(trimesterNameElm)
+          const totalCreditElm = document.createElement('td')
+          totalCreditElm.textContent = trimesterResult.totalCreditHrs
+          trimesterElm.appendChild(totalCreditElm)
+          const gpaElm = document.createElement('td')
+          gpaElm.textContent = trimesterResult.currentGPA
+          trimesterElm.appendChild(gpaElm)
+          resultsElm.appendChild(trimesterElm)
+        })
+
+        // calculate the total CGPA = (trimester CGPA * trimester credit hour) / (total credit hour)
         let totalCGPA = 0
         let totalCreditHrs = 0
-        trimesterResultArray.forEach(trimester => {
-          totalCGPA += trimester.currentGPA * trimester.totalCreditHrs
-          totalCreditHrs += trimester.totalCreditHrs
-        }
-        )
-        // set the total CGPA & total credit hours to the table
-        const totalCGPAElm = document.querySelector('#total-cgpa')
-        const totalAverageCGPA = Math.round((totalCGPA / totalCreditHrs) * 100) / 100
-        totalCGPAElm.textContent = `Total CGPA: ${totalAverageCGPA}`
-      })
-      cgpaTd.appendChild(cgpaInput)
-      spring2022Tr.appendChild(cgpaTd)
-      resultsElm.appendChild(spring2022Tr)
-
-      // get the trimester-result array from local storage
-      const trimesterResultArray = JSON.parse(localStorage.getItem('trimester-result'))
-
-      // sort the trimester-result array by allTrimesters in descending order
-      trimesterResultArray.sort((a, b) => {
-        return allTrimesters.indexOf(b.trimester) - allTrimesters.indexOf(a.trimester)
-      })
-
-      // show the result in the table
-      trimesterResultArray.forEach(trimesterResult => {
-        const trimesterElm = document.createElement('tr')
-        const trimesterNameElm = document.createElement('td')
-        trimesterNameElm.textContent = trimesterResult.trimester
-        trimesterElm.appendChild(trimesterNameElm)
+        trimesterResultArray.forEach(trimesterResult => {
+          totalCGPA += trimesterResult.currentGPA * trimesterResult.totalCreditHrs
+          totalCreditHrs += trimesterResult.totalCreditHrs
+        })
+        totalCGPA = totalCGPA / totalCreditHrs
+        totalCGPA = Math.round(totalCGPA * 100) / 100
+        const totalCGPAElm = document.createElement('tr')
+        const totalCGPANameElm = document.createElement('td')
+        totalCGPANameElm.textContent = 'Total CGPA'
+        totalCGPAElm.appendChild(totalCGPANameElm)
         const totalCreditElm = document.createElement('td')
-        totalCreditElm.textContent = trimesterResult.totalCreditHrs
-        trimesterElm.appendChild(totalCreditElm)
-        const gpaElm = document.createElement('td')
-        gpaElm.textContent = trimesterResult.currentGPA
-        trimesterElm.appendChild(gpaElm)
-        resultsElm.appendChild(trimesterElm)
-      })
-
-      // calculate the total CGPA = (trimester CGPA * trimester credit hour) / (total credit hour)
-      let totalCGPA = 0
-      let totalCreditHrs = 0
-      trimesterResultArray.forEach(trimesterResult => {
-        totalCGPA += trimesterResult.currentGPA * trimesterResult.totalCreditHrs
-        totalCreditHrs += trimesterResult.totalCreditHrs
-      })
-      totalCGPA = totalCGPA / totalCreditHrs
-      totalCGPA = Math.round(totalCGPA * 100) / 100
-      const totalCGPAElm = document.createElement('tr')
-      const totalCGPANameElm = document.createElement('td')
-      totalCGPANameElm.textContent = 'Total CGPA'
-      totalCGPAElm.appendChild(totalCGPANameElm)
-      const totalCreditElm = document.createElement('td')
-      totalCreditElm.textContent = totalCreditHrs
-      totalCGPAElm.appendChild(totalCreditElm)
-      const totalGPAElm = document.createElement('td')
-      totalGPAElm.textContent = totalCGPA
-      totalCGPAElm.appendChild(totalGPAElm)
-      resultsElm.appendChild(totalCGPAElm)
-    }
-  }, 1000)
-
+        totalCreditElm.textContent = totalCreditHrs
+        totalCGPAElm.appendChild(totalCreditElm)
+        const totalGPAElm = document.createElement('td')
+        totalGPAElm.textContent = totalCGPA
+        totalCGPAElm.appendChild(totalGPAElm)
+        resultsElm.appendChild(totalCGPAElm)
+      }
+    }, 1000)
+  }
 })
 
