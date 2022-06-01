@@ -101,7 +101,7 @@ formElm.addEventListener('submit', (e) => {
   const interval = setInterval(() => {
     const fetchCount = localStorage.getItem('fetch-count')
 
-    if (fetchCount >= allTrimesters.length) {
+    if (fetchCount >= (allTrimesters.length - 1)) {
       // clear the interval
       clearInterval(interval)
 
