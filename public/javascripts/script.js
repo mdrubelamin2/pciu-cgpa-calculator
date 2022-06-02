@@ -16,11 +16,6 @@ formElm.addEventListener('submit', (e) => {
 
   if (id) {
 
-
-
-
-
-
     // Clear the results
     resultsElm.innerHTML = ''
     totalCGPAElm.innerHTML = ''
@@ -34,8 +29,8 @@ formElm.addEventListener('submit', (e) => {
         // console.log(data)
         const studentInfo = data[0]
         const studentName = studentInfo.StudentName || 'No name found'
-        const studentProgram = studentInfo.StudentProgram || 'No program found'
-        const studentSession = studentInfo.StudentSession || 'No session found'
+        const studentProgram = studentInfo.studentProgram || 'No program found'
+        const studentSession = studentInfo.studentSession || 'No session found'
         const studentBatch = studentInfo.studentBatch || 'No batch found'
         const studentIdNo = studentInfo.studentIdNo || 'No id found'
         const campus = studentInfo.Campus || 'No campus found'
@@ -84,7 +79,7 @@ formElm.addEventListener('submit', (e) => {
             let completedCreditHrs = 0
             data.forEach(course => {
               totalCreditHrs += course.creditHr
-              if (course.gradePoint > 0) {
+              if (course.GradePoint > 0) {
                 completedCreditHrs += course.creditHr
               }
             })
@@ -102,8 +97,6 @@ formElm.addEventListener('submit', (e) => {
           }
         })
     })
-
-    let onlineResultFetched = false
 
     // wait for all trimesters to be fetched by checking the fetch-count in setInterval
     const interval = setInterval(() => {
@@ -148,6 +141,7 @@ formElm.addEventListener('submit', (e) => {
                   trimesterResultArray.unshift({
                     trimester: 'Spring 2022',
                     totalCreditHrs: 15,
+                    completedCreditHrs: 15,
                     currentGPA: e.target.value
                   })
                 }
@@ -157,7 +151,7 @@ formElm.addEventListener('submit', (e) => {
                 let totalCreditHrs = 0
                 trimesterResultArray.forEach(trimester => {
                   totalCGPA += trimester.currentGPA * trimester.totalCreditHrs
-                  totalCreditHrs += trimester.totalCreditHrs
+                  totalCreditHrs += trimester.completedCreditHrs
                 }
                 )
                 // set the total CGPA & total credit hours to the table
@@ -169,9 +163,6 @@ formElm.addEventListener('submit', (e) => {
               spring2022Tr.appendChild(cgpaTd)
               resultsElm.appendChild(spring2022Tr)
             }
-
-
-
 
             // sort the trimester-result array by allTrimesters in descending order
             trimesterResultArray.sort((a, b) => {
@@ -198,7 +189,7 @@ formElm.addEventListener('submit', (e) => {
             let totalCreditHrs = 0
             trimesterResultArray.forEach(trimesterResult => {
               totalCGPA += trimesterResult.currentGPA * trimesterResult.totalCreditHrs
-              totalCreditHrs += trimesterResult.totalCreditHrs
+              totalCreditHrs += trimesterResult.completedCreditHrs
             })
             totalCGPA = totalCGPA / totalCreditHrs
             totalCGPA = Math.round(totalCGPA * 100) / 100
@@ -217,12 +208,7 @@ formElm.addEventListener('submit', (e) => {
             // set the total CGPA & total credit hours to the table
             const totalCGPADivElm = document.querySelector('#total-cgpa')
             totalCGPADivElm.textContent = `Total CGPA: ${totalCGPA}`
-
-
           })
-
-
-
       }
     }, 1000)
   }
