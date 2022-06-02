@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "nodemon ./bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -13,6 +13,10 @@
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
     "cors": "^2.8.5",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "puppeteer": "^14.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
   }
 }
