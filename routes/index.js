@@ -12,7 +12,7 @@ router.get('/', function (req, res, next) {
 router.get('/get-online-result/:id', async function (req, res, next) {
   const id = req.params.id;
 
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
   const page = await browser.newPage();
   await page.goto('http://119.18.149.45/PCIUOnlineResult');
   // await page.waitForNavigation();
