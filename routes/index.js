@@ -6,7 +6,7 @@ const puppeteer = require('puppeteer');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'PCIU CGPA Calculator' });
 });
 
 router.get('/get-online-result/:id', async function (req, res, next) {
