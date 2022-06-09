@@ -1,32 +1,106 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> -->
-
-  <title>
-    <%= title %>
-  </title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PCIU CGPA Calculator</title>
   <link rel='stylesheet' href='/stylesheets/style.css' />
+  <!-- <link rel="stylesheet" href="style.min.css" > -->
 </head>
 
 <body>
+  <!-- <div class="main-container before-search">
+    <div class="header-section">
+      <h1 class="header-title">CGPA Calculator</h1>
+      <h4 class="header-subtitle">Port City International University, Chattogram</h4>
+    </div>
+    <div class="content-container before-search">
+        <form class="form-container">
+          <div class="input-container">
+            <label for="id-input" class="input-label">Enter Your ID</label>
+            <input id="id-input" class="id-input" type="text" placeholder="XXX XXX XXXXX" />
+          </div>
+          <button class="search-btn" type="submit">Search</button>
+        </form>
+    </div>
+  </div> -->
 
-  <div>
-    <form id="form">
-      <input type='text' id='id-input' placeholder='Enter Your ID' />
-      <input type='submit' id='submit' value='Search Results' />
-    </form>
-
-    <div id="student-info"></div>
-
-    <div id="total-cgpa"></div>
-
-    <table id="results"></table>
-
+  <div class="main-container before-search">
+    <div class="header-section">
+      <h1 class="header-title">CGPA Calculator</h1>
+      <h4 class="header-subtitle">Port City International University, Chattogram</h4>
+    </div>
+    <div class="content-container">
+      <div class="left-content">
+        <form class="form-container">
+          <div class="input-container">
+            <label for="id-input" class="input-label">Enter Your ID</label>
+            <input id="id-input" class="id-input" type="text" placeholder="XXX XXX XXXXX" />
+          </div>
+          <button class="search-btn" type="submit">Search</button>
+        </form>
+        <div class="info-container">
+          <div class="info-item">
+            <span class="info-item-title">ID</span>
+            <span class="info-item-content student-id"></span>
+          </div>
+          <div class="info-item">
+            <span class="info-item-title">Name</span>
+            <span class="info-item-content student-name"></span>
+          </div>
+          <div class="info-item">
+            <span class="info-item-title">Program</span>
+            <span class="info-item-content student-program"></span>
+          </div>
+          <div class="info-item">
+            <span class="info-item-title">Batch</span>
+            <span class="info-item-content student-batch"></span>
+          </div>
+          <div class="info-item">
+            <span class="info-item-title">Shift</span>
+            <span class="info-item-content student-shift"></span>
+          </div>
+          <div class="info-item">
+            <span class="info-item-title">Session</span>
+            <span class="info-item-content student-session"></span>
+          </div>
+        </div>
+        <div class="cgpa-container">
+          <div class="credit-item">
+            <span class="credit-item-title">Total Credit</span>
+            <span class="credit-item-content total-credit-hrs"></span>
+          </div>
+          <div class="cgpa-item">
+            <span class="cgpa-item-title">CGPA</span>
+            <span class="cgpa-item-content total-cgpa"></span>
+          </div>
+        </div>
+      </div>
+      <div class="right-container">
+        <div class="right-container-title-wrp">
+          <h4 class="right-container-title">GPA History</h4>
+        </div>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Trimester</th>
+                <th>Credit Hr.</th>
+                <th>SGPA</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <script src="/javascripts/script.js"></script>
+  <script src="javascripts/input-mask.js"></script>
+  <script src="javascripts/script.js"></script>
 </body>
 
 </html>

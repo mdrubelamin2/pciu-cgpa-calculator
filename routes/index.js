@@ -21,7 +21,7 @@ router.get('/get-online-result/:id', async function (req, res, next) {
   await page.waitForSelector('#Semester')
   const trimesterInput = await page.$('#Semester')
   // get value of the Semester input
-  const trimester = await trimesterInput.evaluate(el => el.value)
+  const semester = await trimesterInput.evaluate(el => el.value)
   await page.waitForSelector('input[type="submit"]')
   await page.click('input[type="submit"]');
   try {
@@ -39,7 +39,7 @@ router.get('/get-online-result/:id', async function (req, res, next) {
     // get the text content of the last td
     const currentGPATxt = await cgpaTd.evaluate(el => el.textContent)
     const currentGPATxtFormatted = currentGPATxt.replace(/[\n\r]+|[\s]{2,}/g, ' ').trim()
-    const currentGPA = parseFloat(currentGPATxtFormatted)
+    const GPA = parseFloat(currentGPATxtFormatted)
     // get the second table from allTables
     const secondTable = allTables[1]
     // get the tbody from the second table
@@ -47,32 +47,26 @@ router.get('/get-online-result/:id', async function (req, res, next) {
     // get all tr except first row
     const allTrFromSecondTbody = await secondTbody[0].$$('tr');
     const allTrFromSecondTbodyExceptFirstRow = allTrFromSecondTbody.slice(1)
-    // count all creditHrs from 6th td, grade points from 8th td of all tr, skip the credit if GradePoint is not greater than 0
-    let totalCreditHrs = 0
-    let completedCreditHrs = 0
+
+  const results = []
+
     for (let i = 0; i < allTrFromSecondTbodyExceptFirstRow.length; i++) {
       const tr = allTrFromSecondTbodyExceptFirstRow[i]
       const allTd = await tr.$$('td');
+      const courseCode = await allTd[1].evaluate(el => el.textContent)
+      const courseTitle = await allTd[2].evaluate(el => el.textContent)
+      const status = await allTd[3].evaluate(el => el.textContent)
       const creditHrTxt = await allTd[5].evaluate(el => el.textContent)
+      const LetterGrade = await allTd[6].evaluate(el => el.textContent.trim())
       const gradePointTxt = await allTd[7].evaluate(el => el.textContent)
       const creditHr = parseFloat(creditHrTxt)
-      const gradePoint = parseFloat(gradePointTxt)
-      totalCreditHrs += creditHr
-      if (gradePoint > 0) {
-        completedCreditHrs += creditHr
-      }
+      const GradePoint = parseFloat(gradePointTxt)
+      results.push({ semester, courseCode, courseTitle, status, creditHr, GradePoint, LetterGrade, GPA })
     }
 
-    const result = {
-      trimester,
-      totalCreditHrs,
-      completedCreditHrs,
-      currentGPA
-    }
-
-    res.json(result)
+    res.json(results)
   } catch (_) {
-    res.json({ error: true })
+    res.json([])
   }
 
   browser.close();
