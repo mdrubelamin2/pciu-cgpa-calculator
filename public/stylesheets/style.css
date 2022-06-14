@@ -127,6 +127,20 @@ body {
   font-size: 14px;
   line-height: 24px;
 }
+.search-btn:hover {
+  background: rgb(0, 133, 255);
+}
+.search-btn:active {
+  background: rgb(0, 113, 255);
+}
+.search-btn:focus {
+  outline: none;
+}
+.search-btn:disabled {
+  background: rgb(0, 163, 255);
+  border: 1px solid rgb(0, 163, 255);
+  cursor: not-allowed;
+}
 .info-container {
   margin-top: 25px;
   border: 1px solid rgb(239, 239, 239);
@@ -292,15 +306,6 @@ body {
   width: 100%;
 }
 
-
-
-
-
-
-
-
-
-
 @media all and (min-width: 1280px) {
   .main-container {
     max-width: 1024px;
@@ -336,6 +341,9 @@ body {
 @media all and (max-width: 480px) {
   body {
     height: 100%;
+  }
+  .main-container:not(.before-search) {
+    display: block;
   }
   .main-container {
     width: 100%;
