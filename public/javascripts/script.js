@@ -159,6 +159,11 @@ const resetOldSearchResult = () => {
   calculateTotalCreditHrsAndGPA()
 }
 
+setLoadingBtn = status => {
+  if(status) searchBtnElm.classList.add('loading')
+  else searchBtnElm.classList.remove('loading')
+}
+
 const formSubEvent = async (e) => {
   console.log('submit');
   e.preventDefault()
@@ -167,15 +172,18 @@ const formSubEvent = async (e) => {
 
   if (!studentId) return
 
+  setLoadingBtn(true)
+
   await getStudentInfo()
   console.log('studentInfo', studentInfo)
-  if (!studentInfo) return
+  if (!studentInfo) return setLoadingBtn(false)
   resetOldSearchResult()
   unhideMainContainer()
   setValueToIdInputElm()
   renderStudentInfo()
   await getAndRenderAllTrimesterResults()
   await getAndRenderOnlineTrimesterResult()
+  setLoadingBtn(false)
 }
 console.log(formElms);
 addEvent(formElms, 'submit', formSubEvent)
