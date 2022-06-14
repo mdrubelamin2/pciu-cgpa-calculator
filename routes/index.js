@@ -1,8 +1,13 @@
-var express = require('express');
-var router = express.Router();
-var fetch = require('node-fetch');
-const puppeteer = require('puppeteer');
+var express = require('express')
+var router = express.Router()
+var fetch = require('node-fetch')
+var HTMLParser = require('node-html-parser')
+var axios = require('axios')
+var FormData = require('form-data')
 
+const trimStr = (str) => {
+  return str.replace(/[\n\r]+|[\s]{2,}/g, ' ').trim()
+}
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -10,66 +15,61 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/get-online-result/:id', async function (req, res, next) {
-  const id = req.params.id;
+  const studentId = req.params.id
+  const data = await fetch('http://119.18.149.45/PCIUOnlineResult')
+  const body = await data.text()
+  var root = HTMLParser.parse(body);
 
-  const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
-  const page = await browser.newPage();
-  await page.goto('http://119.18.149.45/PCIUOnlineResult');
-  // await page.waitForNavigation();
-  await page.waitForSelector('#StudentIdNo');
-  await page.type('#StudentIdNo', id);
-  await page.waitForSelector('#Semester')
-  const trimesterInput = await page.$('#Semester')
-  // get value of the Semester input
-  const semester = await trimesterInput.evaluate(el => el.value)
-  await page.waitForSelector('input[type="submit"]')
-  await page.click('input[type="submit"]');
-  try {
-    await page.waitForSelector('table', { timeout: 5000 })
-    // get the first table from the page
-    const allTables = await page.$$('table');
-    const firstTable = allTables[0]
-    // get the tbody and second row from the table
-    const tbody = await firstTable.$$('tbody');
-    const allTrFromTbody = await tbody[0].$$('tr');
-    const secondRow = allTrFromTbody[1]
-    // get the last td from the second row
-    const allTdFromSecondRow = await secondRow.$$('td');
-    const cgpaTd = allTdFromSecondRow[allTdFromSecondRow.length - 1]
-    // get the text content of the last td
-    const currentGPATxt = await cgpaTd.evaluate(el => el.textContent)
-    const currentGPATxtFormatted = currentGPATxt.replace(/[\n\r]+|[\s]{2,}/g, ' ').trim()
-    const GPA = parseFloat(currentGPATxtFormatted)
-    // get the second table from allTables
-    const secondTable = allTables[1]
-    // get the tbody from the second table
-    const secondTbody = await secondTable.$$('tbody');
-    // get all tr except first row
-    const allTrFromSecondTbody = await secondTbody[0].$$('tr');
-    const allTrFromSecondTbodyExceptFirstRow = allTrFromSecondTbody.slice(1)
+  // get the cookies from the fetch response
+  const cookies = data.headers.get('set-cookie')
+  const cookie = cookies.split(';')[0]
 
+  const requestVerificationToken = root.querySelector('form').firstChild.getAttribute('value')
+  const semester = root.querySelector('#Semester').rawAttributes.Value
+
+  if(!(requestVerificationToken && semester)) return res.json([])
+
+    const formData = new FormData();
+    formData.append('__RequestVerificationToken', requestVerificationToken);
+    formData.append('StudentIdNo', studentId);
+    formData.append('Semester', semester);
+
+    var config = {
+      method: 'post',
+      url: 'http://119.18.149.45/PCIUOnlineResult',
+      headers: { 
+        'Cookie': cookie, 
+        ...formData.getHeaders()
+      },
+      data : formData
+    };
+
+  const resultResp = await axios(config)
+  const bodyHTML = resultResp.data.replace(/[\n\r]+|[\s]{2,}/g, ' ').trim()
+  const parsedResHTML = HTMLParser.parse(bodyHTML)
+  const cgpaTd = parsedResHTML.querySelector('.table:first-child tr:last-child td:last-child')
+
+  if(!cgpaTd) return res.json([])
+  
+  const cgpaTxt = cgpaTd.text
+  const GPA = parseFloat(cgpaTxt)
+  
+  const allTrFromSecondTbodyExceptFirstRow = parsedResHTML.querySelectorAll('.table:nth-child(2) tr:not(:first-child)')
+  // console.log('allTables', allTrFromSecondTbodyExceptFirstRow)
   const results = []
-
-    for (let i = 0; i < allTrFromSecondTbodyExceptFirstRow.length; i++) {
-      const tr = allTrFromSecondTbodyExceptFirstRow[i]
-      const allTd = await tr.$$('td');
-      const courseCode = await allTd[1].evaluate(el => el.textContent)
-      const courseTitle = await allTd[2].evaluate(el => el.textContent)
-      const status = await allTd[3].evaluate(el => el.textContent)
-      const creditHrTxt = await allTd[5].evaluate(el => el.textContent)
-      const LetterGrade = await allTd[6].evaluate(el => el.textContent.trim())
-      const gradePointTxt = await allTd[7].evaluate(el => el.textContent)
-      const creditHr = parseFloat(creditHrTxt)
-      const GradePoint = parseFloat(gradePointTxt)
-      results.push({ semester, courseCode, courseTitle, status, creditHr, GradePoint, LetterGrade, GPA })
-    }
-
-    res.json(results)
-  } catch (_) {
-    res.json([])
+  for (let i = 0; i < allTrFromSecondTbodyExceptFirstRow.length; i++) {
+    const tr = allTrFromSecondTbodyExceptFirstRow[i]
+    const courseCode = trimStr(tr.childNodes[3].text)
+    const courseTitle = trimStr(tr.childNodes[5].text)
+    const status = trimStr(tr.childNodes[7].text)
+    const creditHrTxt = trimStr(tr.childNodes[11].text)
+    const LetterGrade = trimStr(tr.childNodes[13].text)
+    const gradePointTxt = trimStr(tr.childNodes[15].text)
+    const creditHr = parseFloat(creditHrTxt)
+    const GradePoint = parseFloat(gradePointTxt)
+    results.push({ semester, courseCode, courseTitle, status, creditHr, GradePoint, LetterGrade, GPA })
   }
-
-  browser.close();
+  res.json(results)
 })
 
 router.get('/get-student-info/:id', async function (req, res, next) {
