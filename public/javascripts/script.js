@@ -126,25 +126,13 @@ const getAndRenderAllTrimesterResults = async () => {
     const resp = await fetch(url)
     const data = await resp.json()
 
-    if (data.length > 0) {
-      const trimesterResult = formatSingleTrimesterResult(data)
-      // unshift the trimester result to the array
-      trimesterResultsArray.unshift(trimesterResult)
-      // add a new tr to result table with the trimester result
-      addResultTrToResultTable(trimesterResult)
-      // calculate the totalGPA
-      calculateTotalCreditHrsAndGPA()
-    }
+    handleResultData(data)
   }
 
   Promise.resolve(true)
 }
 
-const getAndRenderOnlineTrimesterResult = async () => {
-  const url = `/get-online-result/${studentId}`
-  const resp = await fetch(url)
-  const data = await resp.json()
-
+const handleResultData = data => {
   if (data.length > 0) {
     const trimesterResult = formatSingleTrimesterResult(data)
     // unshift the trimester result to the array
@@ -154,6 +142,14 @@ const getAndRenderOnlineTrimesterResult = async () => {
     // calculate the totalGPA
     calculateTotalCreditHrsAndGPA()
   }
+}
+
+const getAndRenderOnlineTrimesterResult = async () => {
+  const url = `/get-online-result/${studentId}`
+  const resp = await fetch(url)
+  const data = await resp.json()
+
+  handleResultData(data)
 }
 
 const resetOldSearchResult = () => {
