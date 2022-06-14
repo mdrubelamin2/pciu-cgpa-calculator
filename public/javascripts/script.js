@@ -160,8 +160,13 @@ const resetOldSearchResult = () => {
 }
 
 setLoadingBtn = status => {
-  if(status) searchBtnElm.classList.add('loading')
-  else searchBtnElm.classList.remove('loading')
+  if(status) {
+     searchBtnElm.classList.add('loading')
+     searchBtnElm.disabled = true
+  } else {
+    searchBtnElm.classList.remove('loading')
+    searchBtnElm.disabled = false
+  }
 }
 
 const formSubEvent = async (e) => {
