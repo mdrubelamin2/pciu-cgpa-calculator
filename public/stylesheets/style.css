@@ -325,6 +325,12 @@ body {
     height: 100%;
     padding: 30px;
   }
+  .body:not(.before-search) {
+    display: block;
+  }
+  .main-container:not(.before-search) {
+    display: block;
+  }
   .main-container {
     width: 100%;
   }
@@ -341,6 +347,9 @@ body {
 @media all and (max-width: 480px) {
   body {
     height: 100%;
+  }
+  .body:not(.before-search) {
+    display: block;
   }
   .main-container:not(.before-search) {
     display: block;

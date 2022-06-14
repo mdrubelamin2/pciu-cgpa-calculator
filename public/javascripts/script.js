@@ -32,6 +32,7 @@ const getStudentInfo = async () => {
 const unhideMainContainer = () => {
   const mainContainer = select('.main-container')
   mainContainer.classList.remove('before-search')
+  document.body.classList.remove('before-search')
 }
 
 const setValueToIdInputElm = () => {
