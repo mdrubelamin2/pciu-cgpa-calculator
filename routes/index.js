@@ -15,7 +15,7 @@ router.get('/', function (req, res, next) {
 
 router.get('/get-online-result/:id', async function (req, res, next) {
   const studentId = req.params.id
-  const resp = await axios.get('http://119.18.149.45/PCIUOnlineResult')
+  const resp = await axios.get('http://119.18.149.45/PCIUOnlineResult', { responseType: 'text' })
   const respData = resp.data
   var root = HTMLParser.parse(respData);
 
@@ -35,6 +35,7 @@ router.get('/get-online-result/:id', async function (req, res, next) {
 
   const url = 'http://119.18.149.45/PCIUOnlineResult'
   var config = {
+    responseType: 'text',
     headers: {
       'Cookie': cookie,
       ...formData.getHeaders()
