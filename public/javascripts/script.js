@@ -82,13 +82,15 @@ const addResultTrToResultTable = trimesterResult => {
   const tdGPA = document.createElement('td')
   tdTrimester.textContent = trimesterResult.trimester
   tdTotalCredit.textContent = trimesterResult.totalCreditHrs
-  tdGPA.textContent = trimesterResult.currentGPA
+  tdGPA.textContent = trimesterResult.currentGPA ? roundToTwoDecimal(trimesterResult.currentGPA, true) : 'Incomplete'
   tr.appendChild(tdTrimester)
   tr.appendChild(tdTotalCredit)
   tr.appendChild(tdGPA)
   // add the tr to the table as first tr
   resultsTable.insertBefore(tr, resultsTable.firstChild)
 }
+
+const roundToTwoDecimal = (num, trailingZero = false) => trailingZero ? num.toFixed(2) : (Math.round(num * 100) / 100)
 
 const calculateTotalCreditHrsAndGPA = () => {
   const totalCreditHrsElm = select('.total-credit-hrs')
@@ -100,7 +102,7 @@ const calculateTotalCreditHrsAndGPA = () => {
     totalCreditHrs += trimesterResult.completedCreditHrs
   })
   totalCGPA = totalCGPA / totalCreditHrs
-  const totalAverageCGPA = Math.round(totalCGPA * 100) / 100
+  const totalAverageCGPA = roundToTwoDecimal(totalCGPA, true)
   totalCreditHrsElm.textContent = totalCreditHrs
   totalGPAElm.textContent = isNaN(totalAverageCGPA) ? 0 : totalAverageCGPA
 }
@@ -121,7 +123,8 @@ const formatSingleTrimesterResult = resultData => {
     }
   })
 
-  const currentGPA = Math.round(resultData[0].GPA * 100) / 100
+  const { GPA } = resultData[0]
+  const currentGPA = roundToTwoDecimal(GPA)
 
   // store the trimester result in local storage in a object
   const trimesterResult = {
@@ -136,10 +139,12 @@ const formatSingleTrimesterResult = resultData => {
 
 const getAllTrimesterList = async () => {
   if (allTrimestersList.length > 0) Promise.resolve(true)
-  // get all trimester list
-  const url = `/get-all-trimester-list`
-  const response = await fetch(url)
-  allTrimestersList = await response.json()
+  try {
+    // get all trimester list
+    const url = `/get-all-trimester-list`
+    const response = await fetch(url)
+    allTrimestersList = await response.json()
+  } catch (_) { console.log('failed to fetch the trimester list') }
   Promise.resolve(true)
 }
 
@@ -148,12 +153,12 @@ const getAndRenderAllTrimesterResults = async () => {
   const trimestersToFetch = allTrimestersList.slice(allTrimestersList.indexOf(studentInfo.studentSession))
   for (let i = 0; i < trimestersToFetch.length; i++) {
     const trimester = trimestersToFetch[i]
-
-    const url = `/get-trimester-result/${studentId}/${trimester}`
-    const resp = await fetch(url)
-    const data = await resp.json()
-
-    handleResultData(data)
+    try {
+      const url = `/get-trimester-result/${studentId}/${trimester}`
+      const resp = await fetch(url)
+      const data = await resp.json()
+      handleResultData(data)
+    } catch (_) { console.log(`failed to fetch the result of ${trimester}`) }
   }
 
   Promise.resolve(true)
@@ -172,16 +177,18 @@ const handleResultData = data => {
 }
 
 const getAndRenderOnlineTrimesterResult = async () => {
-  const url = `/get-online-result/${studentId}`
-  const resp = await fetch(url)
-  const data = await resp.json()
+  try {
+    const url = `/get-online-result/${studentId}`
+    const resp = await fetch(url)
+    const data = await resp.json()
 
-  // find the trimester result in the array
-  if (data.length === 0) return
-  const findTrimesterResult = trimesterResultsArray.find(trimesterResult => trimesterResult.trimester === data[0].semester)
-  if (findTrimesterResult) return
+    // find the trimester result in the array
+    if (data.length === 0) return
+    const findTrimesterResult = trimesterResultsArray.find(trimesterResult => trimesterResult.trimester === data[0].semester)
+    if (findTrimesterResult) return
 
-  handleResultData(data)
+    handleResultData(data)
+  } catch (_) { console.log('failed to fetch the online result') }
 }
 
 const resetOldSearchResult = () => {
