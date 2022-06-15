@@ -160,6 +160,10 @@ const getAndRenderOnlineTrimesterResult = async () => {
   const resp = await fetch(url)
   const data = await resp.json()
 
+  // find the trimester result in the array
+  const findTrimesterResult = trimesterResultsArray.find(trimesterResult => trimesterResult.trimester === data[0].semester)
+  if (findTrimesterResult) return
+
   handleResultData(data)
 }
 
