@@ -1,7 +1,7 @@
 const select = selector => document.querySelector(selector)
 
 const addEvent = (elm, eventType, cb) => {
-    elm.addEventListener(eventType, cb)
+  elm.addEventListener(eventType, cb)
 }
 
 const idInputElm = select('.id-input')
@@ -12,6 +12,7 @@ const formElms = select('.form-container')
 
 let studentId
 let studentInfo
+let allTrimestersList = []
 let trimesterResultsArray = []
 
 const getStudentInfo = async () => {
@@ -117,9 +118,18 @@ const formatSingleTrimesterResult = resultData => {
   return trimesterResult
 }
 
+const getAllTrimesterList = async () => {
+  if (allTrimestersList.length > 0) Promise.resolve(true)
+  // get all trimester list
+  const url = `/get-all-trimester-list`
+  const response = await fetch(url)
+  allTrimestersList = await response.json()
+  Promise.resolve(true)
+}
+
 const getAndRenderAllTrimesterResults = async () => {
-  const allTrimesters = ['Spring 2014', 'Summer 2014', 'Fall 2014', 'Spring 2015', 'Summer 2015', 'Fall 2015', 'Spring 2016', 'Summer 2016', 'Fall 2016', 'Spring 2017', 'Summer 2017', 'Fall 2017', 'Spring 2018', 'Summer 2018', 'Fall 2018', 'Spring 2019', 'Summer 2019', 'Fall 2019', 'Spring 2020', 'Summer 2020', 'Fall 2020', 'Spring 2021', 'Summer 2021', 'Fall 2021', 'Spring 2022']
-  const trimestersToFetch = allTrimesters.slice(allTrimesters.indexOf(studentInfo.studentSession))
+  await getAllTrimesterList()
+  const trimestersToFetch = allTrimestersList.slice(allTrimestersList.indexOf(studentInfo.studentSession))
   for (let i = 0; i < trimestersToFetch.length; i++) {
     const trimester = trimestersToFetch[i]
 
@@ -161,9 +171,9 @@ const resetOldSearchResult = () => {
 }
 
 setLoadingBtn = status => {
-  if(status) {
-     searchBtnElm.classList.add('loading')
-     searchBtnElm.disabled = true
+  if (status) {
+    searchBtnElm.classList.add('loading')
+    searchBtnElm.disabled = true
   } else {
     searchBtnElm.classList.remove('loading')
     searchBtnElm.disabled = false
@@ -171,7 +181,6 @@ setLoadingBtn = status => {
 }
 
 const formSubEvent = async (e) => {
-  console.log('submit');
   e.preventDefault()
   const idInpElm = select('.id-input')
   studentId = idInpElm.value
@@ -181,7 +190,6 @@ const formSubEvent = async (e) => {
   setLoadingBtn(true)
 
   await getStudentInfo()
-  console.log('studentInfo', studentInfo)
   if (!studentInfo) return setLoadingBtn(false)
   resetOldSearchResult()
   unhideMainContainer()
@@ -191,5 +199,4 @@ const formSubEvent = async (e) => {
   await getAndRenderOnlineTrimesterResult()
   setLoadingBtn(false)
 }
-console.log(formElms);
 addEvent(formElms, 'submit', formSubEvent)

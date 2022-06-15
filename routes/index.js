@@ -13,6 +13,23 @@ router.get('/', function (req, res, next) {
   res.render('index', { title: 'PCIU CGPA Calculator' });
 });
 
+router.get('/get-all-trimester-list', async (req, res, next) => {
+  const url = 'http://119.18.149.45/PCIUStudentPortal/Student/TrimesterResult'
+  const response = await axios.get(url)
+  const data = response.data
+  const root = HTMLParser.parse(data)
+  const trimesters = root.querySelectorAll('#semester option')
+  const trimestersList = []
+  for (let i = trimesters.length - 1; i >= 0; i--) {
+    const trimester = trimesters[i]
+    const optValue = trimStr(trimester.rawAttrs.split('value=')[1].split('"')[1])
+    if (!optValue) continue
+    trimestersList.push(optValue)
+  }
+
+  res.json(trimestersList)
+})
+
 router.get('/get-online-result/:id', async function (req, res, next) {
   const studentId = req.params.id
   const url = 'http://119.18.149.45/PCIUOnlineResult'
