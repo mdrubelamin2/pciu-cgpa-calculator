@@ -1,8 +1,8 @@
-var express = require('express')
-var router = express.Router()
-var HTMLParser = require('node-html-parser')
-var axios = require('axios')
-var FormData = require('form-data')
+const express = require('express')
+const router = express.Router()
+const HTMLParser = require('node-html-parser')
+const axios = require('axios')
+const FormData = require('form-data')
 
 const trimStr = (str) => {
   return str.replace(/[\n\r]+|[\s]{2,}/g, ' ').trim()
@@ -15,9 +15,10 @@ router.get('/', function (req, res, next) {
 
 router.get('/get-online-result/:id', async function (req, res, next) {
   const studentId = req.params.id
-  const resp = await axios.get('http://119.18.149.45/PCIUOnlineResult', { responseType: 'text' })
+  const url = 'http://119.18.149.45/PCIUOnlineResult'
+  const resp = await axios({ url, method: 'GET', responseType: 'text' })
   const respData = resp.data
-  var root = HTMLParser.parse(respData);
+  const root = HTMLParser.parse(respData);
 
   // get the cookies from the fetch response
   const cookies = respData.headers.get('set-cookie')
@@ -33,17 +34,18 @@ router.get('/get-online-result/:id', async function (req, res, next) {
   formData.append('StudentIdNo', studentId);
   formData.append('Semester', semester);
 
-  const url = 'http://119.18.149.45/PCIUOnlineResult'
-  var config = {
+  const config = {
+    url,
+    method: 'POST',
     responseType: 'text',
     headers: {
       'Cookie': cookie,
       ...formData.getHeaders()
     },
     data: formData
-  };
+  }
 
-  const resultResp = await axios.post(url, config)
+  const resultResp = await axios(config)
   const resultData = resultResp.data
   const bodyHTML = resultData.replace(/[\n\r]+|[\s]{2,}/g, ' ').trim()
   const parsedResHTML = HTMLParser.parse(bodyHTML)
