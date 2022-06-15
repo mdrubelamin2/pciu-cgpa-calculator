@@ -161,6 +161,7 @@ const getAndRenderOnlineTrimesterResult = async () => {
   const data = await resp.json()
 
   // find the trimester result in the array
+  if (data.length === 0) return
   const findTrimesterResult = trimesterResultsArray.find(trimesterResult => trimesterResult.trimester === data[0].semester)
   if (findTrimesterResult) return
 
