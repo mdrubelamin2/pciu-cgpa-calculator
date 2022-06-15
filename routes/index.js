@@ -16,12 +16,12 @@ router.get('/', function (req, res, next) {
 router.get('/get-online-result/:id', async function (req, res, next) {
   const studentId = req.params.id
   const url = 'http://119.18.149.45/PCIUOnlineResult'
-  const resp = await axios({ url, method: 'GET', responseType: 'text' })
+  const resp = await axios.get(url)
   const respData = resp.data
   const root = HTMLParser.parse(respData);
 
   // get the cookies from the fetch response
-  const cookies = respData.headers.get('set-cookie')
+  const cookies = resp.headers['set-cookie'][0]
   const cookie = cookies.split(';')[0]
 
   const requestVerificationToken = root.querySelector('form').firstChild.getAttribute('value')
@@ -37,7 +37,6 @@ router.get('/get-online-result/:id', async function (req, res, next) {
   const config = {
     url,
     method: 'POST',
-    responseType: 'text',
     headers: {
       'Cookie': cookie,
       ...formData.getHeaders()
