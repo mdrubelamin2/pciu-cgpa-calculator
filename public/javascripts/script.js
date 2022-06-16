@@ -4,11 +4,32 @@ const addEvent = (elm, eventType, cb) => {
   elm.addEventListener(eventType, cb)
 }
 
+// creates input mask for the id input by maska.js
 const idInputElm = select('.id-input')
 Maska.create(idInputElm, { mask: 'AAA ### #####' })
 
-const searchBtnElm = select('.search-btn')
-const formElms = select('.form-container')
+const formSubEvent = async (e) => {
+  e.preventDefault()
+  const idInpElm = select('.id-input')
+  studentId = idInpElm.value
+
+  if (!studentId) return
+
+  setLoadingBtn(true)
+
+  await getStudentInfo()
+  if (!studentInfo) return setLoadingBtn(false)
+  resetOldSearchResult()
+  removeBeforeSearchClasses()
+  setValueToIdInputElm()
+  renderStudentInfo()
+  await getAndRenderAllTrimesterResults()
+  await getAndRenderOnlineTrimesterResult()
+  setLoadingBtn(false)
+}
+
+const formElm = select('.form-container')
+addEvent(formElm, 'submit', formSubEvent)
 
 let studentId
 let studentInfo
@@ -20,17 +41,12 @@ const getStudentInfo = async () => {
   const url = `/get-student-info/${studentId}`
   const response = await fetch(url)
   const data = await response.json()
-
-  if (data.length > 0) {
-    studentInfo = data[0]
-  } else {
-    studentInfo = null
-  }
+  studentInfo = data.length > 0 ? data[0] : null
 
   Promise.resolve(true)
 }
 
-const unhideMainContainer = () => {
+const removeBeforeSearchClasses = () => {
   const mainContainer = select('.main-container')
   mainContainer.classList.remove('before-search')
   document.body.classList.remove('before-search')
@@ -86,7 +102,7 @@ const calculateTotalCreditHrsAndGPA = () => {
   totalCGPA = totalCGPA / totalCreditHrs
   const totalAverageCGPA = Math.round(totalCGPA * 100) / 100
   totalCreditHrsElm.textContent = totalCreditHrs
-  totalGPAElm.textContent = isNaN(totalAverageCGPA) ? 'N/A' : totalAverageCGPA
+  totalGPAElm.textContent = isNaN(totalAverageCGPA) ? 0 : totalAverageCGPA
 }
 
 const formatSingleTrimesterResult = resultData => {
@@ -176,6 +192,7 @@ const resetOldSearchResult = () => {
 }
 
 setLoadingBtn = status => {
+  const searchBtnElm = select('.search-btn')
   if (status) {
     searchBtnElm.classList.add('loading')
     searchBtnElm.disabled = true
@@ -184,24 +201,3 @@ setLoadingBtn = status => {
     searchBtnElm.disabled = false
   }
 }
-
-const formSubEvent = async (e) => {
-  e.preventDefault()
-  const idInpElm = select('.id-input')
-  studentId = idInpElm.value
-
-  if (!studentId) return
-
-  setLoadingBtn(true)
-
-  await getStudentInfo()
-  if (!studentInfo) return setLoadingBtn(false)
-  resetOldSearchResult()
-  unhideMainContainer()
-  setValueToIdInputElm()
-  renderStudentInfo()
-  await getAndRenderAllTrimesterResults()
-  await getAndRenderOnlineTrimesterResult()
-  setLoadingBtn(false)
-}
-addEvent(formElms, 'submit', formSubEvent)

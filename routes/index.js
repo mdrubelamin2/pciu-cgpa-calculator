@@ -30,8 +30,8 @@ router.get('/get-all-trimester-list', async (req, res, next) => {
   res.json(trimestersList)
 })
 
-router.get('/get-online-result/:id', async function (req, res, next) {
-  const studentId = req.params.id
+router.get('/get-online-result/:studentId', async function (req, res, next) {
+  const { studentId } = req.params
   const url = 'http://119.18.149.45/PCIUOnlineResult'
   const resp = await axios.get(url)
   const respData = resp.data
@@ -74,25 +74,27 @@ router.get('/get-online-result/:id', async function (req, res, next) {
 
   const allTrFromSecondTbodyExceptFirstRow = parsedResHTML.querySelectorAll('.table:nth-child(2) tr:not(:first-child)')
   const results = []
-  for (let i = 0; i < allTrFromSecondTbodyExceptFirstRow.length; i++) {
-    const tr = allTrFromSecondTbodyExceptFirstRow[i]
-    const courseCode = trimStr(tr.childNodes[3].text)
-    const courseTitle = trimStr(tr.childNodes[5].text)
-    const status = trimStr(tr.childNodes[7].text)
-    const creditHrTxt = trimStr(tr.childNodes[11].text)
-    const LetterGrade = trimStr(tr.childNodes[13].text)
-    const gradePointTxt = trimStr(tr.childNodes[15].text)
+  allTrFromSecondTbodyExceptFirstRow.forEach(tr => {
+    // filter the tr childnodes that are only html elements and node type 1
+    const tds = tr.childNodes.filter(node => node.nodeType === 1)
+    // tds index = 1 - course code, 2 - course name, 3 - status, 5 - credit hr, 6 - letter grade, 7 - grade point
+    const courseCode = trimStr(tds[1].text)
+    const courseTitle = trimStr(tds[2].text)
+    const status = trimStr(tds[3].text)
+    const creditHrTxt = trimStr(tds[5].text)
+    const LetterGrade = trimStr(tds[6].text)
+    const gradePointTxt = trimStr(tds[7].text)
     const creditHr = parseFloat(creditHrTxt)
     const GradePoint = parseFloat(gradePointTxt)
     results.push({ semester, courseCode, courseTitle, status, creditHr, GradePoint, LetterGrade, GPA })
-  }
+  })
   res.json(results)
 })
 
-router.get('/get-student-info/:id', async function (req, res, next) {
-  const id = req.params.id
+router.get('/get-student-info/:studentId', async function (req, res, next) {
+  const { studentId } = req.params
   // fetch the student info
-  const url = `http://119.18.149.45/StudentAPI/api/studentinfo/get?studentIdNo=${id}`
+  const url = `http://119.18.149.45/StudentAPI/api/studentinfo/get?studentIdNo=${studentId}`
   const studentInfoJson = await axios.get(url)
   const studentInfo = studentInfoJson.data
 
@@ -100,11 +102,10 @@ router.get('/get-student-info/:id', async function (req, res, next) {
   res.json(studentInfo)
 })
 
-router.get('/get-trimester-result/:id/:trimester', async function (req, res, next) {
-  const id = req.params.id
-  const trimester = req.params.trimester
+router.get('/get-trimester-result/:studentId/:trimester', async function (req, res, next) {
+  const { studentId, trimester } = req.params
   // fetch the trimester result
-  const url = `http://119.18.149.45/StudentAPI/api/StudentResult/get?studentIdNo=${id}&Trimester=${trimester}`
+  const url = `http://119.18.149.45/StudentAPI/api/StudentResult/get?studentIdNo=${studentId}&Trimester=${trimester}`
   const trimesterResultJson = await axios.get(url)
   const trimesterResult = trimesterResultJson.data
 
