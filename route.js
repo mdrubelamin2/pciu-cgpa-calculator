@@ -20,12 +20,11 @@ router.get('/get-all-trimester-list', async (req, res, next) => {
   const root = HTMLParser.parse(data)
   const trimesters = root.querySelectorAll('#semester option')
   const trimestersList = []
-  for (let i = trimesters.length - 1; i >= 0; i--) {
-    const trimester = trimesters[i]
+  trimesters.forEach(trimester => {
     const optValue = trimStr(trimester.rawAttrs.split('value=')[1].split('"')[1])
-    if (!optValue) continue
-    trimestersList.push(optValue)
-  }
+    if (!optValue) return
+    trimestersList.unshift(optValue)
+  })
 
   res.json(trimestersList)
 })
