@@ -5,7 +5,8 @@
   "scripts": {
     "postinstall": "npm run build",
     "start": "node ./bin/www",
-    "dev": "nodemon ./bin/www",
+    "server": "nodemon ./bin/www",
+    "front": "parcel public/index.html",
     "build": "parcel build --no-source-maps public/index.html"
   },
   "dependencies": {
