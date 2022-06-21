@@ -1,12 +1,11 @@
 {
   "name": "pciu-cgpa-calculator",
-  "version": "0.0.0",
-  "private": true,
+  "version": "1.0",
+  "private": false,
   "scripts": {
     "postinstall": "npm run build",
-    "start": "node ./bin/www",
-    "server": "nodemon ./bin/www",
-    "front": "parcel public/index.html",
+    "start": "set NODE_ENV=production && node ./bin/www",
+    "dev": "set NODE_ENV=development && nodemon ./bin/www",
     "build": "parcel build --no-source-maps public/index.html"
   },
   "dependencies": {
