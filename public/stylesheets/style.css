@@ -46,9 +46,6 @@ body {
   font-family: Poppins;
   min-height: 100vh;
 }
-.hidden {
-  display: none;
-}
 .main-container {
   background: rgb(255, 255, 255);
   width: 60vw;
