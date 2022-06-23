@@ -8,6 +8,9 @@
     "dev": "set NODE_ENV=development && nodemon ./bin/www",
     "build": "parcel build --no-source-maps public/index.html"
   },
+  "nodemonConfig": {
+    "ignore": ["public/*", "dist/*"]
+  },
   "dependencies": {
     "axios": "^0.27.2",
     "express": "~4.16.1",
