@@ -38,7 +38,7 @@ let trimesterResultsArray = []
 
 const getStudentInfo = async () => {
   // Get the student's info
-  const url = `/get-student-info/${studentId}`
+  const url = `/api/get-student-info/${studentId}`
   const response = await fetch(url)
   const data = await response.json()
   studentInfo = data.length > 0 ? data[0] : null
@@ -141,7 +141,7 @@ const getAllTrimesterList = async () => {
   if (allTrimestersList.length > 0) Promise.resolve(true)
   try {
     // get all trimester list
-    const url = `/get-all-trimester-list`
+    const url = `/api/get-all-trimester-list`
     const response = await fetch(url)
     allTrimestersList = await response.json()
   } catch (_) { console.log('failed to fetch the trimester list') }
@@ -154,7 +154,7 @@ const getAndRenderAllTrimesterResults = async () => {
   for (let i = 0; i < trimestersToFetch.length; i++) {
     const trimester = trimestersToFetch[i]
     try {
-      const url = `/get-trimester-result/${studentId}/${trimester}`
+      const url = `/api/get-trimester-result/${studentId}/${trimester}`
       const resp = await fetch(url)
       const data = await resp.json()
       handleResultData(data)
@@ -178,7 +178,7 @@ const handleResultData = data => {
 
 const getAndRenderOnlineTrimesterResult = async () => {
   try {
-    const url = `/get-online-result/${studentId}`
+    const url = `/api/get-online-result/${studentId}`
     const resp = await fetch(url)
     const data = await resp.json()
 
