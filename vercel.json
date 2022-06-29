@@ -1,9 +1,15 @@
 {
-    "redirects": [
+    "version": "2",
+    "builds": [
         {
-          "source": "/(.*)",
-          "destination": "app.js"
+            "src": "app.js",
+            "use": "@vercel/node"
         }
-      ],
-      "regions": ["sin1"]
+    ],
+    "routes": [
+        {
+          "src": "/(.*)",
+          "dest": "app.js"
+        }
+      ]
 }
