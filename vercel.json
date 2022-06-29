@@ -1,14 +1,14 @@
 {
-    "builds": [
+  "functions": {
+      "/(.*)": {
+        "includeFiles": "app.js"
+      }
+    },
+    "redirects": [
         {
-            "src": "app.js",
-            "use": "@vercel/node"
+          "source": "/(.*)",
+          "destination": "app.js"
         }
-    ],
-    "routes": [
-        {
-          "src": "/(.*)",
-          "dest": "app.js"
-        }
-      ]
+      ],
+      "regions": ["sin1"]
 }
