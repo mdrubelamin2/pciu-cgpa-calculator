@@ -1,5 +1,8 @@
 const express = require('express')
 const app = express()
+const HTMLParser = require('node-html-parser')
+const axios = require('axios')
+const FormData = require('form-data')
 
 const trimStr = (str) => {
   return str.replace(/[\n\r]+|[\s]{2,}/g, ' ').trim()
@@ -109,9 +112,4 @@ app.get('/get-trimester-result/:studentId/:trimester', async function (req, res,
   res.json(trimesterResult)
 })
 
-module.exports = app; c 
-
-
-
-
-
+module.exports = app;
