@@ -3,13 +3,17 @@
   "version": "1.0",
   "private": false,
   "scripts": {
-    "postinstall": "npm run build",
+    "postinstall": "npm run build-critical && npm run build",
     "start": "set NODE_ENV=production && node ./bin/www",
     "dev": "set NODE_ENV=development && nodemon ./bin/www",
-    "build": "parcel build --no-source-maps public/index.html"
+    "build": "parcel build --no-source-maps public/index.critical.html",
+    "build-critical": "critical public/index.html --base public --inline > public/index.critical.html"
   },
   "nodemonConfig": {
-    "ignore": ["public/*", "dist/*"]
+    "ignore": [
+      "public/*",
+      "dist/*"
+    ]
   },
   "dependencies": {
     "axios": "^0.27.2",
@@ -18,6 +22,7 @@
     "node-html-parser": "^5.3.3"
   },
   "devDependencies": {
+    "critical": "^4.0.1",
     "nodemon": "^2.0.16",
     "parcel": "^2.6.1"
   }
