@@ -9,7 +9,6 @@
 }
 
 body {
-  font-family: Poppins, Verdana, sans-serif;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
@@ -46,11 +45,11 @@ h6 {
 }
 
 body {
+  font-family: Poppins, Verdana, sans-serif;
   background-color: rgb(245, 245, 245);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: Poppins;
   min-height: 100vh;
 }
 
