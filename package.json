@@ -3,7 +3,7 @@
   "version": "1.0",
   "private": false,
   "scripts": {
-    "postinstall": "npm run build-critical && npm run build",
+    "postinstall": "npm run build-critical && npm run build && npm prune --production",
     "start": "set NODE_ENV=production && node ./bin/www",
     "dev": "set NODE_ENV=development && nodemon ./bin/www",
     "build": "parcel build --no-source-maps public/index.htm",
