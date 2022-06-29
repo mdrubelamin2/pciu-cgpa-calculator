@@ -7,7 +7,7 @@
     "dev": "set NODE_ENV=development && nodemon ./bin/www",
     "build-parcel": "parcel build --no-source-maps public/index.htm",
     "build-critical": "critical public/index.html --base public --inline > public/index.htm",
-    "build-prod": "npm run build-critical && npm run build-parcel && npm prune --production"
+    "postinstall": "npm run build-critical && npm run build-parcel && npm prune --production"
   },
   "nodemonConfig": {
     "ignore": [
