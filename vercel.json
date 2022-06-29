@@ -1,9 +1,4 @@
 {
-  "functions": {
-      "./": {
-        "includeFiles": "app.js"
-      }
-    },
     "redirects": [
         {
           "source": "/(.*)",
