@@ -10,7 +10,7 @@ app.get('/api', function (req, res, next) {
   res.render('index', { title: 'PCIU CGPA Calculator' });
 });
 
-app.get('/api/get-all-trimester-list', async (req, res, next) => {
+app.get('/get-all-trimester-list', async (req, res, next) => {
   const url = 'http://119.18.149.45/PCIUStudentPortal/Student/TrimesterResult'
   const response = await axios.get(url)
   const data = response.data
@@ -26,7 +26,7 @@ app.get('/api/get-all-trimester-list', async (req, res, next) => {
   res.json(trimestersList)
 })
 
-app.get('/api/get-online-result/:studentId', async function (req, res, next) {
+app.get('/get-online-result/:studentId', async function (req, res, next) {
   const { studentId } = req.params
   const url = 'http://119.18.149.45/PCIUOnlineResult'
   const resp = await axios.get(url)
@@ -87,7 +87,7 @@ app.get('/api/get-online-result/:studentId', async function (req, res, next) {
   res.json(results)
 })
 
-app.get('/api/get-student-info/:studentId', async function (req, res, next) {
+app.get('/get-student-info/:studentId', async function (req, res, next) {
   const { studentId } = req.params
   // fetch the student info
   const url = `http://119.18.149.45/StudentAPI/api/studentinfo/get?studentIdNo=${studentId}`
@@ -98,7 +98,7 @@ app.get('/api/get-student-info/:studentId', async function (req, res, next) {
   res.json(studentInfo)
 })
 
-app.get('/api/get-trimester-result/:studentId/:trimester', async function (req, res, next) {
+app.get('/get-trimester-result/:studentId/:trimester', async function (req, res, next) {
   const { studentId, trimester } = req.params
   // fetch the trimester result
   const url = `http://119.18.149.45/StudentAPI/api/StudentResult/get?studentIdNo=${studentId}&Trimester=${trimester}`
