@@ -1,19 +1,16 @@
 const express = require('express')
-const router = express.Router()
-const HTMLParser = require('node-html-parser')
-const axios = require('axios')
-const FormData = require('form-data')
+const app = express()
 
 const trimStr = (str) => {
   return str.replace(/[\n\r]+|[\s]{2,}/g, ' ').trim()
 }
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
+app.get('/api', function (req, res, next) {
   res.render('index', { title: 'PCIU CGPA Calculator' });
 });
 
-router.get('/get-all-trimester-list', async (req, res, next) => {
+app.get('/api/get-all-trimester-list', async (req, res, next) => {
   const url = 'http://119.18.149.45/PCIUStudentPortal/Student/TrimesterResult'
   const response = await axios.get(url)
   const data = response.data
@@ -29,7 +26,7 @@ router.get('/get-all-trimester-list', async (req, res, next) => {
   res.json(trimestersList)
 })
 
-router.get('/get-online-result/:studentId', async function (req, res, next) {
+app.get('/api/get-online-result/:studentId', async function (req, res, next) {
   const { studentId } = req.params
   const url = 'http://119.18.149.45/PCIUOnlineResult'
   const resp = await axios.get(url)
@@ -90,7 +87,7 @@ router.get('/get-online-result/:studentId', async function (req, res, next) {
   res.json(results)
 })
 
-router.get('/get-student-info/:studentId', async function (req, res, next) {
+app.get('/api/get-student-info/:studentId', async function (req, res, next) {
   const { studentId } = req.params
   // fetch the student info
   const url = `http://119.18.149.45/StudentAPI/api/studentinfo/get?studentIdNo=${studentId}`
@@ -101,7 +98,7 @@ router.get('/get-student-info/:studentId', async function (req, res, next) {
   res.json(studentInfo)
 })
 
-router.get('/get-trimester-result/:studentId/:trimester', async function (req, res, next) {
+app.get('/api/get-trimester-result/:studentId/:trimester', async function (req, res, next) {
   const { studentId, trimester } = req.params
   // fetch the trimester result
   const url = `http://119.18.149.45/StudentAPI/api/StudentResult/get?studentIdNo=${studentId}&Trimester=${trimester}`
@@ -112,5 +109,9 @@ router.get('/get-trimester-result/:studentId/:trimester', async function (req, r
   res.json(trimesterResult)
 })
 
+module.exports = app; c 
 
-module.exports = router;
+
+
+
+
