@@ -7,7 +7,7 @@ const trimStr = (str) => {
 
 /* GET home page. */
 app.get('/api', function (req, res, next) {
-  res.render('index', { title: 'PCIU CGPA Calculator' });
+  res.end(`Hello from Md Rubel Amin`);
 });
 
 app.get('/get-all-trimester-list', async (req, res, next) => {
