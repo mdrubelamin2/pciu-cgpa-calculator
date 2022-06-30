@@ -30,6 +30,7 @@ const formSubEvent = async (e) => {
 
 const formElm = select('.form-container')
 addEvent(formElm, 'submit', formSubEvent)
+setLoadingBtn(false)
 
 let studentId
 let studentInfo
