@@ -45,7 +45,13 @@ h6 {
 }
 
 body {
-  min-height: 100vh;
+  width: 100%;
+  height: 100vh;
+  /* For browsers that don't support CSS variables */
+  height: calc(var(--1svh, 1vh) * 100);
+  /* This is the "polyfill" */
+  height: 100svh;
+  /* This is for future browsers that support svh, dvh and lvh viewport units */
 }
 
 body {
