@@ -8,6 +8,11 @@ const addEvent = (elm, eventType, cb) => {
 const idInputElm = select('.id-input')
 Maska.create(idInputElm, { mask: 'AAA ### #####' })
 
+// enable the search button when the window loading is complete
+window.addEventListener('load', () => {
+  setLoadingBtn(false)
+})
+
 const formSubEvent = async (e) => {
   e.preventDefault()
   const idInpElm = select('.id-input')
@@ -30,7 +35,6 @@ const formSubEvent = async (e) => {
 
 const formElm = select('.form-container')
 addEvent(formElm, 'submit', formSubEvent)
-setLoadingBtn(false)
 
 let studentId
 let studentInfo
