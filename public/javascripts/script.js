@@ -8,24 +8,38 @@ const addEvent = (elm, eventType, cb) => {
 const idInputElm = select('.id-input')
 Maska.create(idInputElm, { mask: 'AAA ### #####' })
 
+
+
 const formSubEvent = async (e) => {
   e.preventDefault()
   const idInpElm = select('.id-input')
   studentId = idInpElm.value
 
-  if (!studentId) return
+  if ((studentId.length == 13)) {
 
-  setLoadingBtn(true)
+    document.getElementById("id-input").style.background = "#ededed";
+    let alert = document.getElementById("alert");
+    alert.style.display = "none";
 
-  await getStudentInfo()
-  if (!studentInfo) return setLoadingBtn(false)
-  resetOldSearchResult()
-  removeBeforeSearchClasses()
-  setValueToIdInputElm()
-  renderStudentInfo()
-  await getAndRenderAllTrimesterResults()
-  await getAndRenderOnlineTrimesterResult()
-  setLoadingBtn(false)
+    if (!studentId) return
+
+    setLoadingBtn(true)
+
+    await getStudentInfo()
+    if (!studentInfo) return setLoadingBtn(false)
+    resetOldSearchResult()
+    removeBeforeSearchClasses()
+    setValueToIdInputElm()
+    renderStudentInfo()
+    await getAndRenderAllTrimesterResults()
+    await getAndRenderOnlineTrimesterResult()
+    setLoadingBtn(false)
+  }
+  else {
+    let alert = document.getElementById("alert");
+    alert.style.display = "block";
+    document.getElementById("id-input").style.background = "#FFCCCB";
+  }
 }
 
 const formElm = select('.form-container')
