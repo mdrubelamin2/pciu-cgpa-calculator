@@ -9,7 +9,6 @@
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
@@ -46,16 +45,16 @@ h6 {
 }
 
 body {
+  min-height: 100%;
+  min-height: 100vh;
+}
+
+body {
+  font-family: Poppins, Verdana, sans-serif;
   background-color: rgb(245, 245, 245);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: Poppins;
-  min-height: 100vh;
-}
-
-.hidden {
-  display: none;
 }
 
 .main-container {
@@ -106,7 +105,9 @@ body {
   font-size: 12px;
   margin-top: 2px;
 }
-
+.hide{
+  display: none;
+}
 #alert {
   color: red;
   margin-top: 10px;
