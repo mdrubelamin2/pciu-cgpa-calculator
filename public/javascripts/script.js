@@ -19,7 +19,9 @@ const formSubEvent = async (e) => {
 
     document.getElementById("id-input").style.background = "#ededed";
     let alert = document.getElementById("alert");
-    alert.style.display = "none";
+    // alert.style.display= "none";
+    alert.style.height= "0";
+    alert.style.transition= "5s";
 
     if (!studentId) return
 
@@ -37,7 +39,8 @@ const formSubEvent = async (e) => {
   }
   else {
     let alert = document.getElementById("alert");
-    alert.style.display = "block";
+    // alert.style.display= "block";
+    alert.style.height= "auto";
     document.getElementById("id-input").style.background = "#FFCCCB";
   }
 }
