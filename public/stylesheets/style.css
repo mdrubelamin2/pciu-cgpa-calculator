@@ -143,7 +143,9 @@ body {
   margin-top: 2px;
 }
 .hide{
-  display: none;
+  /* display: none; */
+  height: 0;
+  transition: 5s;
 }
 #alert {
   color: red;
