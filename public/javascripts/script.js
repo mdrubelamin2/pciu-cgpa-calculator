@@ -20,8 +20,9 @@ const formSubEvent = async (e) => {
     document.getElementById("id-input").style.background = "#ededed";
     let alert = document.getElementById("alert");
     // alert.style.display= "none";
-    alert.style.height= "0";
-    alert.style.transition= "5s";
+    // alert.style.height= "0";
+    // alert.style.transition= "5s";
+    alert.style.visibility="hidden";
 
     if (!studentId) return
 
@@ -40,7 +41,8 @@ const formSubEvent = async (e) => {
   else {
     let alert = document.getElementById("alert");
     // alert.style.display= "block";
-    alert.style.height= "auto";
+    // alert.style.height= "auto";
+    alert.style.visibility="visible";
     document.getElementById("id-input").style.background = "#FFCCCB";
   }
 }
@@ -224,4 +226,34 @@ setLoadingBtn = status => {
     searchBtnElm.classList.remove('loading')
     searchBtnElm.disabled = false
   }
+}
+
+// drak theme
+
+const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+
+function switchTheme(e) {
+    if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        document.getElementById("dis").innerHTML = "Disable Dark Mode!";
+        localStorage.setItem('theme', 'dark');
+    }
+    else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        document.getElementById("dis").innerHTML = "Enable Dark Mode!";
+        localStorage.setItem('theme', 'light');
+    }    
+}
+
+toggleSwitch.addEventListener('change', switchTheme, false);
+
+
+const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+
+if (currentTheme) {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+
+    if (currentTheme === 'dark') {
+        toggleSwitch.checked = true;
+    }
 }
