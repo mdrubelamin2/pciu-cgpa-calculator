@@ -8,24 +8,43 @@ const addEvent = (elm, eventType, cb) => {
 const idInputElm = select('.id-input')
 Maska.create(idInputElm, { mask: 'AAA ### #####' })
 
+
+
 const formSubEvent = async (e) => {
   e.preventDefault()
   const idInpElm = select('.id-input')
   studentId = idInpElm.value
 
-  if (!studentId) return
+  if ((studentId.length == 13)) {
 
-  setLoadingBtn(true)
+    document.getElementById("id-input").style.border = "var(--color2)";
+    let alert = document.getElementById("alert");
+    // alert.style.display= "none";
+    alert.parentElement.style.height = "0";
+    // alert.style.transition= "5s";
+    // alert.style.visibility="hidden";
 
-  await getStudentInfo()
-  if (!studentInfo) return setLoadingBtn(false)
-  resetOldSearchResult()
-  removeBeforeSearchClasses()
-  setValueToIdInputElm()
-  renderStudentInfo()
-  await getAndRenderAllTrimesterResults()
-  await getAndRenderOnlineTrimesterResult()
-  setLoadingBtn(false)
+    if (!studentId) return
+
+    setLoadingBtn(true)
+
+    await getStudentInfo()
+    if (!studentInfo) return setLoadingBtn(false)
+    resetOldSearchResult()
+    removeBeforeSearchClasses()
+    setValueToIdInputElm()
+    renderStudentInfo()
+    await getAndRenderAllTrimesterResults()
+    await getAndRenderOnlineTrimesterResult()
+    setLoadingBtn(false)
+  }
+  else {
+    let alert = document.getElementById("alert");
+    // alert.style.display= "block";
+    alert.parentElement.style.height = `${alert.offsetHeight}px`;
+    // alert.style.visibility="visible";
+    document.getElementById("id-input").style.border = "1px solid #ff0000";
+  }
 }
 
 const formElm = select('.form-container')
@@ -206,5 +225,50 @@ setLoadingBtn = status => {
   } else {
     searchBtnElm.classList.remove('loading')
     searchBtnElm.disabled = false
+  }
+}
+
+// drak theme
+
+// const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+
+// function switchTheme(e) {
+//     if (e.target.checked) {
+//         document.documentElement.setAttribute('data-theme', 'dark');
+//         document.getElementById("dis").innerHTML = "Disable Dark Mode!";
+//         localStorage.setItem('theme', 'dark');
+//     }
+//     else {
+//         document.documentElement.setAttribute('data-theme', 'light');
+//         document.getElementById("dis").innerHTML = "Enable Dark Mode!";
+//         localStorage.setItem('theme', 'light');
+//     }    
+// }
+
+// toggleSwitch.addEventListener('change', switchTheme, false);
+
+
+
+// drak theme 2
+let icon = document.getElementById("icon")
+icon.onclick = function (a) {
+  document.body.classList.toggle("dark-theme");
+  if (document.body.classList.contains("dark-theme")) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    localStorage.setItem('theme', 'dark');
+    icon.src = "dark theme icon/sun.png"
+  } else {
+    document.documentElement.setAttribute('data-theme', 'light');
+    localStorage.setItem('theme', 'light');
+    icon.src = "dark theme icon/moon.png"
+  }
+}
+const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+
+if (currentTheme) {
+  document.documentElement.setAttribute('data-theme', currentTheme);
+
+  if (currentTheme === 'dark') {
+    icon.src = "dark theme icon/sun.png"
   }
 }
