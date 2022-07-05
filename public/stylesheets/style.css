@@ -65,23 +65,23 @@ h6 {
   --color18:rgb(56, 56, 56);
 }
 
-[data-theme="dark"] {
-  --color1: rgb(189, 189, 187);
-  --color2: rgb(129, 129, 129);
+[data-theme="dark"], .dark-theme{
+  --color1: #333;
+  --color2: #222;
   --color3: rgb(240, 240, 240);
   --color4: rgb(250, 250, 250);
   --color5: rgb(255, 255, 255);
-  --color6: rgb(190, 190, 190);
+  --color6: #555;
   --color7: rgb(4, 102, 248);
   --color8: rgb(28, 131, 190);
   --color9: rgba(255, 255, 255, 0.25);
-  --color10: #ffffff;
+  --color10: #666;
   --color11: rgb(85, 167, 243);
-  --color12: rgb(138, 138, 138);
+  --color12: #555;
   --color13: rgb(255, 251, 251);
-  --color14: rgb(141, 140, 140);
+  --color14: #333;
   --color15: rgb(241, 243, 245);
-  --color16: #b3a9a9;
+  --color16: #111 transparent transparent transparent;
   --color17: rgb(0, 0, 0) transparent transparent transparent;
   --color18:rgb(233, 232, 232);
 }
@@ -106,6 +106,10 @@ body {
   border-radius: 15px;
 }
 
+.header-section{
+  display: flex;
+  align-items: center;
+}
 .header-title {
   font-weight: 600;
   font-size: 18px;
@@ -139,88 +143,42 @@ body {
 
 .id-input {
   background: var(--color6);
-  border: 1px solid rgb(225, 225, 225);
+  border: 1px solid var(--color2);
   border-radius: 10px;
   height: 40px;
   width: 100%;
   padding: 10px;
   font-size: 12px;
   margin-top: 2px;
-}
-
-/* .hide{
-  display: none;
-  height: 0;
-  transition: 5s;
-} */
-#alert {
-  color: red;
-  /* margin-top: 10px; */
-  padding-top: 5px;
-  visibility: hidden;
-  font-size: 14px;
-}
-
-/*Simple css to style it like a toggle switch*/
-.theme-switch-wrapper {
-  display: flex;
-  align-items: center;
-}
-
-em {
-  margin-left: 10px;
-  font-size: 1rem;
   color: var(--color3);
 }
 
-.theme-switch {
-  display: inline-block;
-  height: 34px;
-  position: relative;
-  width: 60px;
+.alert-wrapper{
+  height: 0;
+  overflow: hidden;
+  transition: height .4s;
+}
+#alert {
+  color: #ff0000;
+  /* margin-top: 10px; */
+  padding-top: 5px;
+  /* visibility: hidden; */
+  font-size: 14px;
+  /* overflow: hidden; */
 }
 
-.theme-switch input {
-  display: none;
+/*Simple css to style it like a toggle switch*/
+.theme-switch-wrapper{
+  display: flex;
+  align-items: center;
+  text-align: right;
+  padding: 5px;
 }
-
-.slider {
-  background-color: #ccc;
-  bottom: 0;
+#icon{
+  width: 20px;
   cursor: pointer;
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  transition: .4s;
 }
 
-.slider:before {
-  background-color: var(--color1);
-  bottom: 4px;
-  content: "";
-  height: 26px;
-  left: 4px;
-  position: absolute;
-  transition: .4s;
-  width: 26px;
-}
-
-input:checked+.slider {
-  background-color:var(--color4);
-}
-
-input:checked+.slider:before {
-  transform: translateX(26px);
-}
-
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
-}
 /* End css Simple css to style it like a toggle switch*/
 
 .search-btn {
