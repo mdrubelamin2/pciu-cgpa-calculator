@@ -16,20 +16,17 @@
 </head>
 
 <body class="before-search">
-  
+
   <div class="main-container before-search">
-    <div class="theme-switch-wrapper">
-      <label class="theme-switch" for="checkbox">
-        <input type="checkbox" id="checkbox" />
-        <div class="slider round"></div>
-      </label>
-      <em id="dis">Enable Dark Mode!</em>
-    </div>
+    
     <div class="header-section">
-
-
-      <h1 class="header-title">CGPA Calculator</h1>
-      <h4 class="header-subtitle">Port City International University, Chattogram</h4>
+      <div class="header-text">
+        <h1 class="header-title">CGPA Calculator</h1>
+        <h4 class="header-subtitle">Port City International University, Chattogram</h4>
+      </div>
+      <div class="theme-switch-wrapper">
+        <img src="dark theme icon/moon.png" id="icon">
+      </div>
     </div>
     <div class="content-container">
       <div class="left-content">
@@ -37,7 +34,9 @@
           <div class="input-container">
             <label for="id-input" class="input-label">Enter Your ID</label>
             <input id="id-input" class="id-input" type="text" placeholder="XXX XXX XXXXX" />
-            <div id="alert" class="hide">Please enter the valid Student ID.</div>
+            <div class="alert-wrapper ">
+              <div id="alert" class="hide">Please enter the valid Student ID.</div>
+            </div>
           </div>
           <button class="search-btn" type="submit">Search <div class="lds-ring">
               <div></div>
