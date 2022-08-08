@@ -227,7 +227,7 @@ const perTrimResults = (trimesterName) => {
   trimesterResultsArr.map((data) => {
     data.map((item, i) => {
       if (item.semester == trimesterName.value) {
-        console.log(convertGrade(item.LetterGrade));
+    
         let html = ` <div class="grid-container">
   <div class="grid-item item-no-one">
     <div class="center">
@@ -242,18 +242,18 @@ const perTrimResults = (trimesterName) => {
   </div>
   <div class="grid-item item-no-three">
     <div class="leftBox">
-      <span>  <img class="svg" src="/images/grade.svg" alt=""> </span>
+      <span>  <img class="svg" src="./images/grade.svg" alt=""> </span>
       <span class="grade">Grade :</span>
       <span class="gradePoint">${item.GradePoint}</span>
       <span class="cgpaLetter ${convertGrade(item.LetterGrade)}">${item.LetterGrade}</span>
     </div>
     <div class="middleBox">
-      <span> <img  class="svg" src="/images/type.svg" alt=""> </span> 
+      <span> <img  class="svg" src="./images/type.svg" alt=""> </span> 
       <span class="type">Type :</span>
       <span class="typeStatus">${item.status}</span>
     </div>
     <div class="rightBox">
-    <span>   <img  class="svg" src="/images/credit.svg" alt=""> </span>
+    <span>   <img  class="svg" src="./images/credit.svg" alt=""> </span>
       <span class="credit">Credit :</span>
       <span class="subCreditPoint">${item.creditHr}</span>
     </div>
