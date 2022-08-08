@@ -336,6 +336,250 @@ body {
   width: 100%;
 }
 
+/* modal */
+.heading{
+  overflow: hidden;
+  background-color: white;
+  position: sticky;
+  top: 0;
+  padding: 10px 0px 0px 10px;
+  
+}
+.title {
+font-size: 23px;
+font-weight: 600;
+width: fit-content;
+float: left;
+}
+.modal {
+  display: none;
+  position: fixed;
+  overflow: auto;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.modal-container {
+  overflow-x: auto;
+  background-color: #ffffff;
+  width: fit-content;
+  padding: 0px 30px 50px 30px;
+  max-height: 90%;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+.modal-content {
+  background-color: #ffffff;
+  height: fit-content;
+}
+
+.grid-container {
+  width: fit-content;
+  display: grid;
+  gap: 1px;
+  grid-template-columns: auto auto auto;
+  margin-top: 20px;
+  max-height: 45px;
+}
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+.item-no-one {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  margin-right: 10px;
+}
+.center {
+  width: 45px;
+  height: 45px;
+  border-radius: 50px;
+  font-size: 20px;
+
+  line-height: 45px;
+  text-align: center;
+  background: #ededed;
+}
+.serialNo {
+  color: #505050;
+  font-weight: 600;
+}
+.item-no-two {
+  display: inline-block;
+  width: fit-content;
+  font-size: 14px;
+  font-weight: 500;
+  color: #2b2b2b;
+  margin-left: 2px;
+}
+.item-no-three {
+  grid-row: 2;
+  width: 400px;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+}
+.grade {
+  color: #2b2b2b;
+  font-weight: 500;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.credit {
+  color: #2b2b2b;
+  font-weight: 500;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.type {
+  color: #2b2b2b;
+  font-weight: 500;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.courseName {
+  font-size: 16px;
+  margin-right: 8px;
+}
+.courseCode {
+  font-size: 14px;
+  padding: 0px 8px 0px 8px;
+  border-radius: 4px;
+  background-color: #ebebeb;
+}
+.leftBox {
+  display: flex;
+  width: 33%;
+
+  align-items: center;
+}
+.cgpaLetter {
+  width: 26px;
+  height: 14px;
+  font-size: 12px;
+  line-height: 14px;
+  text-align: center;
+  border-radius: 10px;
+  font-weight: 500;
+  margin-left: 5px;
+}
+.middleBox {
+  display: flex;
+  width: 33%;
+  align-items: center;
+}
+.rightBox {
+  display: flex;
+  align-items: center;
+  width: 33%;
+}
+
+.gradePoint {
+  font-size: 12px;
+  color: #4f4f4f;
+  font-weight: 500;
+}
+.typeStatus {
+  font-size: 12px;
+  color: #4f4f4f;
+  font-weight: 500;
+}
+.subCreditPoint {
+  font-size: 12px;
+  color: #4f4f4f;
+  font-weight: 500;
+}
+.modal-btn {
+  background-color: transparent;
+  color: grey;
+  width: 30px;
+  height: 30px;
+  border: none;
+  filter: invert(27%) sepia(51%) saturate(0%) hue-rotate(346deg)
+    brightness(104%) contrast(97%);
+}
+.modal-btn:hover,
+.modal-btn:focus {
+  filter: invert(27%) sepia(51%) saturate(8%) hue-rotate(346deg)
+    brightness(104%) contrast(97%);
+}
+.btn-td {
+  text-align: right;
+}
+.hidden {
+  display: none;
+}
+
+.a {
+  background-color: #cbffbe;
+  color: #344a05;
+}
+.a-plus {
+  background-color: #fff9be;
+  color: #665000;
+}
+.a-minus {
+  background-color: #beffff;
+  color: #054a3e;
+}
+.b {
+  background-color: #d3beff;
+  color: #1b0066;
+}
+
+.b-plus {
+  background-color: #beccff;
+  color: #05184a;
+}
+.b-minus {
+  background-color: #eebeff;
+  color: #41054a;
+}
+
+.c {
+  background-color: #ffd9be;
+  color: #4a1505;
+}
+.c-plus {
+  background-color: #ffbef1;
+  color: #4a0543;
+}
+.d {
+  background-color: #ffbebe;
+  color: #4a0505;
+}
+.f {
+  background-color: #ffbebe;
+  color: #4a0505;
+}
+.i {
+  background-color: #dfdfdf;
+  color: #3c3c3c;
+}
+.w {
+  background-color: #dfdfdf;
+  color: #3c3c3c;
+}
+
+#closeBtn {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+#closeBtn:hover,
+#closebtn:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 @media all and (min-width: 1280px) {
   .main-container {
     max-width: 1024px;
@@ -382,6 +626,67 @@ body {
   .right-container {
     width: 100%;
   }
+  .heading{
+    overflow: hidden;
+    background-color: white;
+    position: sticky;
+    top: 0;
+    padding: 10px 0px 0px 10px;
+    
+  }
+  .modal-container {
+    background-color: #ffffff;
+    width: auto;
+    max-height: 90%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 5%;
+    margin-right: 5%;
+   
+    overflow: auto;
+  }
+  .courseName {
+    font-size: 14px;
+  }
+  .courseCode {
+    font-size: 14px;
+  }
+  .cgpaLetter {
+    font-size: 12px;
+  }
+  .serialNo {
+    color: #505050;
+    font-weight: 600;
+  }
+  .gradePoint {
+    font-size: 12px;
+  }
+  .typeStatus {
+    font-size: 12px;
+  }
+  .subCreditPoint {
+    font-size: 12px;
+  }
+  .item-no-one {
+    margin-right: 3px;
+  }
+  .item-no-two {
+    font-size: 10px;
+  }
+  .item-no-three {
+    min-width: 300px;
+    width: auto;
+    font-size: 10px;
+  }
+  .leftBox {
+    min-width: 36%;
+  }
+  .middleBox {
+    min-width: 36%;
+  }
+  .rightBox {
+    width: 28%;
+  }
 }
 
 @media all and (max-width: 480px) {
@@ -415,4 +720,80 @@ body {
   .right-container {
     width: auto;
   }
+  .title {
+    font-size: 18px;
+  }
+  .heading{
+    overflow: hidden;
+    background-color: white;
+    position: sticky;
+    top: 0;
+    padding: 10px 0px 0px 10px;
+    
+  }
+  .modal-container {
+    background-color: #ffffff;
+    min-width: 340px;
+    max-height: 90%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    overflow: auto;
+    padding: 0px 10px 30px 10px;
+  }
+  .courseName {
+    font-size: 12px;
+  }
+  .courseCode {
+    font-size: 12px;
+  }
+
+  .item-no-one {
+    margin-right: 3px;
+  }
+  .item-no-two {
+    font-size: 10px;
+  }
+  .item-no-three {
+    width: 300px;
+    font-size: 10px;
+  }
+  .leftBox {
+    width: 36%;
+  }
+  .middleBox {
+    width: 34%;
+  }
+  .rightBox {
+    width: 28%;
+  }
+  .svg {
+    font-size: 10px;
+    width: 10px;
+    height: 10px;
+  }
+}
+
+
+/*Hide modal's scrollbar for Chrome, Safari and Opera */
+.modal::-webkit-scrollbar {
+  display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.modal {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.modal-container::-webkit-scrollbar {
+  display: none;
+}
+.modal-container {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }

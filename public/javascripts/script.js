@@ -9,6 +9,7 @@ const idInputElm = select('.id-input')
 Maska.create(idInputElm, { mask: 'AAA ### #####' })
 
 const formSubEvent = async (e) => {
+  trimesterResultsArr = [];
   e.preventDefault()
   const idInpElm = select('.id-input')
   studentId = idInpElm.value
@@ -80,12 +81,16 @@ const addResultTrToResultTable = trimesterResult => {
   const tdTrimester = document.createElement('td')
   const tdTotalCredit = document.createElement('td')
   const tdGPA = document.createElement('td')
+  const modal = document.createElement("td");
   tdTrimester.textContent = trimesterResult.trimester
   tdTotalCredit.textContent = trimesterResult.totalCreditHrs
   tdGPA.textContent = trimesterResult.currentGPA ? roundToTwoDecimal(trimesterResult.currentGPA, true) : 'Incomplete'
+  modal.innerHTML = `<button class='modal-btn' onclick="perTrimResults(this)" value='${trimesterResult.trimester}'><img src="./images/three-dots-vertical.svg" class="active-modal" fill="currentColor" alt=""></button>`;
+  modal.className="btn-td"
   tr.appendChild(tdTrimester)
   tr.appendChild(tdTotalCredit)
   tr.appendChild(tdGPA)
+  tr.appendChild(modal);
   // add the tr to the table as first tr
   resultsTable.insertBefore(tr, resultsTable.firstChild)
 }
@@ -157,6 +162,8 @@ const getAndRenderAllTrimesterResults = async () => {
       const url = `/get-trimester-result/${studentId}/${trimester}`
       const resp = await fetch(url)
       const data = await resp.json()
+      console.log(data);
+      trimesterResultsArr.push(data);
       handleResultData(data)
     } catch (_) { console.log(`failed to fetch the result of ${trimester}`) }
   }
@@ -208,3 +215,68 @@ setLoadingBtn = status => {
     searchBtnElm.disabled = false
   }
 }
+
+const perTrimResults = (trimesterName) => {
+  const modal = document.getElementsByClassName("modal")[0];
+  const container = document.getElementsByClassName("modal-container")[0];
+  const modalContent=document.getElementsByClassName("modal-content")[0];
+  modalContent.innerHTML = "";
+
+  modal.style.display = "flex";
+
+  trimesterResultsArr.map((data) => {
+    data.map((item, i) => {
+      if (item.semester == trimesterName.value) {
+        console.log(convertGrade(item.LetterGrade));
+        let html = ` <div class="grid-container">
+  <div class="grid-item item-no-one">
+    <div class="center">
+      <span class="serialNo">${i + 1}</span>
+    </div>
+  </div>
+  <div class="grid-item item-no-two">
+    <div class="courseName">${item.courseTitle} <span class="courseCode">${
+          item.courseCode
+        }</span>
+    </div>
+  </div>
+  <div class="grid-item item-no-three">
+    <div class="leftBox">
+      <span>  <img class="svg" src="/images/grade.svg" alt=""> </span>
+      <span class="grade">Grade :</span>
+      <span class="gradePoint">${item.GradePoint}</span>
+      <span class="cgpaLetter ${convertGrade(item.LetterGrade)}">${item.LetterGrade}</span>
+    </div>
+    <div class="middleBox">
+      <span> <img  class="svg" src="/images/type.svg" alt=""> </span> 
+      <span class="type">Type :</span>
+      <span class="typeStatus">${item.status}</span>
+    </div>
+    <div class="rightBox">
+    <span>   <img  class="svg" src="/images/credit.svg" alt=""> </span>
+      <span class="credit">Credit :</span>
+      <span class="subCreditPoint">${item.creditHr}</span>
+    </div>
+  </div>
+</div>`;
+        modalContent.insertAdjacentHTML("beforeend", html);
+      }
+    });
+  });
+
+  closeBtn.onclick = function () {
+    modal.style.display = "none";
+  };
+
+  function convertGrade(letter) {
+    let word;
+
+    word = letter.replace(letter, letter.trim().toLowerCase());
+
+    if (word[1] == "-") word = word.replace(word[1], "-minus");
+
+    if (word[1] == "+") word = word.replace(word[1], "-plus");
+
+    return word;
+  }
+};

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PCIU CGPA Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <style>@font-face{font-family:Poppins;font-style:normal;font-weight:400;font-display:swap;src:url(https://fonts.gstatic.com/s/poppins/v20/pxiEyp8kv8JHgFVrFJA.ttf) format('truetype')}@font-face{font-family:Poppins;font-style:normal;font-weight:500;font-display:swap;src:url(https://fonts.gstatic.com/s/poppins/v20/pxiByp8kv8JHgFVrLGT9V1s.ttf) format('truetype')}@font-face{font-family:Poppins;font-style:normal;font-weight:600;font-display:swap;src:url(https://fonts.gstatic.com/s/poppins/v20/pxiByp8kv8JHgFVrLEj6V1s.ttf) format('truetype')}@font-face{font-family:Poppins;font-style:normal;font-weight:700;font-display:swap;src:url(https://fonts.gstatic.com/s/poppins/v20/pxiByp8kv8JHgFVrLCz7V1s.ttf) format('truetype')}*,::after,::before{box-sizing:border-box}*{margin:0}body{line-height:1.5;-webkit-font-smoothing:antialiased}button,input{font:inherit}h1,h4{overflow-wrap:break-word}html{height:100%}body{min-height:100%;min-height:100vh}body{font-family:Poppins,Verdana,sans-serif;background-color:#f5f5f5;display:flex;align-items:center;justify-content:center}.main-container{background:#fff;width:60vw;padding:30px 50px 50px;border-radius:15px}.header-title{font-weight:600;font-size:18px;line-height:27px;color:#353535}.header-subtitle{font-weight:600;font-size:14px;line-height:21px;color:#696969}.content-container{display:flex;gap:45px;margin-top:25px}.left-content{width:40%}.input-label{font-weight:500;font-size:14px;line-height:21px;color:#434343}.id-input{background:#ededed;border:1px solid #e1e1e1;border-radius:10px;height:40px;width:100%;padding:10px;font-size:12px;margin-top:2px}.search-btn{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:17px;width:100%;height:40px;border-radius:10px;border:1px solid #3373d2;background:#00a3ff;font-weight:600;color:#fff;text-shadow:rgba(0,0,0,.25) 0 1px .5px;font-size:14px;line-height:24px}.info-container{margin-top:25px;border:1px solid #efefef;border-radius:10px;padding:15px 20px}.info-item{display:flex;font-size:12px;margin-bottom:10px}.info-item-title{width:40%;font-weight:500;line-height:18px;color:#6f6f6f}.info-item-content{font-weight:500;color:#353535}.cgpa-container{margin-top:20px;background:#f8f8f8;border-radius:10px;padding:15px 20px}.credit-item{font-weight:600;font-size:15px;line-height:22px;display:flex;align-items:center}.credit-item-title{color:#6f6f6f;width:50%}.credit-item-content{color:#353535}.cgpa-item{margin-top:10px;display:flex;align-items:center}.cgpa-item-title{font-size:20px;line-height:30px;font-weight:600;color:#6f6f6f;width:50%}.cgpa-item-content{font-weight:700;font-size:32px;line-height:48px;color:#353535}.right-container{width:55%}.right-container-title{font-size:14px;font-weight:500;line-height:21px;color:#434343;padding-left:2px}.table-container{margin-top:4.1px;background:#f8f8f8;border-radius:10px;font-size:12px;line-height:18px;height:calc(100% - 23px);overflow:hidden;border:1px solid transparent}.table{width:100%;font-size:12px;color:#383838;border-collapse:collapse;table-layout:fixed}.table thead tr th{text-align:left;color:#5e7183;font-weight:600}.table thead tr{height:50px;background:#efefef}.table tr th:first-child{padding-left:20px;width:45%}.lds-ring div:first-child{animation-delay:-.4s}.lds-ring div:nth-child(2){animation-delay:-.25s}.lds-ring div:nth-child(3){animation-delay:-.1s}.main-container.before-search{width:500px}.main-container.before-search .cgpa-container,.main-container.before-search .info-container,.main-container.before-search .right-container{display:none}.main-container.before-search .content-container{display:block;gap:0}.main-container.before-search .left-content{width:100%}@media all and (min-width:1280px){.main-container{max-width:1024px}}@media all and (min-width:768px) and (max-width:1024px){body{height:100%;padding:30px}.main-container{width:80vw}}@media all and (min-width:480px) and (max-width:768px){body{height:100%;padding:30px}.main-container{width:100%}.content-container{flex-direction:column}.left-content{width:100%}.right-container{width:100%}}@media all and (max-width:480px){body{height:100%}.main-container{width:100%;border-radius:0;padding:20px 30px 30px}.content-container{flex-direction:column;gap:20px}.left-content{width:initial}.right-container{width:auto}}</style>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="./stylesheets/style.css" media="print" onload="this.media='all'">
+  <!-- <link rel="stylesheet" href="style.min.css" > -->
+
+  <script src="./javascripts/maska.js" data-referrence="https://github.com/beholdr/maska" defer=""></script>
+  <script src="./javascripts/script.js" defer=""></script>
+</head>
+
+<body class="before-search">
+  <div class="main-container before-search">
+    <div class="header-section">
+      <h1 class="header-title">CGPA Calculator</h1>
+      <h4 class="header-subtitle">Port City International University, Chattogram</h4>
+    </div>
+    <div class="content-container">
+      <div class="left-content">
+        <form class="form-container">
+          <div class="input-container">
+            <label for="id-input" class="input-label">Enter Your ID</label>
+            <input id="id-input" class="id-input" type="text" placeholder="XXX XXX XXXXX" />
+          </div>
+          <button class="search-btn" type="submit">Search <div class="lds-ring">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div></button>
+        </form>
+        <div class="info-container">
+          <div class="info-item">
+            <span class="info-item-title">ID</span>
+            <span class="info-item-content student-id"></span>
+          </div>
+          <div class="info-item">
+            <span class="info-item-title">Name</span>
+            <span class="info-item-content student-name"></span>
+          </div>
+          <div class="info-item">
+            <span class="info-item-title">Program</span>
+            <span class="info-item-content student-program"></span>
+          </div>
+          <div class="info-item">
+            <span class="info-item-title">Batch</span>
+            <span class="info-item-content student-batch"></span>
+          </div>
+          <div class="info-item">
+            <span class="info-item-title">Shift</span>
+            <span class="info-item-content student-shift"></span>
+          </div>
+          <div class="info-item">
+            <span class="info-item-title">Session</span>
+            <span class="info-item-content student-session"></span>
+          </div>
+        </div>
+        <div class="cgpa-container">
+          <div class="credit-item">
+            <span class="credit-item-title">Total Credit</span>
+            <span class="credit-item-content total-credit-hrs"></span>
+          </div>
+          <div class="cgpa-item">
+            <span class="cgpa-item-title">CGPA</span>
+            <span class="cgpa-item-content total-cgpa"></span>
+          </div>
+        </div>
+      </div>
+      <div class="right-container">
+        <div class="right-container-title-wrp">
+          <h4 class="right-container-title">GPA History</h4>
+        </div>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Trimester</th>
+                <th>Credit Hr.</th>
+                <th>SGPA</th>
+                <th>action</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal">
+    <div class="modal-container">
+      <div class="heading">
+        <p class="title">Trimester Result marksheet</p>
+        <span id="closeBtn"> <img src="/images/close.svg" alt=""></span>
+      </div>
+      <div class="modal-content">
+
+      </div>
+    </div>
+  </div>
+<noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet"></noscript>
+
+
+<noscript><link rel="stylesheet" href="./stylesheets/style.css"></noscript>
+
+</body>
+
+</html>
