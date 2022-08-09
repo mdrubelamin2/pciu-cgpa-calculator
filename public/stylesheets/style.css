@@ -396,6 +396,21 @@ float: left;
   grid-row: 1 / span 2;
   margin-right: 10px;
 }
+.item-no-two {
+  display: inline-block;
+  width: fit-content;
+  font-size: 16px;
+  font-weight: 500;
+  color: #2b2b2b;
+  margin-left: 2px;
+}
+.item-no-three {
+  grid-row: 2;
+  width: 400px;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+}
 .center {
   width: 45px;
   height: 45px;
@@ -410,21 +425,7 @@ float: left;
   color: #505050;
   font-weight: 600;
 }
-.item-no-two {
-  display: inline-block;
-  width: fit-content;
-  font-size: 14px;
-  font-weight: 500;
-  color: #2b2b2b;
-  margin-left: 2px;
-}
-.item-no-three {
-  grid-row: 2;
-  width: 400px;
-  display: flex;
-  align-items: center;
-  font-size: 12px;
-}
+
 .grade {
   color: #2b2b2b;
   font-weight: 500;
@@ -444,11 +445,9 @@ float: left;
   margin-right: 5px;
 }
 .courseName {
-  font-size: 16px;
   margin-right: 8px;
 }
-.courseCode {
-  font-size: 14px;
+.courseCode { 
   padding: 0px 8px 0px 8px;
   border-radius: 4px;
   background-color: #ebebeb;
@@ -456,19 +455,9 @@ float: left;
 .leftBox {
   display: flex;
   width: 33%;
-
   align-items: center;
 }
-.cgpaLetter {
-  width: 26px;
-  height: 14px;
-  font-size: 12px;
-  line-height: 14px;
-  text-align: center;
-  border-radius: 10px;
-  font-weight: 500;
-  margin-left: 5px;
-}
+
 .middleBox {
   display: flex;
   width: 33%;
@@ -479,19 +468,24 @@ float: left;
   align-items: center;
   width: 33%;
 }
-
+.cgpaLetter {
+  width: 26px;
+  height: 14px;
+  line-height: 14px;
+  text-align: center;
+  border-radius: 10px;
+  font-weight: 500;
+  margin-left: 5px;
+}
 .gradePoint {
-  font-size: 12px;
   color: #4f4f4f;
   font-weight: 500;
 }
 .typeStatus {
-  font-size: 12px;
   color: #4f4f4f;
   font-weight: 500;
 }
 .subCreditPoint {
-  font-size: 12px;
   color: #4f4f4f;
   font-weight: 500;
 }
@@ -642,41 +636,25 @@ float: left;
     margin-bottom: 20px;
     margin-left: 5%;
     margin-right: 5%;
-   
     overflow: auto;
   }
-  .courseName {
-    font-size: 14px;
-  }
-  .courseCode {
-    font-size: 14px;
-  }
-  .cgpaLetter {
-    font-size: 12px;
-  }
+
+
   .serialNo {
     color: #505050;
     font-weight: 600;
   }
-  .gradePoint {
-    font-size: 12px;
-  }
-  .typeStatus {
-    font-size: 12px;
-  }
-  .subCreditPoint {
-    font-size: 12px;
-  }
+
   .item-no-one {
     margin-right: 3px;
   }
   .item-no-two {
-    font-size: 10px;
+    font-size: 14px;
   }
   .item-no-three {
-    min-width: 300px;
+    min-width: 350px;
     width: auto;
-    font-size: 10px;
+    font-size: 12px;
   }
   .leftBox {
     min-width: 36%;
@@ -742,18 +720,13 @@ float: left;
     overflow: auto;
     padding: 0px 10px 30px 10px;
   }
-  .courseName {
-    font-size: 12px;
-  }
-  .courseCode {
-    font-size: 12px;
-  }
 
   .item-no-one {
     margin-right: 3px;
+   
   }
   .item-no-two {
-    font-size: 10px;
+    font-size: 12px;
   }
   .item-no-three {
     width: 300px;

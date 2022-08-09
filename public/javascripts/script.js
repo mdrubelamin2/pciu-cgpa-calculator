@@ -162,7 +162,6 @@ const getAndRenderAllTrimesterResults = async () => {
       const url = `/get-trimester-result/${studentId}/${trimester}`
       const resp = await fetch(url)
       const data = await resp.json()
-      console.log(data);
       trimesterResultsArr.push(data);
       handleResultData(data)
     } catch (_) { console.log(`failed to fetch the result of ${trimester}`) }
