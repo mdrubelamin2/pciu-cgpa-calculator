@@ -241,7 +241,7 @@ const perTrimResults = (trimesterName) => {
   </div>
   <div class="grid-item item-no-three">
     <div class="leftBox">
-      <span>  <img class="svg" src="./images/grade.svg" alt=""> </span>
+      <span>  <img class="svg" src={process.env.PUBLIC_URL + "./images/grade.svg"} alt=""> </span>
       <span class="grade">Grade :</span>
       <span class="gradePoint">${item.GradePoint}</span>
       <span class="cgpaLetter ${convertGrade(item.LetterGrade)}">${item.LetterGrade}</span>
