@@ -162,7 +162,6 @@ const getAndRenderAllTrimesterResults = async () => {
       const url = `/get-trimester-result/${studentId}/${trimester}`
       const resp = await fetch(url)
       const data = await resp.json()
-      trimesterResultsArr.push(data);
       handleResultData(data)
     } catch (_) { console.log(`failed to fetch the result of ${trimester}`) }
   }
@@ -172,6 +171,7 @@ const getAndRenderAllTrimesterResults = async () => {
 
 const handleResultData = data => {
   if (data.length > 0) {
+    trimesterResultsArr.push(data);
     const trimesterResult = formatSingleTrimesterResult(data)
     // unshift the trimester result to the array
     trimesterResultsArray.unshift(trimesterResult)
