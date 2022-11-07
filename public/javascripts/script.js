@@ -215,17 +215,24 @@ setLoadingBtn = status => {
   }
 }
 
-const perTrimResults = (trimesterName) => {
-  const modal = document.getElementsByClassName("modal")[0];
-  const container = document.getElementsByClassName("modal-container")[0];
-  const modalContent=document.getElementsByClassName("modal-content")[0];
-  modalContent.innerHTML = "";
+const modal = select(".modal")
+const modalTitleElm = select(".title")
 
-  modal.style.display = "flex";
+modal.addEventListener('click', function(event) {
+  const isOutside = event.target.closest('.modal-container');
+  if(isOutside === null) closeBtn.click()
+})
+
+const perTrimResults = (trimesterName) => {
+  const trimester = trimesterName.value
+  const modalContent= select(".modal-content")
+  modalContent.innerHTML = ""
+  modalTitleElm.textContent = `${trimester} Trimester Result`
+  modal.style.display = "flex"
 
   trimesterResultsArr.map((data) => {
     data.map((item, i) => {
-      if (item.semester == trimesterName.value) {
+      if (item.semester === trimester) {
     
         let html = ` <div class="grid-container">
   <div class="grid-item item-no-one">
