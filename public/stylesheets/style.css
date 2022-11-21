@@ -9,6 +9,10 @@
 }
 
 body {
+<<<<<<< Updated upstream
+=======
+  font-family: "Poppins", sans-serif;
+>>>>>>> Stashed changes
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
@@ -317,7 +321,6 @@ body {
     transform: rotate(360deg);
   }
 }
-
 
 /* laoding css end */
 
@@ -779,4 +782,17 @@ float: left;
   /* IE and Edge */
   scrollbar-width: none;
   /* Firefox */
+}
+
+/* style for chart  */
+.my-chart {
+  margin: 20px;
+  padding: 20px;
+  box-shadow: 0 7px 25px rgb(0 0 0 / 8%);
+  border-radius: 20px;
+  display: none;
+}
+#myChart {
+  width: 100% !important;
+  height: 100% !important;
 }
