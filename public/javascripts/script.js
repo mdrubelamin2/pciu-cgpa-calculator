@@ -92,18 +92,26 @@ const resultsTable = select('.table tbody')
   const tdTrimester = document.createElement('td')
   const tdTotalCredit = document.createElement('td')
   const tdGPA = document.createElement('td')
-  const modal = document.createElement("td");
-  tdTrimester.textContent = trimesterResult.trimester
-  tdTotalCredit.textContent = trimesterResult.totalCreditHrs
-  tdGPA.textContent = trimesterResult.currentGPA ? roundToTwoDecimal(trimesterResult.currentGPA, true) : 'Incomplete'
-  modal.innerHTML = `<button class='modal-btn' onclick="perTrimResults(this)" value='${trimesterResult.trimester}'><img src="./images/three-dots-vertical.svg" class="active-modal" fill="currentColor" alt=""></button>`;
-  modal.className="btn-td"
+  // const modal = document.createElement("td");
+  const { trimester, totalCreditHrs, currentGPA } = trimesterResult
+  tdTrimester.textContent = trimester
+  tdTotalCredit.textContent = totalCreditHrs
+  const tdTrimesterWrp = document.createElement('div')
+  tdTrimesterWrp.className = 'trimester-wrp'
+  const infoImg = document.createElement('img')
+  infoImg.src = './images/info.svg'
+  infoImg.className = "info-img"
+  addEvent(infoImg, 'click', () => perTrimResults(trimester))
+  const tdTrimesterText = document.createElement('span')
+  const GPAText = currentGPA ? roundToTwoDecimal(currentGPA, true) : 'Incomplete'
+  tdTrimesterText.textContent = GPAText
+  tdTrimesterWrp.appendChild(tdTrimesterText)
+  tdTrimesterWrp.appendChild(infoImg)
+  tdGPA.appendChild(tdTrimesterWrp)
   tr.appendChild(tdTrimester)
   tr.appendChild(tdTotalCredit)
   tr.appendChild(tdGPA)
-  tr.appendChild(modal);
 
-  
   // add the tr to the table as first tr
   resultsTable.insertBefore(tr, resultsTable.firstChild)
  }
@@ -231,13 +239,12 @@ setLoadingBtn = status => {
 const modal = select(".modal")
 const modalTitleElm = select(".title")
 
-modal.addEventListener('click', function(event) {
-const isOutside = event.target.closest('.modal-container');
-if(isOutside === null) closeBtn.click()
+addEvent(modal, 'click', event => {
+  const isOutside = event.target.closest('.modal-container');
+  if(isOutside === null) closeBtn.click()
 })
 
-const perTrimResults = (trimesterName) => {
-const trimester = trimesterName.value
+const perTrimResults = (trimester) => {
 const modalContent= select(".modal-content")
 modalContent.innerHTML = ""
 modalTitleElm.textContent = `${trimester} Trimester Result`

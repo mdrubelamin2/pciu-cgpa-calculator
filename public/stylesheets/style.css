@@ -274,7 +274,26 @@ body {
 .table tr th:first-child,
 .table tr td:first-child {
   padding-left: 20px;
-  width: 45%;
+  width: 46%;
+}
+
+.table tr th:last-child,
+.table tr td:last-child {
+  padding-right: 20px;
+  width: 20%;
+}
+
+.table .trimester-wrp {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.table .info-img {
+  width: 15px;
+  height: 15px;
+  filter: brightness(0) saturate(100%) invert(17%) sepia(14%) saturate(40%) hue-rotate(314deg) brightness(97%) contrast(84%);
+  cursor: pointer;
 }
 
 /* loading css */
