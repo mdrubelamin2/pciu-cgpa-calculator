@@ -27,6 +27,7 @@ const formSubEvent = async (e) => {
   await getAndRenderAllTrimesterResults()
   await getAndRenderOnlineTrimesterResult()
   setLoadingBtn(false)
+  document.getElementsByClassName('my-chart')[0].style.display = "block";
 }
 
 const formElm = select('.form-container')
@@ -36,6 +37,10 @@ let studentId
 let studentInfo
 let allTrimestersList = []
 let trimesterResultsArray = []
+let semesters = []
+let scgpa = []
+let cgpa = []
+
 
 const getStudentInfo = async () => {
   // Get the student's info
@@ -43,7 +48,6 @@ const getStudentInfo = async () => {
   const response = await fetch(url)
   const data = await response.json()
   studentInfo = data.length > 0 ? data[0] : null
-
   Promise.resolve(true)
 }
 
@@ -75,8 +79,15 @@ const renderStudentInfo = () => {
 }
 
 const addResultTrToResultTable = trimesterResult => {
-  const resultsTable = select('.table tbody')
+const resultsTable = select('.table tbody')
 
+
+
+  semesters.push(trimesterResult.trimester)
+  scgpa.push(trimesterResult.currentGPA)
+  cgpa.push(calCgpa(scgpa))
+
+  
   const tr = document.createElement('tr')
   const tdTrimester = document.createElement('td')
   const tdTotalCredit = document.createElement('td')
@@ -91,9 +102,11 @@ const addResultTrToResultTable = trimesterResult => {
   tr.appendChild(tdTotalCredit)
   tr.appendChild(tdGPA)
   tr.appendChild(modal);
+
+  
   // add the tr to the table as first tr
   resultsTable.insertBefore(tr, resultsTable.firstChild)
-}
+ }
 
 const roundToTwoDecimal = (num, trailingZero = false) => trailingZero ? num.toFixed(2) : (Math.round(num * 100) / 100)
 
@@ -215,74 +228,88 @@ setLoadingBtn = status => {
   }
 }
 
-const modal = select(".modal")
-const modalTitleElm = select(".title")
+// line chart
 
-modal.addEventListener('click', function(event) {
-  const isOutside = event.target.closest('.modal-container');
-  if(isOutside === null) closeBtn.click()
-})
-
-const perTrimResults = (trimesterName) => {
-  const trimester = trimesterName.value
-  const modalContent= select(".modal-content")
-  modalContent.innerHTML = ""
-  modalTitleElm.textContent = `${trimester} Trimester Result`
-  modal.style.display = "flex"
-
-  trimesterResultsArr.map((data) => {
-    data.map((item, i) => {
-      if (item.semester === trimester) {
-    
-        let html = ` <div class="grid-container">
-  <div class="grid-item item-no-one">
-    <div class="center">
-      <span class="serialNo">${i + 1}</span>
-    </div>
-  </div>
-  <div class="grid-item item-no-two">
-    <div class="courseName">${item.courseTitle} <span class="courseCode">${
-          item.courseCode
-        }</span>
-    </div>
-  </div>
-  <div class="grid-item item-no-three">
-    <div class="leftBox">
-      <span>  <img class="svg" src="./images/grade.svg" alt=""> </span>
-      <span class="grade">Grade :</span>
-      <span class="gradePoint">${item.GradePoint}</span>
-      <span class="cgpaLetter ${convertGrade(item.LetterGrade)}">${item.LetterGrade}</span>
-    </div>
-    <div class="middleBox">
-      <span> <img  class="svg" src="./images/type.svg" alt=""> </span> 
-      <span class="type">Type :</span>
-      <span class="typeStatus">${item.status}</span>
-    </div>
-    <div class="rightBox">
-    <span>   <img  class="svg" src="./images/credit.svg" alt=""> </span>
-      <span class="credit">Credit :</span>
-      <span class="subCreditPoint">${item.creditHr}</span>
-    </div>
-  </div>
-</div>`;
-        modalContent.insertAdjacentHTML("beforeend", html);
-      }
-    });
-  });
-
-  closeBtn.onclick = function () {
-    modal.style.display = "none";
-  };
-
-  function convertGrade(letter) {
-    let word;
-
-    word = letter.replace(letter, letter.trim().toLowerCase());
-
-    if (word[1] == "-") word = word.replace(word[1], "-minus");
-
-    if (word[1] == "+") word = word.replace(word[1], "-plus");
-
-    return word;
-  }
+function lineChart(semesters, scgpa, cgpa) {
+const data = {
+  labels: semesters,
+  datasets: [
+      {
+    label: 'SGPA ',
+    backgroundColor: '#00a3ff',
+    borderColor: '#00a3ff',
+    data: scgpa,
+  },
+  {
+    label: 'CGPA ',
+    backgroundColor: 'rgb(255, 99, 132)',
+    borderColor: 'rgb(255, 99, 132)',
+    data: cgpa,
+  },
+  
+  ]
 };
+  const config = {
+  type: 'line',
+  data: data,
+  options: {
+  // ... other options ...
+  plugins: {
+    tooltip: {
+      mode: 'interpolate',
+      intersect: false
+    },
+    crosshair: {
+      line: {
+        color: '#F66',  // crosshair line color
+         width: 1// crosshair line width
+      },
+      sync: {
+        enabled: true,            // enable trace line syncing with other charts
+        group: 1,                 // chart group
+        suppressTooltips: false   // suppress tooltips when showing a synced tracer
+      },
+      zoom: {
+        enabled: true,                                      // enable zooming
+        zoomboxBackgroundColor: 'rgba(66,133,244,0.2)',     // background color of zoom box 
+        zoomboxBorderColor: '#48F',                         // border color of zoom box
+        zoomButtonText: 'Reset Zoom',                       // reset zoom button text
+        zoomButtonClass: 'reset-zoom',                      // reset zoom button class
+      },
+      callbacks: {
+        beforeZoom: () => function(start, end) {                  // called before zoom, return false to prevent zoom
+          return true;
+        },
+        afterZoom: () => function(start, end) {                   // called after zoom
+        }
+      }
+    }
+  }
+}
+};
+
+ new Chart(
+  document.getElementById('myChart'),
+  config
+)
+}
+lineChart(semesters, scgpa, cgpa);
+function calculateCgpa(arr, destination){
+  for (let i = 0; i < arr.length; i++) {
+      let total = 0;
+      for (let j = 0; j <= i; j++) {  
+          total += arr[j];  
+      }
+      
+      destination.push(Number((total/(i+1)).toFixed(2)));
+      
+  }
+}
+function calCgpa(scgpa) {
+  var sum = 0;
+  for (var i = 0; i < scgpa.length; i++) {
+    sum += scgpa[i];
+  }
+  var avg = sum / scgpa.length;
+  return avg.toFixed(2);
+}
