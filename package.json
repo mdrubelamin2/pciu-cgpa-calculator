@@ -7,7 +7,9 @@
     "dev": "set NODE_ENV=development && nodemon ./bin/www",
     "build-parcel": "rm -rf dist && parcel build --no-source-maps public/index.htm && cp -r public/images dist/images",
     "build-critical": "critical public/index.html --base public --inline > public/index.htm",
-    "postinstall": "npm run build-critical && npm run build-parcel && npm prune --production"
+    "build-terser": "node minify",
+    "build": "npm run build-parcel && npm run build-critical && npm run build-terser",
+    "postinstall": "npm run build && npm prune --production"
   },
   "nodemonConfig": {
     "ignore": [
@@ -24,6 +26,7 @@
   "devDependencies": {
     "critical": "^4.0.1",
     "nodemon": "^2.0.20",
-    "parcel": "^2.6.1"
+    "parcel": "^2.6.1",
+    "terser": "^5.15.1"
   }
 }
