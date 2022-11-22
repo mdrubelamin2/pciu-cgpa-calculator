@@ -3,12 +3,12 @@
   "version": "1.0",
   "private": false,
   "scripts": {
-    "start": "set NODE_ENV=production && npm run build-parcel && node ./bin/www",
+    "start": "set NODE_ENV=production && npm run build && node ./bin/www",
     "dev": "set NODE_ENV=development && nodemon ./bin/www",
     "build-parcel": "rm -rf dist && parcel build --no-source-maps public/index.htm && cp -r public/images dist/images",
     "build-critical": "critical public/index.html --base public --inline > public/index.htm",
     "build-terser": "node minify",
-    "build": "npm run build-parcel && npm run build-critical && npm run build-terser",
+    "build": "npm run build-critical && npm run build-parcel && npm run build-terser",
     "postinstall": "npm run build && npm prune --production"
   },
   "nodemonConfig": {
