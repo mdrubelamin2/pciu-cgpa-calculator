@@ -4,9 +4,6 @@ const setVh = function () {
 };
 
 (() => {
-  // SSR support
-  if (typeof window === 'undefined') return
-
   // We run the calculation as soon as possible (eg. the script is in document head)
   setVh()
 
