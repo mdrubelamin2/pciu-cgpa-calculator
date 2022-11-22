@@ -283,7 +283,7 @@ body {
   width: 20%;
 }
 
-.table .trimester-wrp {
+.table .td-wrp {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -385,6 +385,9 @@ float: left;
   height: 100%;
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
+}
+.show {
+  display: flex !important;
 }
 .modal-container {
   overflow-x: auto;
@@ -802,7 +805,7 @@ float: left;
 
 /* style for chart  */
 .my-chart {
-  margin: 20px;
+  margin-top: 30px;
   padding: 20px;
   box-shadow: 0 7px 25px rgb(0 0 0 / 8%);
   border-radius: 20px;

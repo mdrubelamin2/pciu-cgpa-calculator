@@ -1,15 +1,38 @@
 const select = selector => document.querySelector(selector)
 
-const addEvent = (elm, eventType, cb) => {
-  elm.addEventListener(eventType, cb)
-}
+const addEvent = (elm, eventType, cb) => { elm.addEventListener(eventType, cb) }
+
+const setInnerHTML = (elm, html) => { elm.innerHTML = html }
+
+const setTextContent = (elm, text) => { elm.textContent = text }
+
+const createElm = elmType => document.createElement(elmType)
+
+const appendChild = (parent, child) => { parent.appendChild(child) }
+
+const setAttr = (elm, attr, value) => { elm.setAttribute(attr, value) }
+
+const setClass = (elm, className, remove = 0) => {
+  if (remove) {
+    elm.classList.remove(className)
+  } else {
+    elm.classList.add(className)
+  }
+} 
 
 // creates input mask for the id input by maska.js
 const idInputElm = select('.id-input')
 Maska.create(idInputElm, { mask: 'AAA ### #####' })
 
+// enable the search button when the window loading is complete
+addEvent(window, 'load', () => {
+  setLoadingBtn(false)
+  lineChart()
+})
+
+const chartElm = select('.my-chart')
+
 const formSubEvent = async (e) => {
-  trimesterResultsArr = [];
   e.preventDefault()
   const idInpElm = select('.id-input')
   studentId = idInpElm.value
@@ -20,6 +43,7 @@ const formSubEvent = async (e) => {
 
   await getStudentInfo()
   if (!studentInfo) return setLoadingBtn(false)
+  setClass(chartElm, 'show')
   resetOldSearchResult()
   removeBeforeSearchClasses()
   setValueToIdInputElm()
@@ -27,7 +51,6 @@ const formSubEvent = async (e) => {
   await getAndRenderAllTrimesterResults()
   await getAndRenderOnlineTrimesterResult()
   setLoadingBtn(false)
-  document.getElementsByClassName('my-chart')[0].style.display = "block";
 }
 
 const formElm = select('.form-container')
@@ -37,10 +60,6 @@ let studentId
 let studentInfo
 let allTrimestersList = []
 let trimesterResultsArray = []
-let semesters = []
-let scgpa = []
-let cgpa = []
-
 
 const getStudentInfo = async () => {
   // Get the student's info
@@ -53,8 +72,8 @@ const getStudentInfo = async () => {
 
 const removeBeforeSearchClasses = () => {
   const mainContainer = select('.main-container')
-  mainContainer.classList.remove('before-search')
-  document.body.classList.remove('before-search')
+  setClass(mainContainer, 'before-search', 1)
+  setClass(document.body, 'before-search', 1)
 }
 
 const setValueToIdInputElm = () => {
@@ -70,47 +89,43 @@ const renderStudentInfo = () => {
   const studentBatchElm = select('.student-batch')
   const studentShiftElm = select('.student-shift')
 
-  studentIdElm.innerHTML = studentInfo.studentIdNo
-  studentNameElm.innerHTML = studentInfo.StudentName
-  studentProgramElm.innerHTML = studentInfo.studentProgram
-  studentSessionElm.innerHTML = studentInfo.studentSession
-  studentBatchElm.innerHTML = studentInfo.studentBatch
-  studentShiftElm.innerHTML = studentInfo.Shift
+  const { studentIdNo, StudentName, studentProgram, studentSession, studentBatch, Shift } = studentInfo
+
+  setTextContent(studentIdElm, studentIdNo)
+  setTextContent(studentNameElm, StudentName)
+  setTextContent(studentProgramElm, studentProgram)
+  setTextContent(studentSessionElm, studentSession)
+  setTextContent(studentBatchElm, studentBatch)
+  setTextContent(studentShiftElm, Shift)
 }
 
 const addResultTrToResultTable = trimesterResult => {
-const resultsTable = select('.table tbody')
+  const resultsTable = select('.table tbody')
 
+  const tr = createElm('tr')
+  const tdTrimester = createElm('td')
+  const tdTotalCredit = createElm('td')
+  const tdGPA = createElm('td')
+  const tdGPAWrp = createElm('div')
+  const tdGPAText = document.createElement('span')
+  const infoImg = createElm('img')
 
-
-  semesters.push(trimesterResult.trimester)
-  scgpa.push(trimesterResult.currentGPA)
-  cgpa.push(calCgpa(scgpa))
-
-  
-  const tr = document.createElement('tr')
-  const tdTrimester = document.createElement('td')
-  const tdTotalCredit = document.createElement('td')
-  const tdGPA = document.createElement('td')
-  // const modal = document.createElement("td");
   const { trimester, totalCreditHrs, currentGPA } = trimesterResult
-  tdTrimester.textContent = trimester
-  tdTotalCredit.textContent = totalCreditHrs
-  const tdTrimesterWrp = document.createElement('div')
-  tdTrimesterWrp.className = 'trimester-wrp'
-  const infoImg = document.createElement('img')
-  infoImg.src = './images/info.svg'
-  infoImg.className = "info-img"
+
+  setTextContent(tdTrimester, trimester)
+  setTextContent(tdTotalCredit, totalCreditHrs)
+  setAttr(tdGPAWrp, 'class', 'td-wrp')
+  setAttr(infoImg, 'src', './images/info.svg')
+  setAttr(infoImg, 'class', 'info-img')
   addEvent(infoImg, 'click', () => perTrimResults(trimester))
-  const tdTrimesterText = document.createElement('span')
   const GPAText = currentGPA ? roundToTwoDecimal(currentGPA, true) : 'Incomplete'
-  tdTrimesterText.textContent = GPAText
-  tdTrimesterWrp.appendChild(tdTrimesterText)
-  tdTrimesterWrp.appendChild(infoImg)
-  tdGPA.appendChild(tdTrimesterWrp)
-  tr.appendChild(tdTrimester)
-  tr.appendChild(tdTotalCredit)
-  tr.appendChild(tdGPA)
+  setTextContent(tdGPAText, GPAText)
+  appendChild(tdGPAWrp, tdGPAText)
+  appendChild(tdGPAWrp, infoImg)
+  appendChild(tdGPA, tdGPAWrp)
+  appendChild(tr, tdTrimester)
+  appendChild(tr, tdTotalCredit)
+  appendChild(tr, tdGPA)
 
   // add the tr to the table as first tr
   resultsTable.insertBefore(tr, resultsTable.firstChild)
@@ -118,19 +133,26 @@ const resultsTable = select('.table tbody')
 
 const roundToTwoDecimal = (num, trailingZero = false) => trailingZero ? num.toFixed(2) : (Math.round(num * 100) / 100)
 
-const calculateTotalCreditHrsAndGPA = () => {
-  const totalCreditHrsElm = select('.total-credit-hrs')
-  const totalGPAElm = select('.total-cgpa')
+const getAverageCGPAandCredits = (resultData, toIndex) => {
   let totalCreditHrs = 0
   let totalCGPA = 0
-  trimesterResultsArray.forEach(trimesterResult => {
+  const allResults = toIndex !== undefined ? resultData.slice(0, toIndex + 1) : resultData
+  allResults.forEach(trimesterResult => {
     totalCGPA += trimesterResult.currentGPA * trimesterResult.totalCreditHrs
     totalCreditHrs += trimesterResult.completedCreditHrs
   })
   totalCGPA = totalCGPA / totalCreditHrs
-  const totalAverageCGPA = roundToTwoDecimal(totalCGPA, true)
-  totalCreditHrsElm.textContent = totalCreditHrs
-  totalGPAElm.textContent = isNaN(totalAverageCGPA) ? 0 : totalAverageCGPA
+  let totalAverageCGPA = roundToTwoDecimal(totalCGPA, true)
+  totalAverageCGPA = isNaN(totalAverageCGPA) ? 0 : totalAverageCGPA
+  return { totalCreditHrs, totalAverageCGPA }
+}
+
+const calculateTotalCreditHrsAndGPA = () => {
+  const totalCreditHrsElm = select('.total-credit-hrs')
+  const totalGPAElm = select('.total-cgpa')
+  const { totalCreditHrs, totalAverageCGPA } = getAverageCGPAandCredits(trimesterResultsArray)
+  setTextContent(totalCreditHrsElm, totalCreditHrs)
+  setTextContent(totalGPAElm, totalAverageCGPA)
 }
 
 const formatSingleTrimesterResult = resultData => {
@@ -157,7 +179,8 @@ const formatSingleTrimesterResult = resultData => {
     trimester,
     totalCreditHrs,
     completedCreditHrs,
-    currentGPA
+    currentGPA,
+    individuals: resultData
   }
 
   return trimesterResult
@@ -192,7 +215,6 @@ const getAndRenderAllTrimesterResults = async () => {
 
 const handleResultData = data => {
   if (data.length > 0) {
-    trimesterResultsArr.push(data);
     const trimesterResult = formatSingleTrimesterResult(data)
     // unshift the trimester result to the array
     trimesterResultsArray.unshift(trimesterResult)
@@ -200,6 +222,7 @@ const handleResultData = data => {
     addResultTrToResultTable(trimesterResult)
     // calculate the totalGPA
     calculateTotalCreditHrsAndGPA()
+    updateChart()
   }
 }
 
@@ -221,40 +244,64 @@ const getAndRenderOnlineTrimesterResult = async () => {
 const resetOldSearchResult = () => {
   trimesterResultsArray = []
   const resultsTable = select('.table tbody')
-  resultsTable.innerHTML = ''
+  setInnerHTML(resultsTable, '')
   calculateTotalCreditHrsAndGPA()
+  updateChart()
 }
 
-setLoadingBtn = status => {
+const setLoadingBtn = status => {
   const searchBtnElm = select('.search-btn')
   if (status) {
-    searchBtnElm.classList.add('loading')
-    searchBtnElm.disabled = true
+    setClass(searchBtnElm, 'loading')
+    setAttr(searchBtnElm, 'disabled', true)
   } else {
-    searchBtnElm.classList.remove('loading')
-    searchBtnElm.disabled = false
+    setClass(searchBtnElm, 'loading', 1)
+    searchBtnElm.removeAttribute('disabled')
   }
 }
 
+// my code complete - rubel
+
+// modal code start - rahat
+
 const modal = select(".modal")
 const modalTitleElm = select(".title")
+const closeBtn = select("#closeBtn")
+
+const setModal = status => {
+  if(status) setClass(modal, 'show')
+  else setClass(modal, 'show', 1)
+}
 
 addEvent(modal, 'click', event => {
-  const isOutside = event.target.closest('.modal-container');
-  if(isOutside === null) closeBtn.click()
+  const isInsideModal = event.target.closest('.modal-container');
+  if(isInsideModal === null) closeBtn.click()
 })
+
+addEvent(closeBtn, 'click', () => setModal(false))
+
+const convertGradeToClassName = letter => {
+  const grade = letter.trim().toLowerCase()
+  const [_, stat] = grade
+
+  if (grade === '-') return 'i'
+  if(!stat) return grade
+  if (stat == "+") return grade.replace(stat, "-plus")
+  if (stat == "-") return grade.replace(stat, "-minus")
+}
 
 const perTrimResults = (trimester) => {
 const modalContent= select(".modal-content")
-modalContent.innerHTML = ""
-modalTitleElm.textContent = `${trimester} Trimester Result`
-modal.style.display = "flex"
+setInnerHTML(modalContent, '')
+setTextContent(modalTitleElm, `${trimester} Trimester Result`)
 
-trimesterResultsArr.map((data) => {
-  data.map((item, i) => {
-    if (item.semester === trimester) {
-  
-      let html = ` <div class="grid-container">
+const trimResult = trimesterResultsArray.find(result => result.trimester === trimester)
+
+if(!trimResult) return
+
+const { individuals } = trimResult
+
+const modalResultHtml = individuals.map((item, i) => `<div class="grid-container">
 <div class="grid-item item-no-one">
   <div class="center">
     <span class="serialNo">${i + 1}</span>
@@ -271,7 +318,7 @@ trimesterResultsArr.map((data) => {
     <span>  <img class="svg" src="./images/grade.svg" alt=""> </span>
     <span class="grade">Grade :</span>
     <span class="gradePoint">${item.GradePoint}</span>
-    <span class="cgpaLetter ${convertGrade(item.LetterGrade)}">${item.LetterGrade}</span>
+    <span class="cgpaLetter ${convertGradeToClassName(item.LetterGrade)}">${item.LetterGrade}</span>
   </div>
   <div class="middleBox">
     <span> <img  class="svg" src="./images/type.svg" alt=""> </span> 
@@ -284,48 +331,44 @@ trimesterResultsArr.map((data) => {
     <span class="subCreditPoint">${item.creditHr}</span>
   </div>
 </div>
-</div>`;
-      modalContent.insertAdjacentHTML("beforeend", html);
-    }
-  });
-});
+</div>`
+).join('')
 
-closeBtn.onclick = function () {
-  modal.style.display = "none";
+setInnerHTML(modalContent, modalResultHtml);
+setModal(true);
 };
 
-function convertGrade(letter) {
-  let word;
+// line chart - rahad
 
-  word = letter.replace(letter, letter.trim().toLowerCase());
+let resultChart
 
-  if (word[1] == "-") word = word.replace(word[1], "-minus");
-
-  if (word[1] == "+") word = word.replace(word[1], "-plus");
-
-  return word;
+const updateChart = () => {
+  const resultData = [...trimesterResultsArray].reverse()
+  const trimesterTitles = resultData.map(result => result.trimester)
+  const gpaValues = resultData.map(result => result.currentGPA)
+  const cgpaValues = resultData.map((_, i) => getAverageCGPAandCredits(resultData, i).totalAverageCGPA)
+  resultChart.data.labels = trimesterTitles
+  resultChart.data.datasets[0].data = gpaValues
+  resultChart.data.datasets[1].data = cgpaValues
+  resultChart.update()
 }
-};
 
-// line chart
-
-function lineChart(semesters, scgpa, cgpa) {
+const lineChart = () => {
 const data = {
-  labels: semesters,
+  labels: [],
   datasets: [
       {
     label: 'SGPA ',
     backgroundColor: '#00a3ff',
     borderColor: '#00a3ff',
-    data: scgpa,
+    data: [],
   },
   {
     label: 'CGPA ',
     backgroundColor: 'rgb(255, 99, 132)',
     borderColor: 'rgb(255, 99, 132)',
-    data: cgpa,
+    data: [],
   },
-  
   ]
 };
   const config = {
@@ -367,28 +410,9 @@ const data = {
 }
 };
 
- new Chart(
-  document.getElementById('myChart'),
+resultChart = new Chart(
+  select('#myChart'),
   config
 )
 }
-lineChart(semesters, scgpa, cgpa);
-function calculateCgpa(arr, destination){
-  for (let i = 0; i < arr.length; i++) {
-      let total = 0;
-      for (let j = 0; j <= i; j++) {  
-          total += arr[j];  
-      }
-      
-      destination.push(Number((total/(i+1)).toFixed(2)));
-      
-  }
-}
-function calCgpa(scgpa) {
-  var sum = 0;
-  for (var i = 0; i < scgpa.length; i++) {
-    sum += scgpa[i];
-  }
-  var avg = sum / scgpa.length;
-  return avg.toFixed(2);
-}
+
