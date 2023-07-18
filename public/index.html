@@ -1,128 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PCIU CGPA Calculator</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <script src="./javascripts/dynamic-viewport-units-polyfill.js" data-package="https://www.npmjs.com/package/large-small-dynamic-viewport-units-polyfill"></script>
-    <link rel="stylesheet" href="./stylesheets/style.css" />
-    <!-- <link rel="stylesheet" href="style.min.css" > -->
 
-    <script
-      src="./javascripts/maska.js"
-      data-referrence="https://github.com/beholdr/maska"
-      defer
-    ></script>
-    <script src="./javascripts/script.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-crosshair@1.2.0/dist/chartjs-plugin-crosshair.min.js" defer></script>
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="./javascripts/dynamic-viewport-units-polyfill.js"
+    data-package="https://www.npmjs.com/package/large-small-dynamic-viewport-units-polyfill"></script>
+  <link rel="stylesheet" href="./stylesheets/style.css" />
+  <!-- <link rel="stylesheet" href="style.min.css" > -->
 
-  <body class="before-search">
-    <div class="main-container before-search">
-      <div class="header-section">
-        <h1 class="header-title">CGPA Calculator</h1>
-        <h4 class="header-subtitle">
-          Port City International University, Chattogram
-        </h4>
-      </div>
-      <div class="content-container">
-        <div class="left-content">
-          <form class="form-container">
-            <div class="input-container">
-              <label for="id-input" class="input-label">Enter Your ID</label>
-              <input
-                id="id-input"
-                class="id-input"
-                type="text"
-                placeholder="XXX XXX XXXXX"
-              />
-            </div>
-            <button class="search-btn" type="submit" disabled>
-              Search
-              <div class="lds-ring">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-              </div>
-            </button>
-          </form>
-          <div class="info-container">
-            <div class="info-item">
-              <span class="info-item-title">ID</span>
-              <span class="info-item-content student-id"></span>
-            </div>
-            <div class="info-item">
-              <span class="info-item-title">Name</span>
-              <span class="info-item-content student-name"></span>
-            </div>
-            <div class="info-item">
-              <span class="info-item-title">Program</span>
-              <span class="info-item-content student-program"></span>
-            </div>
-            <div class="info-item">
-              <span class="info-item-title">Batch</span>
-              <span class="info-item-content student-batch"></span>
-            </div>
-            <div class="info-item">
-              <span class="info-item-title">Shift</span>
-              <span class="info-item-content student-shift"></span>
-            </div>
-            <div class="info-item">
-              <span class="info-item-title">Session</span>
-              <span class="info-item-content student-session"></span>
-            </div>
+  <script src="./javascripts/maska.js" data-referrence="https://github.com/beholdr/maska" defer></script>
+  <script src="./javascripts/script.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-crosshair@1.2.0/dist/chartjs-plugin-crosshair.min.js"
+    defer></script>
+  <!-- Search SEO -->
+  <title>PCIU CGPA Calculator - CGPA Calculator for Port City International University</title>
+  <meta name="description"
+    content="Generate the CGPA (Cumulative Grade Point Average) based on your PCIU (Port City International University) results in a single click.">
+  <meta name="keywords"
+    content="PCIU, Port City International University, PCIU CGPA Calculator, PCIU Result, PCIU CGPA">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Md Rubel Amin">
+</head>
+
+<body class="before-search">
+  <div class="main-container before-search">
+    <div class="header-section">
+      <h1 class="header-title">CGPA Calculator</h1>
+      <h4 class="header-subtitle">
+        Port City International University, Chattogram
+      </h4>
+    </div>
+    <div class="content-container">
+      <div class="left-content">
+        <form class="form-container">
+          <div class="input-container">
+            <label for="id-input" class="input-label">Enter Your ID</label>
+            <input id="id-input" class="id-input" type="text" placeholder="XXX XXX XXXXX" />
           </div>
-          <div class="cgpa-container">
-            <div class="credit-item">
-              <span class="credit-item-title">Total Credit</span>
-              <span class="credit-item-content total-credit-hrs"></span>
+          <button class="search-btn" type="submit" disabled>
+            Search
+            <div class="lds-ring">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
             </div>
-            <div class="cgpa-item">
-              <span class="cgpa-item-title">CGPA</span>
-              <span class="cgpa-item-content total-cgpa"></span>
-            </div>
+          </button>
+        </form>
+        <div class="info-container">
+          <div class="info-item">
+            <span class="info-item-title">ID</span>
+            <span class="info-item-content student-id"></span>
+          </div>
+          <div class="info-item">
+            <span class="info-item-title">Name</span>
+            <span class="info-item-content student-name"></span>
+          </div>
+          <div class="info-item">
+            <span class="info-item-title">Program</span>
+            <span class="info-item-content student-program"></span>
+          </div>
+          <div class="info-item">
+            <span class="info-item-title">Batch</span>
+            <span class="info-item-content student-batch"></span>
+          </div>
+          <div class="info-item">
+            <span class="info-item-title">Shift</span>
+            <span class="info-item-content student-shift"></span>
+          </div>
+          <div class="info-item">
+            <span class="info-item-title">Session</span>
+            <span class="info-item-content student-session"></span>
           </div>
         </div>
-        <div class="right-container">
-          <div class="right-container-title-wrp">
-            <h4 class="right-container-title">GPA History</h4>
+        <div class="cgpa-container">
+          <div class="credit-item">
+            <span class="credit-item-title">Total Credit</span>
+            <span class="credit-item-content total-credit-hrs"></span>
           </div>
-          <div class="table-container">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Trimester</th>
-                  <th>Credit Hr.</th>
-                  <th>SGPA</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
+          <div class="cgpa-item">
+            <span class="cgpa-item-title">CGPA</span>
+            <span class="cgpa-item-content total-cgpa"></span>
           </div>
         </div>
       </div>
-
-      <div class="my-chart">
-        <canvas id="myChart"></canvas>
+      <div class="right-container">
+        <div class="right-container-title-wrp">
+          <h4 class="right-container-title">GPA History</h4>
+        </div>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Trimester</th>
+                <th>Credit Hr.</th>
+                <th>SGPA</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </div>
     </div>
-    <div class="modal">
-      <div class="modal-container">
-        <div class="heading">
-          <p class="title">Summer 2022 Trimester Result</p>
-          <span id="closeBtn"> <img src="./images/close.svg" alt="" /></span>
-        </div>
-        <div class="modal-content"></div>
-      </div>
+
+    <div class="my-chart">
+      <canvas id="myChart"></canvas>
     </div>
-  </body>
+  </div>
+  <div class="modal">
+    <div class="modal-container">
+      <div class="heading">
+        <p class="title">Summer 2022 Trimester Result</p>
+        <span id="closeBtn"> <img src="./images/close.svg" alt="" /></span>
+      </div>
+      <div class="modal-content"></div>
+    </div>
+  </div>
+</body>
+
 </html>
