@@ -32,10 +32,11 @@ select {
 
 input:-webkit-autofill,
 input:-webkit-autofill:focus {
-    transition: background-color 600000s 0s, color 600000s 0s;
+  transition: background-color 600000s 0s, color 600000s 0s;
 }
+
 input[data-autocompleted] {
-    background-color: transparent !important;
+  background-color: transparent !important;
 }
 
 p,
@@ -373,17 +374,19 @@ body {
 }
 
 /* modal */
-.heading{
+.heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
+
 .title {
-font-size: 23px;
-font-weight: 600;
-width: fit-content;
-float: left;
+  font-size: 18px;
+  font-weight: 600;
+  width: fit-content;
+  float: left;
 }
+
 .modal {
   display: none;
   position: fixed;
@@ -399,9 +402,12 @@ float: left;
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
 }
+
 .show {
   display: flex !important;
+  flex-direction: column;
 }
+
 .modal-container {
   overflow-x: auto;
   background-color: #ffffff;
@@ -411,6 +417,7 @@ float: left;
   border-radius: 10px;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }
+
 .modal-content {
   background-color: #ffffff;
   height: fit-content;
@@ -424,25 +431,30 @@ float: left;
   margin-top: 25px;
   max-height: 45px;
 }
+
 .grid-container:first-of-type {
   margin-top: 0;
 }
+
 .grid-item {
   background-color: rgba(255, 255, 255, 0.8);
 }
+
 .item-no-one {
   grid-column: 1;
   grid-row: 1 / span 2;
   margin-right: 10px;
 }
+
 .item-no-two {
   display: inline-block;
   width: fit-content;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   color: #2b2b2b;
   margin-left: 2px;
 }
+
 .item-no-three {
   grid-row: 2;
   width: 420px;
@@ -451,16 +463,17 @@ float: left;
   font-size: 12px;
   margin-top: 3px;
 }
+
 .center {
   width: 45px;
   height: 45px;
   border-radius: 50px;
-  font-size: 20px;
-
+  font-size: 18px;
   line-height: 45px;
   text-align: center;
   background: #ededed;
 }
+
 .serialNo {
   color: #505050;
   font-weight: 600;
@@ -472,28 +485,33 @@ float: left;
   margin-left: 3px;
   margin-right: 5px;
 }
+
 .credit {
   color: #2b2b2b;
   font-weight: 500;
   margin-left: 5px;
   margin-right: 5px;
 }
+
 .type {
   color: #2b2b2b;
   font-weight: 500;
   margin-left: 5px;
   margin-right: 5px;
 }
+
 .courseName {
   margin-right: 8px;
 }
-.courseCode { 
+
+.courseCode {
   padding: 0px 8px 0px 8px;
   border-radius: 4px;
   background-color: #ebebeb;
   margin-left: 5px;
-  font-size: 14px;
+  font-size: 12px;
 }
+
 .leftBox {
   display: flex;
   width: 40%;
@@ -505,11 +523,13 @@ float: left;
   width: 40%;
   align-items: center;
 }
+
 .rightBox {
   display: flex;
   align-items: center;
   width: 20%;
 }
+
 .cgpaLetter {
   text-align: center;
   border-radius: 10px;
@@ -518,39 +538,45 @@ float: left;
   padding: 0 6px;
   display: inline-block;
 }
+
 .gradePoint {
   color: #4f4f4f;
   font-weight: 500;
 }
+
 .typeStatus {
   color: #4f4f4f;
   font-weight: 500;
 }
+
 .subCreditPoint {
   color: #4f4f4f;
   font-weight: 500;
 }
+
 .modal-btn {
   background-color: transparent;
   color: grey;
   width: 30px;
   height: 30px;
   border: none;
-  filter: invert(27%) sepia(51%) saturate(0%) hue-rotate(346deg)
-    brightness(104%) contrast(97%);
+  filter: invert(27%) sepia(51%) saturate(0%) hue-rotate(346deg) brightness(104%) contrast(97%);
   cursor: pointer;
 }
+
 .modal-btn:hover,
 .modal-btn:focus {
-  filter: invert(27%) sepia(51%) saturate(8%) hue-rotate(346deg)
-    brightness(104%) contrast(97%);
+  filter: invert(27%) sepia(51%) saturate(8%) hue-rotate(346deg) brightness(104%) contrast(97%);
 }
+
 .active-modal {
   width: 15px;
 }
+
 .btn-td {
   text-align: left;
 }
+
 .hidden {
   display: none;
 }
@@ -559,14 +585,17 @@ float: left;
   background-color: #cbffbe;
   color: #344a05;
 }
+
 .a-plus {
   background-color: #fff9be;
   color: #665000;
 }
+
 .a-minus {
   background-color: #beffff;
   color: #054a3e;
 }
+
 .b {
   background-color: #d3beff;
   color: #1b0066;
@@ -576,6 +605,7 @@ float: left;
   background-color: #beccff;
   color: #05184a;
 }
+
 .b-minus {
   background-color: #eebeff;
   color: #41054a;
@@ -585,22 +615,27 @@ float: left;
   background-color: #ffd9be;
   color: #4a1505;
 }
+
 .c-plus {
   background-color: #ffbef1;
   color: #4a0543;
 }
+
 .d {
   background-color: #ffbebe;
   color: #4a0505;
 }
+
 .f {
   background-color: #ffbebe;
   color: #4a0505;
 }
+
 .i {
   background-color: #dfdfdf;
   color: #3c3c3c;
 }
+
 .w {
   background-color: #dfdfdf;
   color: #3c3c3c;
@@ -612,6 +647,7 @@ float: left;
   font-size: 28px;
   font-weight: bold;
 }
+
 #closeBtn:hover,
 #closebtn:focus {
   color: #000;
@@ -663,14 +699,16 @@ float: left;
   .right-container {
     width: 100%;
   }
-  .heading{
+
+  .heading {
     overflow: hidden;
     background-color: white;
     position: sticky;
     top: 0;
     padding: 10px 0px 0px 10px;
-    
+
   }
+
   .modal-container {
     background-color: #ffffff;
     width: auto;
@@ -691,20 +729,25 @@ float: left;
   .item-no-one {
     margin-right: 3px;
   }
+
   .item-no-two {
     font-size: 14px;
   }
+
   .item-no-three {
     min-width: 350px;
     width: auto;
     font-size: 12px;
   }
+
   .leftBox {
     min-width: 36%;
   }
+
   .middleBox {
     min-width: 36%;
   }
+
   .rightBox {
     width: 28%;
   }
@@ -737,17 +780,20 @@ float: left;
   .right-container {
     width: auto;
   }
+
   .title {
     font-size: 18px;
   }
-  .heading{
+
+  .heading {
     overflow: hidden;
     background-color: white;
     position: sticky;
     top: 0;
     padding: 10px 0px 0px 10px;
-    
+
   }
+
   .modal-container {
     background-color: #ffffff;
     min-width: 340px;
@@ -762,24 +808,30 @@ float: left;
 
   .item-no-one {
     margin-right: 3px;
-   
+
   }
+
   .item-no-two {
     font-size: 12px;
   }
+
   .item-no-three {
     width: 300px;
     font-size: 10px;
   }
+
   .leftBox {
     width: 36%;
   }
+
   .middleBox {
     width: 34%;
   }
+
   .rightBox {
     width: 28%;
   }
+
   .svg {
     font-size: 10px;
     width: 10px;
@@ -792,6 +844,7 @@ float: left;
 .modal::-webkit-scrollbar {
   display: none;
 }
+
 /* Hide scrollbar for IE, Edge and Firefox */
 .modal {
   -ms-overflow-style: none;
@@ -803,6 +856,7 @@ float: left;
 .modal-container::-webkit-scrollbar {
   display: none;
 }
+
 .modal-container {
   -ms-overflow-style: none;
   /* IE and Edge */
@@ -818,7 +872,17 @@ float: left;
   border-radius: 20px;
   display: none;
 }
+
 #myChart {
   width: 100% !important;
   height: 100% !important;
+}
+
+.graph-svg-tip {
+  display: flex;
+  flex-direction: column;
+}
+
+.graph-svg-tip .title {
+  font-size: 15px;
 }
