@@ -215,7 +215,6 @@ const getAndRenderAllTrimesterResults = async () => {
 }
 
 const handleResultData = data => {
-  allresults.push(...data)
   if (data.length > 0) {
     const trimesterResult = formatSingleTrimesterResult(data)
     // unshift the trimester result to the array
