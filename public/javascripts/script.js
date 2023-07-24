@@ -18,7 +18,7 @@ const setClass = (elm, className, remove = 0) => {
   } else {
     elm.classList.add(className)
   }
-} 
+}
 
 // creates input mask for the id input by maska.js
 const idInputElm = select('.id-input')
@@ -129,7 +129,7 @@ const addResultTrToResultTable = trimesterResult => {
 
   // add the tr to the table as first tr
   resultsTable.insertBefore(tr, resultsTable.firstChild)
- }
+}
 
 const roundToTwoDecimal = (num, trailingZero = false) => trailingZero ? num.toFixed(2) : (Math.round(num * 100) / 100)
 
@@ -161,6 +161,7 @@ const formatSingleTrimesterResult = resultData => {
   let totalCreditHrs = 0
   let completedCreditHrs = 0
   resultData.forEach(course => {
+    if (course.status === 'Improvement') return
     // check if the course is not incomplete to count the totalcredithours
     if (course.status !== "Incomplete" && course.LetterGrade.trim() !== "I") {
       totalCreditHrs += course.creditHr
@@ -214,6 +215,7 @@ const getAndRenderAllTrimesterResults = async () => {
 }
 
 const handleResultData = data => {
+  allresults.push(...data)
   if (data.length > 0) {
     const trimesterResult = formatSingleTrimesterResult(data)
     // unshift the trimester result to the array
@@ -269,13 +271,13 @@ const modalTitleElm = select(".title")
 const closeBtn = select("#closeBtn")
 
 const setModal = status => {
-  if(status) setClass(modal, 'show')
+  if (status) setClass(modal, 'show')
   else setClass(modal, 'show', 1)
 }
 
 addEvent(modal, 'click', event => {
   const isInsideModal = event.target.closest('.modal-container');
-  if(isInsideModal === null) closeBtn.click()
+  if (isInsideModal === null) closeBtn.click()
 })
 
 addEvent(closeBtn, 'click', () => setModal(false))
@@ -285,32 +287,31 @@ const convertGradeToClassName = letter => {
   const [_, stat] = grade
 
   if (grade === '-') return 'i'
-  if(!stat) return grade
+  if (!stat) return grade
   if (stat == "+") return grade.replace(stat, "-plus")
   if (stat == "-") return grade.replace(stat, "-minus")
 }
 
 const perTrimResults = (trimester) => {
-const modalContent= select(".modal-content")
-setInnerHTML(modalContent, '')
-setTextContent(modalTitleElm, `${trimester} Trimester Result`)
+  const modalContent = select(".modal-content")
+  setInnerHTML(modalContent, '')
+  setTextContent(modalTitleElm, `${trimester} Trimester Result`)
 
-const trimResult = trimesterResultsArray.find(result => result.trimester === trimester)
+  const trimResult = trimesterResultsArray.find(result => result.trimester === trimester)
 
-if(!trimResult) return
+  if (!trimResult) return
 
-const { individuals } = trimResult
+  const { individuals } = trimResult
 
-const modalResultHtml = individuals.map((item, i) => `<div class="grid-container">
+  const modalResultHtml = individuals.map((item, i) => `<div class="grid-container">
 <div class="grid-item item-no-one">
   <div class="center">
     <span class="serialNo">${i + 1}</span>
   </div>
 </div>
 <div class="grid-item item-no-two">
-  <div class="courseName">${item.courseTitle} <span class="courseCode">${
-        item.courseCode
-      }</span>
+  <div class="courseName">${item.courseTitle} <span class="courseCode">${item.courseCode
+    }</span>
   </div>
 </div>
 <div class="grid-item item-no-three">
@@ -332,10 +333,10 @@ const modalResultHtml = individuals.map((item, i) => `<div class="grid-container
   </div>
 </div>
 </div>`
-).join('')
+  ).join('')
 
-setInnerHTML(modalContent, modalResultHtml);
-setModal(true);
+  setInnerHTML(modalContent, modalResultHtml);
+  setModal(true);
 };
 
 // line chart - rahad
@@ -354,65 +355,65 @@ const updateChart = () => {
 }
 
 const lineChart = () => {
-const data = {
-  labels: [],
-  datasets: [
+  const data = {
+    labels: [],
+    datasets: [
       {
-    label: 'SGPA ',
-    backgroundColor: '#00a3ff',
-    borderColor: '#00a3ff',
-    data: [],
-  },
-  {
-    label: 'CGPA ',
-    backgroundColor: 'rgb(255, 99, 132)',
-    borderColor: 'rgb(255, 99, 132)',
-    data: [],
-  },
-  ]
-};
+        label: 'SGPA ',
+        backgroundColor: '#00a3ff',
+        borderColor: '#00a3ff',
+        data: [],
+      },
+      {
+        label: 'CGPA ',
+        backgroundColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99, 132)',
+        data: [],
+      },
+    ]
+  };
   const config = {
-  type: 'line',
-  data: data,
-  options: {
-  // ... other options ...
-  plugins: {
-    tooltip: {
-      mode: 'interpolate',
-      intersect: false
-    },
-    crosshair: {
-      line: {
-        color: '#F66',  // crosshair line color
-         width: 1// crosshair line width
-      },
-      sync: {
-        enabled: true,            // enable trace line syncing with other charts
-        group: 1,                 // chart group
-        suppressTooltips: false   // suppress tooltips when showing a synced tracer
-      },
-      zoom: {
-        enabled: true,                                      // enable zooming
-        zoomboxBackgroundColor: 'rgba(66,133,244,0.2)',     // background color of zoom box 
-        zoomboxBorderColor: '#48F',                         // border color of zoom box
-        zoomButtonText: 'Reset Zoom',                       // reset zoom button text
-        zoomButtonClass: 'reset-zoom',                      // reset zoom button class
-      },
-      callbacks: {
-        beforeZoom: () => function(start, end) {                  // called before zoom, return false to prevent zoom
-          return true;
+    type: 'line',
+    data: data,
+    options: {
+      // ... other options ...
+      plugins: {
+        tooltip: {
+          mode: 'interpolate',
+          intersect: false
         },
-        afterZoom: () => function(start, end) {                   // called after zoom
+        crosshair: {
+          line: {
+            color: '#F66',  // crosshair line color
+            width: 1// crosshair line width
+          },
+          sync: {
+            enabled: true,            // enable trace line syncing with other charts
+            group: 1,                 // chart group
+            suppressTooltips: false   // suppress tooltips when showing a synced tracer
+          },
+          zoom: {
+            enabled: true,                                      // enable zooming
+            zoomboxBackgroundColor: 'rgba(66,133,244,0.2)',     // background color of zoom box 
+            zoomboxBorderColor: '#48F',                         // border color of zoom box
+            zoomButtonText: 'Reset Zoom',                       // reset zoom button text
+            zoomButtonClass: 'reset-zoom',                      // reset zoom button class
+          },
+          callbacks: {
+            beforeZoom: () => function (start, end) {                  // called before zoom, return false to prevent zoom
+              return true;
+            },
+            afterZoom: () => function (start, end) {                   // called after zoom
+            }
+          }
         }
       }
     }
-  }
-}
-};
+  };
 
-resultChart = new Chart(
-  select('#myChart'),
-  config
-)
+  resultChart = new Chart(
+    select('#myChart'),
+    config
+  )
 }
 
