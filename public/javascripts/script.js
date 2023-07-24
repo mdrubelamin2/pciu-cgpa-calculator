@@ -50,6 +50,7 @@ const formSubEvent = async (e) => {
   renderStudentInfo()
   await getAndRenderAllTrimesterResults()
   await getAndRenderOnlineTrimesterResult()
+  console.log({ trimesterResultsArray })
   setLoadingBtn(false)
 }
 
@@ -118,7 +119,7 @@ const addResultTrToResultTable = trimesterResult => {
   setAttr(infoImg, 'src', './images/info.svg')
   setAttr(infoImg, 'class', 'info-img')
   addEvent(infoImg, 'click', () => perTrimResults(trimester))
-  const GPAText = currentGPA ? roundToTwoDecimal(currentGPA, true) : 'Incomplete'
+  const GPAText = currentGPA ? roundToTwoDecimal(currentGPA, true) : '0.00'
   setTextContent(tdGPAText, GPAText)
   appendChild(tdGPAWrp, tdGPAText)
   appendChild(tdGPAWrp, infoImg)
@@ -142,8 +143,7 @@ const getAverageCGPAandCredits = (resultData, toIndex) => {
     totalCreditHrs += trimesterResult.completedCreditHrs
   })
   totalCGPA = totalCGPA / totalCreditHrs
-  let totalAverageCGPA = roundToTwoDecimal(totalCGPA, true)
-  totalAverageCGPA = isNaN(totalAverageCGPA) ? 0 : totalAverageCGPA
+  let totalAverageCGPA = Number.isNaN(totalCGPA) ? 0 : roundToTwoDecimal(totalCGPA, true)
   return { totalCreditHrs, totalAverageCGPA }
 }
 
@@ -163,17 +163,16 @@ const formatSingleTrimesterResult = resultData => {
   resultData.forEach(course => {
     if (course.status === 'Improvement') return
     // check if the course is not incomplete to count the totalcredithours
-    if (course.status !== "Incomplete" && course.LetterGrade.trim() !== "I") {
-      totalCreditHrs += course.creditHr
-    }
+    if (course.status === "Incomplete" || course.LetterGrade.trim() === "I") return
     // check if the gradepoint is greater than 0 to count the completed credithours
+    totalCreditHrs += course.creditHr
     if (course.GradePoint > 0) {
       completedCreditHrs += course.creditHr
     }
   })
 
   const { GPA } = resultData[0]
-  const currentGPA = roundToTwoDecimal(GPA)
+  const currentGPA = GPA || 0
 
   // store the trimester result in local storage in a object
   const trimesterResult = {
@@ -343,7 +342,8 @@ const perTrimResults = (trimester) => {
 let resultChart
 
 const updateChart = () => {
-  const resultData = [...trimesterResultsArray].reverse()
+  const allResultData = [...trimesterResultsArray].reverse()
+  const resultData = allResultData.filter(result => result.currentGPA > 0)
   const trimesterTitles = resultData.map(result => result.trimester)
   const gpaValues = resultData.map(result => result.currentGPA)
   const cgpaValues = resultData.map((_, i) => getAverageCGPAandCredits(resultData, i).totalAverageCGPA)
