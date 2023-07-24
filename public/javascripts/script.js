@@ -50,7 +50,6 @@ const formSubEvent = async (e) => {
   renderStudentInfo()
   await getAndRenderAllTrimesterResults()
   await getAndRenderOnlineTrimesterResult()
-  console.log({ trimesterResultsArray })
   setLoadingBtn(false)
 }
 
@@ -345,7 +344,7 @@ const updateChart = () => {
   const allResultData = [...trimesterResultsArray].reverse()
   const resultData = allResultData.filter(result => result.currentGPA > 0)
   const trimesterTitles = resultData.map(result => result.trimester)
-  const gpaValues = resultData.map(result => result.currentGPA)
+  const gpaValues = resultData.map(result => roundToTwoDecimal(result.currentGPA))
   const cgpaValues = resultData.map((_, i) => getAverageCGPAandCredits(resultData, i).totalAverageCGPA)
   resultChart.data.labels = trimesterTitles
   resultChart.data.datasets[0].data = gpaValues
