@@ -8,8 +8,7 @@
     "build-parcel": "rm -rf dist && parcel build --no-source-maps frontend/index.htm && cp -r frontend/images dist/images",
     "build-critical": "critical frontend/index.html --base frontend --inline > frontend/index.htm",
     "build-terser": "node minify",
-    "build": "npm run build-critical && npm run build-parcel && npm run build-terser",
-    "postinstall": "npm run build && npm prune --production"
+    "build": "npm run build-critical && npm run build-parcel && npm run build-terser"
   },
   "nodemonConfig": {
     "ignore": [
