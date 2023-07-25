@@ -4,9 +4,9 @@ const indexRouter = require('./route')
 const app = express()
 
 const nodeEnv = (process.env.NODE_ENV).trim()
-const viewFolder = (nodeEnv === 'development') ? 'public' : 'dist'
+const viewFolder = (nodeEnv === 'development') ? 'frontend' : 'dist'
 
-app.use(express.static(path.join(__dirname, viewFolder)))
+app.use(express.static(path.join(__dirname, '../', viewFolder)))
 
 app.use('/', indexRouter)
 

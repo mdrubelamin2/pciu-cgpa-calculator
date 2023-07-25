@@ -3,17 +3,17 @@
   "version": "1.0",
   "private": false,
   "scripts": {
-    "start": "set NODE_ENV=production && npm run build && node ./bin/www",
-    "dev": "set NODE_ENV=development && nodemon ./bin/www",
-    "build-parcel": "rm -rf dist && parcel build --no-source-maps public/index.htm && cp -r public/images dist/images",
-    "build-critical": "critical public/index.html --base public --inline > public/index.htm",
+    "start": "set NODE_ENV=production && npm run build && node ./backend/server.js",
+    "dev": "set NODE_ENV=development && nodemon ./backend/server.js",
+    "build-parcel": "rm -rf dist && parcel build --no-source-maps frontend/index.htm && cp -r frontend/images dist/images",
+    "build-critical": "critical frontend/index.html --base frontend --inline > frontend/index.htm",
     "build-terser": "node minify",
     "build": "npm run build-critical && npm run build-parcel && npm run build-terser",
     "postinstall": "npm run build && npm prune --production"
   },
   "nodemonConfig": {
     "ignore": [
-      "public/*",
+      "frontend/*",
       "dist/*"
     ]
   },
