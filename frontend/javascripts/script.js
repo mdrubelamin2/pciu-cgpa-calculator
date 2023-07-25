@@ -20,6 +20,24 @@ const setClass = (elm, className, remove = 0) => {
   }
 }
 
+const showToast = (msg = '', type = 'error') => {
+  const toastConfig = {
+    text: msg,
+    gravity: 'bottom',
+    style: {
+      borderRadius: '8px',
+    }
+  }
+  if (type === 'success') {
+    toastConfig.style.background = '#00a3ff'
+    toastConfig.style.color = '#fff'
+  } else if (type === 'error') {
+    toastConfig.style.background = '#f44336'
+    toastConfig.style.color = '#fff'
+  }
+  Toastify(toastConfig).showToast();
+}
+
 // creates input mask for the id input by maska.js
 const idInputElm = select('.id-input')
 Maska.create(idInputElm, { mask: 'AAA ### #####' })
@@ -39,17 +57,40 @@ const formSubEvent = async (e) => {
 
   if (!studentId) return
 
-  setLoadingBtn(true)
+  const TOTAL_ID_LENGTH = 13 // ### ### ##### ex: CSE 019 06859
 
-  await getStudentInfo()
-  if (!studentInfo) return setLoadingBtn(false)
+  if (studentId.length < TOTAL_ID_LENGTH) {
+    showToast('Please check if the Student ID is valid')
+    return
+  }
+
+  const serverErrMsg = 'Looks like there are some problem with the PCIU server! Please try again later.'
+
+  setLoadingBtn(true)
+  try {
+    await getStudentInfo()
+  } catch (_) {
+    showToast(serverErrMsg)
+    setLoadingBtn(false)
+    return
+  }
+  if (!studentInfo) {
+    showToast('Student ID not found in the PCIU database')
+    setLoadingBtn(false)
+    return
+  }
   setClass(chartElm, 'show')
   resetOldSearchResult()
   removeBeforeSearchClasses()
   setValueToIdInputElm()
   renderStudentInfo()
-  await getAndRenderAllTrimesterResults()
-  await getAndRenderOnlineTrimesterResult()
+  try {
+    await getAllTrimesterList()
+    await getAndRenderAllTrimesterResults()
+    await getAndRenderOnlineTrimesterResult()
+  } catch (_) {
+    showToast(serverErrMsg)
+  }
   setLoadingBtn(false)
 }
 
@@ -63,10 +104,15 @@ let trimesterResultsArray = []
 
 const getStudentInfo = async () => {
   // Get the student's info
-  const url = `/get-student-info/${studentId}`
-  const response = await fetch(url)
-  const data = await response.json()
-  studentInfo = data.length > 0 ? data[0] : null
+  try {
+    const url = `/get-student-info/${studentId}`
+    const response = await fetch(url)
+    const data = await response.json()
+    studentInfo = data.length > 0 ? data[0] : null
+  } catch (_) {
+    Promise.reject()
+  }
+
   Promise.resolve(true)
 }
 
@@ -161,10 +207,10 @@ const formatSingleTrimesterResult = resultData => {
   let completedCreditHrs = 0
   resultData.forEach(course => {
     if (course.status === 'Improvement') return
-    // check if the course is not incomplete to count the totalcredithours
     if (course.status === "Incomplete" || course.LetterGrade.trim() === "I") return
-    // check if the gradepoint is greater than 0 to count the completed credithours
+    if (course.status === "Withdraw" || course.LetterGrade.trim() === "W") return
     totalCreditHrs += course.creditHr
+    // check if the gradepoint is greater than 0 to count the completed credithours
     if (course.GradePoint > 0) {
       completedCreditHrs += course.creditHr
     }
@@ -192,12 +238,14 @@ const getAllTrimesterList = async () => {
     const url = `/get-all-trimester-list`
     const response = await fetch(url)
     allTrimestersList = await response.json()
-  } catch (_) { console.log('failed to fetch the trimester list') }
+  } catch (_) {
+    return Promise.reject()
+  }
+
   Promise.resolve(true)
 }
 
 const getAndRenderAllTrimesterResults = async () => {
-  await getAllTrimesterList()
   const trimestersToFetch = allTrimestersList.slice(allTrimestersList.indexOf(studentInfo.studentSession))
   for (let i = 0; i < trimestersToFetch.length; i++) {
     const trimester = trimestersToFetch[i]
@@ -206,7 +254,9 @@ const getAndRenderAllTrimesterResults = async () => {
       const resp = await fetch(url)
       const data = await resp.json()
       handleResultData(data)
-    } catch (_) { console.log(`failed to fetch the result of ${trimester}`) }
+    } catch (_) {
+      return Promise.reject()
+    }
   }
 
   Promise.resolve(true)
@@ -237,7 +287,11 @@ const getAndRenderOnlineTrimesterResult = async () => {
     if (findTrimesterResult) return
 
     handleResultData(data)
-  } catch (_) { console.log('failed to fetch the online result') }
+  } catch (_) {
+    return Promise.reject()
+  }
+
+  Promise.resolve(true)
 }
 
 const resetOldSearchResult = () => {
