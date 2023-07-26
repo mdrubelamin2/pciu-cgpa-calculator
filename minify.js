@@ -8,7 +8,7 @@ function getAllFiles(dirPath, arrayOfFiles) {
 
   arrayOfFiles = arrayOfFiles || [];
 
-  files.forEach(function(file) {
+  files.forEach(function (file) {
     if (fs.statSync(dirPath + "/" + file).isDirectory()) {
       arrayOfFiles = getAllFiles(dirPath + "/" + file, arrayOfFiles);
     } else {
@@ -20,22 +20,29 @@ function getAllFiles(dirPath, arrayOfFiles) {
 }
 
 const terserConfig = {
-    module: {},
-    compress: true,
-    mangle: {},
-    output: {},
-    parse: {},
-    rename: {},
-  }
+  module: {},
+  compress: true,
+  mangle: {},
+  output: {},
+  parse: {},
+  rename: {},
+}
 
 async function minifyFiles(filePaths) {
-    await Promise.all(filePaths.map(async (filePath) => {
-        fs.writeFileSync(
-            filePath,
-            (await Terser.minify(fs.readFileSync(filePath, "utf8"), terserConfig)).code
-        );
-    }));
+  await Promise.all(filePaths.map(async (filePath) => {
+    fs.writeFileSync(
+      filePath,
+      (await Terser.minify(fs.readFileSync(filePath, "utf8"), terserConfig)).code
+    );
+  }));
 }
 
 const files = getAllFiles("./dist");
 minifyFiles(files).then(r => r);
+
+// create a file named build-hash.txt with a random hash number
+const hash = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+fs.writeFileSync("./build-hash.txt", hash);
+
+// rename the index.html from dist folder to index.hash.html
+fs.renameSync("./dist/index.html", `./dist/index.${hash}.html`);
