@@ -9,7 +9,7 @@
     "build-critical": "critical frontend/index.html --base frontend --inline > frontend/index.htm",
     "build-terser": "node minify",
     "build": "npm run build-critical && npm run build-parcel && npm run build-terser",
-    "postinstall": "npm run build && npm prune --production"
+    "vercel-build": "npm run build && npm prune --production"
   },
   "nodemonConfig": {
     "ignore": [
