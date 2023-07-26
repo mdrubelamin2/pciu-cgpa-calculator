@@ -2,7 +2,7 @@ import { lineChart, updateChart } from "./chart.js"
 import { addEvent, appendChild, createElm, fetchApi, getAverageCGPAandCredits, roundToTwoDecimal, select, setAttr, setClass, setInnerHTML, setTextContent, showToast } from "./helpers.js"
 import { perTrimResults } from "./modal.js"
 
-// declare variables
+// initially declare variables
 let studentId
 let studentInfo
 let allTrimestersList = []
