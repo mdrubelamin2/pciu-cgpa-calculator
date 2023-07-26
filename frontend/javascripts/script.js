@@ -1,61 +1,34 @@
-const select = selector => document.querySelector(selector)
+import { lineChart, updateChart } from "./chart.js"
+import { addEvent, appendChild, createElm, fetchApi, getAverageCGPAandCredits, roundToTwoDecimal, select, setAttr, setClass, setInnerHTML, setTextContent, showToast } from "./helpers.js"
+import { perTrimResults } from "./modal.js"
 
-const addEvent = (elm, eventType, cb) => { elm.addEventListener(eventType, cb) }
-
-const setInnerHTML = (elm, html) => { elm.innerHTML = html }
-
-const setTextContent = (elm, text) => { elm.textContent = text }
-
-const createElm = elmType => document.createElement(elmType)
-
-const appendChild = (parent, child) => { parent.appendChild(child) }
-
-const setAttr = (elm, attr, value) => { elm.setAttribute(attr, value) }
-
-const setClass = (elm, className, remove = 0) => {
-  if (remove) {
-    elm.classList.remove(className)
-  } else {
-    elm.classList.add(className)
-  }
-}
-
-const showToast = (msg = '', type = 'error') => {
-  const toastConfig = {
-    text: msg,
-    gravity: 'bottom',
-    style: {
-      borderRadius: '8px',
-    }
-  }
-  if (type === 'success') {
-    toastConfig.style.background = '#00a3ff'
-    toastConfig.style.color = '#fff'
-  } else if (type === 'error') {
-    toastConfig.style.background = '#f44336'
-    toastConfig.style.color = '#fff'
-  }
-  Toastify(toastConfig).showToast();
-}
-
-// creates input mask for the id input by maska.js
+// declare variables
+let studentId
+let studentInfo
+let allTrimestersList = []
+let trimesterResultsArray = []
 const idInputElm = select('.id-input')
-Maska.create(idInputElm, { mask: 'AAA ### #####' })
-
-// enable the search button when the window loading is complete
-addEvent(window, 'load', () => {
-  setLoadingBtn(false)
-  lineChart()
-})
-
+const formElm = select('.form-container')
 const chartElm = select('.my-chart')
+
+// do the initial tasks when the window loading is complete
+addEvent(window, 'load', () => {
+  // creates input mask for the id input by maska.js
+  Maska.create(idInputElm, { mask: 'AAA ### #####' })
+  // new MaskInput(idInputElm, {
+  //   mask: '@@@ ### #####', tokens: {
+  //     '@': { pattern: /[A-Z]/, transform: (char) => char.toUpperCase() }
+  //   }
+  // })
+  addEvent(formElm, 'submit', formSubEvent)
+  lineChart()
+  setLoadingBtn(false)
+})
 
 const formSubEvent = async (e) => {
   e.preventDefault()
   const idInpElm = select('.id-input')
   studentId = idInpElm.value
-
-  if (!studentId) return
 
   const TOTAL_ID_LENGTH = 13 // ### ### ##### ex: CSE 019 06859
 
@@ -64,16 +37,8 @@ const formSubEvent = async (e) => {
     return
   }
 
-  const serverErrMsg = 'Looks like there are some problem with the PCIU server! Please try again later.'
-
   setLoadingBtn(true)
-  try {
-    await getStudentInfo()
-  } catch (_) {
-    showToast(serverErrMsg)
-    setLoadingBtn(false)
-    return
-  }
+  await getStudentInfo()
   if (!studentInfo) {
     showToast('Student ID not found in the PCIU database')
     setLoadingBtn(false)
@@ -84,36 +49,18 @@ const formSubEvent = async (e) => {
   removeBeforeSearchClasses()
   setValueToIdInputElm()
   renderStudentInfo()
-  try {
-    await getAllTrimesterList()
-    await getAndRenderAllTrimesterResults()
-    await getAndRenderOnlineTrimesterResult()
-  } catch (_) {
-    showToast(serverErrMsg)
-  }
+  await getAllTrimesterList()
+  await getAndRenderAllTrimesterResults()
+  await getAndRenderOnlineTrimesterResult()
   setLoadingBtn(false)
 }
 
-const formElm = select('.form-container')
-addEvent(formElm, 'submit', formSubEvent)
-
-let studentId
-let studentInfo
-let allTrimestersList = []
-let trimesterResultsArray = []
-
 const getStudentInfo = async () => {
   // Get the student's info
-  try {
-    const url = `/get-student-info/${studentId}`
-    const response = await fetch(url)
-    const data = await response.json()
-    studentInfo = data.length > 0 ? data[0] : null
-  } catch (_) {
-    Promise.reject()
-  }
-
-  Promise.resolve(true)
+  const url = `/get-student-info/${studentId}`
+  const data = await fetchApi(url)
+  if (!data) return
+  studentInfo = data.length > 0 ? data[0] : null
 }
 
 const removeBeforeSearchClasses = () => {
@@ -123,8 +70,7 @@ const removeBeforeSearchClasses = () => {
 }
 
 const setValueToIdInputElm = () => {
-  const idInpElm = select('.id-input')
-  idInpElm.value = studentId
+  idInputElm.value = studentId
 }
 
 const renderStudentInfo = () => {
@@ -163,7 +109,11 @@ const addResultTrToResultTable = trimesterResult => {
   setAttr(tdGPAWrp, 'class', 'td-wrp')
   setAttr(infoImg, 'src', './images/info.svg')
   setAttr(infoImg, 'class', 'info-img')
-  addEvent(infoImg, 'click', () => perTrimResults(trimester))
+  addEvent(infoImg, 'click', () => {
+    const trimResult = trimesterResultsArray.find(result => result.trimester === trimester)
+    if (!trimResult) return
+    perTrimResults(trimResult)
+  })
   const GPAText = currentGPA ? roundToTwoDecimal(currentGPA, true) : '0.00'
   setTextContent(tdGPAText, GPAText)
   appendChild(tdGPAWrp, tdGPAText)
@@ -177,21 +127,6 @@ const addResultTrToResultTable = trimesterResult => {
   resultsTable.insertBefore(tr, resultsTable.firstChild)
 }
 
-const roundToTwoDecimal = (num, trailingZero = false) => trailingZero ? num.toFixed(2) : (Math.round(num * 100) / 100)
-
-const getAverageCGPAandCredits = (resultData, toIndex) => {
-  let totalCreditHrs = 0
-  let totalCGPA = 0
-  const allResults = toIndex !== undefined ? resultData.slice(0, toIndex + 1) : resultData
-  allResults.forEach(trimesterResult => {
-    totalCGPA += trimesterResult.currentGPA * trimesterResult.totalCreditHrs
-    totalCreditHrs += trimesterResult.completedCreditHrs
-  })
-  totalCGPA = totalCGPA / totalCreditHrs
-  let totalAverageCGPA = Number.isNaN(totalCGPA) ? 0 : roundToTwoDecimal(totalCGPA, true)
-  return { totalCreditHrs, totalAverageCGPA }
-}
-
 const calculateTotalCreditHrsAndGPA = () => {
   const totalCreditHrsElm = select('.total-credit-hrs')
   const totalGPAElm = select('.total-cgpa')
@@ -202,7 +137,6 @@ const calculateTotalCreditHrsAndGPA = () => {
 
 const formatSingleTrimesterResult = resultData => {
   const trimester = resultData[0].semester
-  // count all creditHrs, skip the credit if GradePoint is greater than 0
   let totalCreditHrs = 0
   let completedCreditHrs = 0
   resultData.forEach(course => {
@@ -232,34 +166,21 @@ const formatSingleTrimesterResult = resultData => {
 }
 
 const getAllTrimesterList = async () => {
-  if (allTrimestersList.length > 0) Promise.resolve(true)
-  try {
-    // get all trimester list
-    const url = `/get-all-trimester-list`
-    const response = await fetch(url)
-    allTrimestersList = await response.json()
-  } catch (_) {
-    return Promise.reject()
-  }
-
-  Promise.resolve(true)
+  if (allTrimestersList.length > 0) return
+  // get all trimester list
+  const url = `/get-all-trimester-list`
+  allTrimestersList = await fetchApi(url)
 }
 
 const getAndRenderAllTrimesterResults = async () => {
   const trimestersToFetch = allTrimestersList.slice(allTrimestersList.indexOf(studentInfo.studentSession))
   for (let i = 0; i < trimestersToFetch.length; i++) {
     const trimester = trimestersToFetch[i]
-    try {
-      const url = `/get-trimester-result/${studentId}/${trimester}`
-      const resp = await fetch(url)
-      const data = await resp.json()
-      handleResultData(data)
-    } catch (_) {
-      return Promise.reject()
-    }
+    const url = `/get-trimester-result/${studentId}/${trimester}`
+    const data = await fetchApi(url)
+    if (!data) return
+    handleResultData(data)
   }
-
-  Promise.resolve(true)
 }
 
 const handleResultData = data => {
@@ -271,27 +192,20 @@ const handleResultData = data => {
     addResultTrToResultTable(trimesterResult)
     // calculate the totalGPA
     calculateTotalCreditHrsAndGPA()
-    updateChart()
+    updateChart(trimesterResultsArray)
   }
 }
 
 const getAndRenderOnlineTrimesterResult = async () => {
-  try {
-    const url = `/get-online-result/${studentId}`
-    const resp = await fetch(url)
-    const data = await resp.json()
+  const url = `/get-online-result/${studentId}`
+  const resp = await fetch(url)
+  const data = await resp.json()
+  if (!data?.length) return
+  // find the trimester result in the all results array
+  const findTrimesterResult = trimesterResultsArray.find(trimesterResult => trimesterResult.trimester === data[0].semester)
+  if (findTrimesterResult) return
 
-    // find the trimester result in the array
-    if (data.length === 0) return
-    const findTrimesterResult = trimesterResultsArray.find(trimesterResult => trimesterResult.trimester === data[0].semester)
-    if (findTrimesterResult) return
-
-    handleResultData(data)
-  } catch (_) {
-    return Promise.reject()
-  }
-
-  Promise.resolve(true)
+  handleResultData(data)
 }
 
 const resetOldSearchResult = () => {
@@ -299,7 +213,7 @@ const resetOldSearchResult = () => {
   const resultsTable = select('.table tbody')
   setInnerHTML(resultsTable, '')
   calculateTotalCreditHrsAndGPA()
-  updateChart()
+  updateChart([])
 }
 
 const setLoadingBtn = status => {
@@ -314,158 +228,3 @@ const setLoadingBtn = status => {
 }
 
 // my code complete - rubel
-
-// modal code start - rahat
-
-const modal = select(".modal")
-const modalTitleElm = select(".title")
-const closeBtn = select("#closeBtn")
-
-const setModal = status => {
-  if (status) setClass(modal, 'show')
-  else setClass(modal, 'show', 1)
-}
-
-addEvent(modal, 'click', event => {
-  const isInsideModal = event.target.closest('.modal-container');
-  if (isInsideModal === null) closeBtn.click()
-})
-
-addEvent(closeBtn, 'click', () => setModal(false))
-
-const convertGradeToClassName = letter => {
-  const grade = letter.trim().toLowerCase()
-  const [_, stat] = grade
-
-  if (grade === '-') return 'i'
-  if (!stat) return grade
-  if (stat == "+") return grade.replace(stat, "-plus")
-  if (stat == "-") return grade.replace(stat, "-minus")
-}
-
-const perTrimResults = (trimester) => {
-  const modalContent = select(".modal-content")
-  setInnerHTML(modalContent, '')
-  setTextContent(modalTitleElm, `${trimester} Trimester Result`)
-
-  const trimResult = trimesterResultsArray.find(result => result.trimester === trimester)
-
-  if (!trimResult) return
-
-  const { individuals } = trimResult
-
-  const modalResultHtml = individuals.map((item, i) => `<div class="grid-container">
-<div class="grid-item item-no-one">
-  <div class="center">
-    <span class="serialNo">${i + 1}</span>
-  </div>
-</div>
-<div class="grid-item item-no-two">
-  <div class="courseName">${item.courseTitle} <span class="courseCode">${item.courseCode
-    }</span>
-  </div>
-</div>
-<div class="grid-item item-no-three">
-  <div class="leftBox">
-    <span>  <img class="svg" src="./images/grade.svg" alt=""> </span>
-    <span class="grade">Grade :</span>
-    <span class="gradePoint">${item.GradePoint}</span>
-    <span class="cgpaLetter ${convertGradeToClassName(item.LetterGrade)}">${item.LetterGrade}</span>
-  </div>
-  <div class="middleBox">
-    <span> <img  class="svg" src="./images/type.svg" alt=""> </span> 
-    <span class="type">Type :</span>
-    <span class="typeStatus">${item.status}</span>
-  </div>
-  <div class="rightBox">
-  <span>   <img  class="svg" src="./images/credit.svg" alt=""> </span>
-    <span class="credit">Credit :</span>
-    <span class="subCreditPoint">${item.creditHr}</span>
-  </div>
-</div>
-</div>`
-  ).join('')
-
-  setInnerHTML(modalContent, modalResultHtml);
-  setModal(true);
-};
-
-// line chart - rahad
-
-let resultChart
-
-const updateChart = () => {
-  const allResultData = [...trimesterResultsArray].reverse()
-  const resultData = allResultData.filter(result => result.currentGPA > 0)
-  const trimesterTitles = resultData.map(result => result.trimester)
-  const gpaValues = resultData.map(result => roundToTwoDecimal(result.currentGPA))
-  const cgpaValues = resultData.map((_, i) => getAverageCGPAandCredits(resultData, i).totalAverageCGPA)
-  resultChart.data.labels = trimesterTitles
-  resultChart.data.datasets[0].data = gpaValues
-  resultChart.data.datasets[1].data = cgpaValues
-  resultChart.update()
-}
-
-const lineChart = () => {
-  const data = {
-    labels: [],
-    datasets: [
-      {
-        label: 'SGPA ',
-        backgroundColor: '#00a3ff',
-        borderColor: '#00a3ff',
-        data: [],
-      },
-      {
-        label: 'CGPA ',
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgb(255, 99, 132)',
-        data: [],
-      },
-    ]
-  };
-  const config = {
-    type: 'line',
-    data: data,
-    options: {
-      // ... other options ...
-      plugins: {
-        tooltip: {
-          mode: 'interpolate',
-          intersect: false
-        },
-        crosshair: {
-          line: {
-            color: '#F66',  // crosshair line color
-            width: 1// crosshair line width
-          },
-          sync: {
-            enabled: true,            // enable trace line syncing with other charts
-            group: 1,                 // chart group
-            suppressTooltips: false   // suppress tooltips when showing a synced tracer
-          },
-          zoom: {
-            enabled: true,                                      // enable zooming
-            zoomboxBackgroundColor: 'rgba(66,133,244,0.2)',     // background color of zoom box 
-            zoomboxBorderColor: '#48F',                         // border color of zoom box
-            zoomButtonText: 'Reset Zoom',                       // reset zoom button text
-            zoomButtonClass: 'reset-zoom',                      // reset zoom button class
-          },
-          callbacks: {
-            beforeZoom: () => function (start, end) {                  // called before zoom, return false to prevent zoom
-              return true;
-            },
-            afterZoom: () => function (start, end) {                   // called after zoom
-            }
-          }
-        }
-      }
-    }
-  };
-
-  resultChart = new Chart(
-    select('#myChart'),
-    config
-  )
-}
-
