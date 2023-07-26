@@ -38,6 +38,17 @@ export const showToast = (msg = '', type = 'error') => {
     Toastify(toastConfig).showToast();
 }
 
+export const setLoadingBtn = status => {
+    const searchBtnElm = select('.search-btn')
+    if (status) {
+        setClass(searchBtnElm, 'loading')
+        setAttr(searchBtnElm, 'disabled', true)
+    } else {
+        setClass(searchBtnElm, 'loading', 1)
+        searchBtnElm.removeAttribute('disabled')
+    }
+}
+
 export const fetchApi = async (url, method = 'GET', data = {}) => {
     const serverErrMsg = 'Looks like there are some problem with the PCIU server! Please try again later.'
 
@@ -47,6 +58,7 @@ export const fetchApi = async (url, method = 'GET', data = {}) => {
         return data
     } catch (_) {
         showToast(serverErrMsg)
+        setLoadingBtn(false)
         return null
     }
 }

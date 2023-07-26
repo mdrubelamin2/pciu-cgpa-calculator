@@ -1,5 +1,5 @@
 import { lineChart, updateChart } from "./chart.js"
-import { addEvent, appendChild, createElm, fetchApi, getAverageCGPAandCredits, roundToTwoDecimal, select, setAttr, setClass, setInnerHTML, setTextContent, showToast } from "./helpers.js"
+import { addEvent, appendChild, createElm, fetchApi, getAverageCGPAandCredits, roundToTwoDecimal, select, setAttr, setClass, setInnerHTML, setLoadingBtn, setTextContent, showToast } from "./helpers.js"
 import { perTrimResults } from "./modal.js"
 
 // initially declare variables
@@ -215,17 +215,6 @@ const resetOldSearchResult = () => {
   setInnerHTML(resultsTable, '')
   calculateTotalCreditHrsAndGPA()
   updateChart([])
-}
-
-const setLoadingBtn = status => {
-  const searchBtnElm = select('.search-btn')
-  if (status) {
-    setClass(searchBtnElm, 'loading')
-    setAttr(searchBtnElm, 'disabled', true)
-  } else {
-    setClass(searchBtnElm, 'loading', 1)
-    searchBtnElm.removeAttribute('disabled')
-  }
 }
 
 // my code complete - rubel
