@@ -39,7 +39,8 @@ const formSubEvent = async (e) => {
 
   setLoadingBtn(true)
   await getStudentInfo()
-  if (!studentInfo) {
+  if (studentInfo === null) return
+  if (studentInfo === 'not-found') {
     showToast('Student ID not found in the PCIU database')
     setLoadingBtn(false)
     return
@@ -59,8 +60,8 @@ const getStudentInfo = async () => {
   // Get the student's info
   const url = `/get-student-info/${studentId}`
   const data = await fetchApi(url)
-  if (!data) return
-  studentInfo = data.length > 0 ? data[0] : null
+  if (!data) studentInfo = null
+  else studentInfo = Array.isArray(data) && data.length > 0 ? data[0] : 'not-found'
 }
 
 const removeBeforeSearchClasses = () => {
