@@ -16,8 +16,8 @@ if (fs.existsSync(hashPath)) {
 
 app.use(express.static(path.join(__dirname, '../', viewFolder), {
     index: [`index.${buildHash}.html`, 'index.html'],
-    ejs: false,
-    maxAge: 0
+    etag: false,
+    maxage: -1
 }))
 
 app.use('/', indexRouter)
