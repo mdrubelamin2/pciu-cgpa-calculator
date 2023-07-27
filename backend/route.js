@@ -3,24 +3,10 @@ const router = express.Router()
 const HTMLParser = require('node-html-parser')
 const axios = require('axios')
 const FormData = require('form-data')
-const fs = require('fs')
 
 const trimStr = (str) => {
   return str.replace(/[\n\r]+|[\s]{2,}/g, ' ').trim()
 }
-
-/* GET home page. */
-router.get('/', function (req, res, next) {
-  // get the build hash from the build-hash.txt file if exists
-  let buildHash = ''
-  const hashPath = __dirname + '/../build-hash.txt'
-  if (fs.existsSync(hashPath)) {
-    buildHash = fs.readFileSync(hashPath, 'utf8')
-  }
-  let viewFile = 'index.html'
-  if (buildHash) viewFile = `index.${buildHash}.html`
-  res.render(viewFile, { title: 'PCIU CGPA Calculator' });
-});
 
 router.get('/get-all-trimester-list', async (req, res, next) => {
   const url = 'http://119.18.149.45/PCIUStudentPortal/Student/TrimesterResult'
