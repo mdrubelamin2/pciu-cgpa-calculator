@@ -24,7 +24,6 @@
     "node-html-parser": "^5.3.3"
   },
   "devDependencies": {
-    "critical": "^4.0.1",
     "nodemon": "^2.0.20",
     "parcel": "^2.6.1",
     "terser": "^5.15.1"
