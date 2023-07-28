@@ -5,10 +5,9 @@
   "scripts": {
     "start": "set NODE_ENV=production && node ./backend/server.js",
     "dev": "set NODE_ENV=development && rm -rf ./build-hash.txt && nodemon ./backend/server.js",
-    "build-parcel": "rm -rf dist && parcel build --no-source-maps frontend/index.htm && cp -r frontend/images dist/images",
-    "build-critical": "critical frontend/index.html --base frontend --inline > frontend/index.htm",
+    "build-parcel": "rm -rf dist && parcel build --no-source-maps frontend/index.html && cp -r frontend/images dist/images",
     "build-terser": "node minify",
-    "build": "npm run build-critical && npm run build-parcel && npm run build-terser",
+    "build": "npm run build-parcel && npm run build-terser",
     "vercel-build": "npm run build && npm prune --production"
   },
   "nodemonConfig": {
