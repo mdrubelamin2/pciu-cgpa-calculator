@@ -42,9 +42,11 @@ export const setLoadingBtn = status => {
     const searchBtnElm = select('.search-btn')
     if (status) {
         setClass(searchBtnElm, 'loading')
+        setTextContent(searchBtnElm, 'Searching...')
         setAttr(searchBtnElm, 'disabled', true)
     } else {
         setClass(searchBtnElm, 'loading', 1)
+        setTextContent(searchBtnElm, 'Search')
         searchBtnElm.removeAttribute('disabled')
     }
 }
