@@ -1,5 +1,5 @@
-import { lineChart, updateChart } from "./chart.js"
 import { addEvent, appendChild, createElm, fetchApi, getAverageCGPAandCredits, roundToTwoDecimal, select, setAttr, setClass, setInnerHTML, setLoadingBtn, setTextContent, showToast } from "./helpers.js"
+import { lineChart, updateChart } from "./chart.js"
 import { perTrimResults } from "./modal.js"
 
 // initially declare variables
@@ -99,30 +99,36 @@ const addResultTrToResultTable = trimesterResult => {
   const tdTrimester = createElm('td')
   const tdTotalCredit = createElm('td')
   const tdGPA = createElm('td')
-  const tdGPAWrp = createElm('div')
-  const tdGPAText = document.createElement('span')
+  const tdDetails = createElm('td')
+  const detailsBtn = createElm('button')
+  const detailsBtnText = createElm('span')
   const infoImg = createElm('img')
+  const btnChildsWrp = createElm('div')
+  appendChild(btnChildsWrp, infoImg)
+  appendChild(btnChildsWrp, detailsBtnText)
+  appendChild(detailsBtn, btnChildsWrp)
+  appendChild(tdDetails, detailsBtn)
+  setTextContent(detailsBtnText, 'Details')
 
   const { trimester, totalCreditHrs, currentGPA } = trimesterResult
 
   setTextContent(tdTrimester, trimester)
   setTextContent(tdTotalCredit, totalCreditHrs)
-  setAttr(tdGPAWrp, 'class', 'td-wrp')
+  setAttr(detailsBtn, 'class', 'details-btn')
   setAttr(infoImg, 'src', './images/info.svg')
   setAttr(infoImg, 'class', 'info-img')
-  addEvent(infoImg, 'click', () => {
+  addEvent(detailsBtn, 'click', () => {
     const trimResult = trimesterResultsArray.find(result => result.trimester === trimester)
     if (!trimResult) return
     perTrimResults(trimResult)
   })
   const GPAText = currentGPA ? roundToTwoDecimal(currentGPA, true) : '0.00'
-  setTextContent(tdGPAText, GPAText)
-  appendChild(tdGPAWrp, tdGPAText)
-  appendChild(tdGPAWrp, infoImg)
-  appendChild(tdGPA, tdGPAWrp)
+  setTextContent(tdGPA, GPAText)
+
   appendChild(tr, tdTrimester)
   appendChild(tr, tdTotalCredit)
   appendChild(tr, tdGPA)
+  appendChild(tr, tdDetails)
 
   // add the tr to the table as first tr
   resultsTable.insertBefore(tr, resultsTable.firstChild)
