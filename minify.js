@@ -39,10 +39,3 @@ async function minifyFiles(filePaths) {
 
 const files = getAllFiles("./dist");
 minifyFiles(files).then(r => r);
-
-// create a file named build-hash.txt with a random hash number
-const hash = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-fs.writeFileSync("./build-hash.txt", hash);
-
-// rename the index.html from dist folder to index.hash.html
-fs.renameSync("./dist/index.html", `./dist/index.${hash}.html`);
