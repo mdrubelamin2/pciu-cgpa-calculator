@@ -7,18 +7,17 @@ const fs = require('fs')
 const nodeEnv = (process.env.NODE_ENV).trim()
 const viewFolder = (nodeEnv === 'development') ? 'frontend' : 'dist'
 
-// get the build hash from the build-hash.txt file if exists
-let buildHash = ''
-const hashPath = __dirname + '/../build-hash.txt'
-if (fs.existsSync(hashPath)) {
-    buildHash = fs.readFileSync(hashPath, 'utf8')
-}
-
 app.use(express.static(path.join(__dirname, '../', viewFolder), {
-    index: [`index.${buildHash}.html`, 'index.html'],
     etag: false,
-    maxage: -1,
-    maxAge: -1
+    setHeaders: (res, path) => {
+        if (express.static.mime.lookup(path) === 'text/html') {
+            // Skip cache on html to load new builds.
+            res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+            res.setHeader("Expires", "0");
+            res.header('Pragma', 'no-cache');
+            res.setHeader("Surrogate-Control", "no-store");
+        }
+    }
 }))
 
 app.use('/', indexRouter)
