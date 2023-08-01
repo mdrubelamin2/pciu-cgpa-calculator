@@ -1,4 +1,5 @@
 import React from "react";
+import StudentInfo from "./StudentInfo";
 
 const SearchID = () => {
   return (
@@ -6,7 +7,7 @@ const SearchID = () => {
       <div className="left-content">
         <form className="form-container">
           <div className="input-container">
-            <label for="id-input" className="input-label">
+            <label htmlFor="id-input" className="input-label">
               Enter Your ID
             </label>
             <input
@@ -26,33 +27,9 @@ const SearchID = () => {
             </div>
           </button>
         </form>
-        <div className="info-container">
-          <div className="info-item">
-            <span className="info-item-title">ID</span>
-            <span className="info-item-content student-id"></span>
-          </div>
-          <div className="info-item">
-            <span className="info-item-title">Name</span>
-            <span className="info-item-content student-name"></span>
-          </div>
-          <div className="info-item">
-            <span className="info-item-title">Program</span>
-            <span className="info-item-content student-program"></span>
-          </div>
-          <div className="info-item">
-            <span className="info-item-title">Batch</span>
-            <span className="info-item-content student-batch"></span>
-          </div>
-          <div className="info-item">
-            <span className="info-item-title">Shift</span>
-            <span className="info-item-content student-shift"></span>
-          </div>
-          <div className="info-item">
-            <span className="info-item-title">Session</span>
-            <span className="info-item-content student-session"></span>
-          </div>
-        </div>
-        <div className="cgpa-container">
+
+        {/* <StudentInfo /> */}
+        {/* <div className="cgpa-container">
           <div className="credit-item">
             <span className="credit-item-title">Total Credit</span>
             <span className="credit-item-content total-credit-hrs"></span>
@@ -61,7 +38,7 @@ const SearchID = () => {
             <span className="cgpa-item-title">CGPA</span>
             <span className="cgpa-item-content total-cgpa"></span>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

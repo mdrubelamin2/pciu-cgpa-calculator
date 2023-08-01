@@ -1,24 +1,31 @@
+import axios from "axios";
+import { parse } from "node-html-parser";
 import Chart from "./components/Chart";
 import DetailsModal from "./components/DetailsModal";
-import GpaHistory from "./components/GpaHistory";
 import SearchID from "./components/SearchID";
+import { currentPublishedResultSemester, trimestersList } from "./utils/helper";
 
-export default function Home() {
+export default async function Home() {
+  const getTrimestersList = await trimestersList();
+  console.log({ getTrimestersList });
+  const getCurPublishedResSemester = await currentPublishedResultSemester();
+  console.log({ getCurPublishedResSemester });
+
   return (
     <main>
       {/* <div className="before-search"> */}
-      <div>
+      <>
         <div className="main-container ">
           <Heading />
           <div className="content-container">
             <SearchID />
-            <GpaHistory />
+            {/* <GpaHistory /> */}
           </div>
 
           <Chart />
         </div>
         <DetailsModal />
-      </div>
+      </>
     </main>
   );
 }
