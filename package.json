@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@react-input/mask": "^1.0.14",
+    "chart.js": "^4.3.3",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.12",
     "jotai": "^2.2.3",
@@ -17,7 +18,7 @@
     "next": "13.4.12",
     "node-html-parser": "^6.1.5",
     "react": "18.2.0",
-    "react-charts": "^3.0.0-beta.55",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "18.2.0",
     "react-hot-toast": "^2.4.1",
     "swr": "^2.2.0",
