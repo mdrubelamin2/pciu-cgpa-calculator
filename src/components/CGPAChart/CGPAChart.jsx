@@ -4,7 +4,6 @@ import { $allResults } from "@/atoms/global"
 import { getAverageCGPAandCredits, roundToTwoDecimal } from "@/utils/helpers"
 import { CategoryScale, Chart as ChartJS, Legend, LinearScale, LineElement, PointElement, Title, Tooltip } from 'chart.js'
 import { useAtomValue } from "jotai"
-import { useMemo } from "react"
 import { Line } from 'react-chartjs-2'
 import styles from './style.module.css'
 
@@ -62,18 +61,14 @@ const config = {
 
 export default function CGPAChart() {
     const allResults = useAtomValue($allResults)
-
-    const chartOptions = useMemo(
-        () => generateChartData(allResults),
-        [allResults]
-    )
+    const chartData = generateChartData(allResults)
 
     if (!allResults.length) return null
 
     return (
         <div className={styles.chartContainer}>
             <div className={styles.chartBox}>
-                <Line options={config} data={chartOptions} />
+                <Line options={config} data={chartData} />
             </div>
         </div>
     )

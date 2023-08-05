@@ -3,17 +3,17 @@
 import { $allResults, $studentInfo } from '@/atoms/global'
 import { fetcher, getOnlineResult, getStudentInfo, getTrimesterList, getTrimesterResult, isObjectEmpty, showToast } from '@/utils/helpers'
 import { InputMask } from '@react-input/mask'
-import { useAtom, useSetAtom } from 'jotai'
+import { useSetAtom } from 'jotai'
 import { useState } from 'react'
-import styles from './style.module.css'
 import useSWR from 'swr'
+import styles from './style.module.css'
 
 export default function StudentIdForm() {
     const [studentId, setStudentId] = useState('')
     const setStudentInfo = useSetAtom($studentInfo)
     const setAllResults = useSetAtom($allResults)
     const [isLoading, setIsLoading] = useState(false)
-    const { data: allTrimesters } = useSWR(`/api/trimesters`, fetcher)
+    const { data: allTrimesters } = useSWR(`/api/trimesters`, fetcher, { revalidateOnFocus: false })
 
     const handleStudentId = e => { setStudentId(e.target.value.toUpperCase()) }
 
@@ -56,12 +56,12 @@ export default function StudentIdForm() {
             <button className={`${styles.searchBtn} ${isLoading && styles.loading}`} type="submit" disabled={isLoading}>
                 {!isLoading && 'Search'}
                 {isLoading && 'Searching...'}
-                <div className={styles.ldsRing}>
+                {/* <div className={styles.ldsRing}>
                     <div></div>
                     <div></div>
                     <div></div>
                     <div></div>
-                </div>
+                </div> */}
             </button>
         </form >
     )
