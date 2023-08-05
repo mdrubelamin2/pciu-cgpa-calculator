@@ -1,7 +1,7 @@
 'use client'
 
-import { $allResults } from "@/atoms/global"
-import { getAverageCGPAandCredits, roundToTwoDecimal } from "@/utils/helpers"
+import { $allResults, $studentInfo } from "@/atoms/global"
+import { getAverageCGPAandCredits, isObjectEmpty, roundToTwoDecimal } from "@/utils/helpers"
 import { CategoryScale, Chart as ChartJS, Legend, LinearScale, LineElement, PointElement, Title, Tooltip } from 'chart.js'
 import { useAtomValue } from "jotai"
 import { Line } from 'react-chartjs-2'
@@ -61,9 +61,10 @@ const config = {
 
 export default function CGPAChart() {
     const allResults = useAtomValue($allResults)
+    const studentInfo = useAtomValue($studentInfo)
     const chartData = generateChartData(allResults)
 
-    if (!allResults.length) return null
+    if (isObjectEmpty(studentInfo)) return null
 
     return (
         <div className={styles.chartContainer}>

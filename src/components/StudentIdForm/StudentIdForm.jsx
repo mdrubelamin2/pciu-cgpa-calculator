@@ -1,6 +1,6 @@
 'use client'
 
-import { $allResults, $studentInfo } from '@/atoms/global'
+import { $allResults, $editMode, $studentInfo } from '@/atoms/global'
 import { fetcher, getOnlineResult, getStudentInfo, getTrimesterList, getTrimesterResult, isObjectEmpty, showToast } from '@/utils/helpers'
 import { InputMask } from '@react-input/mask'
 import { useSetAtom } from 'jotai'
@@ -12,6 +12,7 @@ export default function StudentIdForm() {
     const [studentId, setStudentId] = useState('')
     const setStudentInfo = useSetAtom($studentInfo)
     const setAllResults = useSetAtom($allResults)
+    const setEditMode = useSetAtom($editMode)
     const [isLoading, setIsLoading] = useState(false)
     const { data: allTrimesters } = useSWR(`/api/trimesters`, fetcher, { revalidateOnFocus: false })
 
@@ -35,6 +36,7 @@ export default function StudentIdForm() {
         const bodyElm = document.querySelector('body')
         bodyElm.classList.remove('before-search')
         setStudentInfo(studentData)
+        setEditMode(false)
         setAllResults([])
         const studentTrimesters = allTrimesters.slice(allTrimesters.indexOf(studentData.studentSession))
         for (let i = 0; i < studentTrimesters.length; i++) {

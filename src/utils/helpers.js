@@ -18,15 +18,21 @@ export const getTrimesterResult = (studentId, trimester) => fetcher(`/api/trimes
 
 export const getOnlineResult = studentId => fetcher(`/api/online-result/${studentId}`)
 
+export const checkIfImprovement = course => course.status === 'Improvement'
+
+export const checkIfIncomplete = course => course.status === 'Incomplete' || trimStr(course.LetterGrade) === 'I'
+
+export const checkIfWithdraw = course => course.status === 'Withdraw' || trimStr(course.LetterGrade) === 'W'
+
 export const handleResultData = resultData => {
     if (!resultData.length) return {}
     const trimester = resultData[0].semester
     let totalCreditHrs = 0
     let completedCreditHrs = 0
     resultData.forEach(course => {
-        if (course.status === 'Improvement') return
-        if (course.status === "Incomplete" || course.LetterGrade.trim() === "I") return
-        if (course.status === "Withdraw" || course.LetterGrade.trim() === "W") return
+        if (checkIfImprovement(course)) return
+        if (checkIfIncomplete(course)) return
+        if (checkIfWithdraw(course)) return
         totalCreditHrs += course.creditHr
         // check if the gradepoint is greater than 0 to count the completed credithours
         if (course.GradePoint > 0) {
@@ -48,6 +54,8 @@ export const handleResultData = resultData => {
 
     return trimesterResult
 }
+
+export const generateCurrentGPA = currentTrimester => currentTrimester.individuals.reduce((acc, curr) => acc + curr.GradePoint * curr.creditHr, 0) / currentTrimester.completedCreditHrs
 
 export const getAverageCGPAandCredits = (resultData, toIndex) => {
     let totalCreditHrs = 0

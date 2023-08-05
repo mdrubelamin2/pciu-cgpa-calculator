@@ -1,7 +1,8 @@
 'use client'
 
-import { $modal } from "@/atoms/global"
-import { useAtom } from "jotai"
+import { $allResults, $editMode, $modal } from "@/atoms/global"
+import { checkIfImprovement, generateCurrentGPA, handleResultData, trimStr } from "@/utils/helpers"
+import { useAtom, useAtomValue, useSetAtom } from "jotai"
 import Image from "next/image"
 import styles from './style.module.css'
 
@@ -17,6 +18,8 @@ const convertGradeToClassName = letter => {
 
 export default function ResultModal() {
     const [modal, setModal] = useAtom($modal)
+    const editMode = useAtomValue($editMode)
+    const [allResults, setAllResults] = useAtom($allResults)
     const { show, data: trimesterResult } = modal
 
     const closeModal = () => setModal({ show: false, data: {} })
@@ -25,6 +28,54 @@ export default function ResultModal() {
         e.stopPropagation()
         // check if the click is outside the modalContainer which is the modal itself
         if (e.target.classList.contains(styles.modal)) closeModal()
+    }
+
+    const grades = [
+        { letter: 'A+', point: 4.0 },
+        { letter: 'A', point: 3.75 },
+        { letter: 'A-', point: 3.50 },
+        { letter: 'B+', point: 3.25 },
+        { letter: 'B', point: 3.00 },
+        { letter: 'B-', point: 2.75 },
+        { letter: 'C+', point: 2.50 },
+        { letter: 'C', point: 2.25 },
+        { letter: 'D', point: 2.00 },
+        { letter: 'F', point: 0.00 },
+        { letter: 'I', point: 0.00 },
+        { letter: 'W', point: 0.00 },
+    ]
+
+    const handleGradeChange = trimesterData => e => {
+        const newTrimesterResult = structuredClone(trimesterResult)
+        const { value: letterGrade } = e.target
+        const grade = grades.find(grade => grade.letter === letterGrade)
+        const courseIndex = newTrimesterResult.individuals.findIndex(item => item.courseCode === trimesterData.courseCode)
+        newTrimesterResult.individuals[courseIndex].LetterGrade = grade.letter
+        newTrimesterResult.individuals[courseIndex].GradePoint = grade.point
+        setAllResults(prev => {
+            const newAllResults = structuredClone(prev)
+            const trimesterIndex = prev.findIndex(item => item.trimester === trimesterResult.trimester)
+            const { individuals } = newTrimesterResult
+            const newResultData = handleResultData(individuals)
+            newResultData.currentGPA = generateCurrentGPA(newResultData)
+            newAllResults[trimesterIndex] = newResultData
+            return newAllResults
+        })
+        setModal(prev => {
+            const newModal = { ...prev }
+            newModal.data = newTrimesterResult
+            return newModal
+        })
+    }
+
+    const checkIfGradeEdittable = (courseCode) => {
+        const reversedResults = [...allResults].reverse()
+        const resultIndx = reversedResults.findIndex(trimester => trimester.trimester === trimesterResult.trimester)
+        const remainingResults = reversedResults.slice(resultIndx + 1)
+        const courseExists = remainingResults.some(trimester => trimester.individuals.some(item => item.courseCode === courseCode && !checkIfImprovement(item)))
+        // check if the course is not improvement course
+        const isImprovementCourse = trimesterResult.individuals.some(item => item.courseCode === courseCode && checkIfImprovement(item))
+        return !courseExists && !isImprovementCourse
     }
 
     if (!show) return null
@@ -58,7 +109,15 @@ export default function ResultModal() {
                                     </span>
                                     <span className={styles.grade}>Grade: </span>
                                     <span className={styles.gradePoint}>{item.GradePoint}</span>
-                                    <span className={`${styles.cgpaLetter} ${styles[convertGradeToClassName(item.LetterGrade)]}`}>{item.LetterGrade}</span>
+                                    {editMode && checkIfGradeEdittable(item.courseCode) ? (
+                                        <select className={styles.gradeSelect} onChange={handleGradeChange(item)} value={trimStr(item.LetterGrade)}>
+                                            {grades.map((grade, indx) => (
+                                                <option key={indx} value={grade.letter}>{grade.letter}</option>
+                                            ))}
+                                        </select>
+                                    ) : (
+                                        <span className={`${styles.cgpaLetter} ${styles[convertGradeToClassName(item.LetterGrade)]}`}>{item.LetterGrade}</span>
+                                    )}
                                 </div>
                                 <div className={styles.middleBox}>
                                     <span>

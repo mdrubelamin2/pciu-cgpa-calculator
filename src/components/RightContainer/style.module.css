@@ -2,6 +2,17 @@
     width: 55%;
 }
 
+.headerWrp {
+    display: flex;
+    justify-content: space-between;
+}
+
+.leftHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 @media all and (min-width: 480px) and (max-width: 768px) {
     .rightContainer {
         width: 100%;

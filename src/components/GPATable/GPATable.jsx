@@ -1,6 +1,6 @@
 'use client'
 
-import { $allResults, $modal } from '@/atoms/global'
+import { $allResults, $editMode, $modal } from '@/atoms/global'
 import { roundToTwoDecimal } from '@/utils/helpers'
 import { useAtomValue, useSetAtom } from 'jotai'
 import Image from 'next/image'
@@ -8,8 +8,11 @@ import styles from './style.module.css'
 
 export default function GPATable() {
     const allResults = useAtomValue($allResults)
+    console.log({ allResults })
+    const editMode = useAtomValue($editMode)
     const setModal = useSetAtom($modal)
     const showModal = (trimesterResult) => () => setModal({ show: true, data: trimesterResult })
+
     return (
         <div className={styles.tableContainer}>
             <table className={styles.table}>
