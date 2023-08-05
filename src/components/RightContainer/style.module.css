@@ -1,0 +1,23 @@
+.rightContainer {
+    width: 55%;
+}
+
+@media all and (min-width: 480px) and (max-width: 768px) {
+    .rightContainer {
+        width: 100%;
+    }
+}
+
+@media all and (max-width: 480px) {
+    .rightContainer {
+        width: auto;
+    }
+}
+
+.rightContainerTitle {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 21px;
+    color: rgb(67, 67, 67);
+    padding-left: 2px;
+}

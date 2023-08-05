@@ -1,0 +1,97 @@
+.inputLabel {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    color: rgb(67, 67, 67);
+}
+
+.idInput {
+    background: rgb(237, 237, 237);
+    border: 1px solid rgb(225, 225, 225);
+    border-radius: 10px;
+    height: 40px;
+    width: 100%;
+    padding: 10px;
+    font-size: 12px;
+    margin-top: 2px;
+}
+
+.searchBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 17px;
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid var(--primary-3);
+    background: var(--primary-2);
+    font-weight: 600;
+    color: var(--bg);
+    text-shadow: rgba(0, 0, 0, 0.25) 0px 1px 0.5px;
+    font-size: 14px;
+    line-height: 24px;
+    cursor: pointer;
+}
+
+.searchBtn:hover {
+    background: var(--primary-1);
+}
+
+.searchBtn:active {
+    background: var(--primary-3);
+}
+
+.searchBtn:focus {
+    outline: none;
+}
+
+.searchBtn:disabled {
+    background: var(--bg-3);
+    border: 1px solid var(--bg-4);
+    cursor: not-allowed;
+    color: var(--txt-4);
+}
+
+/* loading css */
+.searchBtn.loading .ldsRing {
+    display: inline-block;
+    position: relative;
+    width: 20px;
+    height: 20px;
+}
+
+.searchBtn.loading .ldsRing div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    animation: ldsRing 1s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: #fff transparent transparent transparent;
+}
+
+.ldsRing div:nth-child(1) {
+    animation-delay: -0.4s;
+}
+
+.ldsRing div:nth-child(2) {
+    animation-delay: -0.25s;
+}
+
+.ldsRing div:nth-child(3) {
+    animation-delay: -0.1s;
+}
+
+@keyframes ldsRing {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

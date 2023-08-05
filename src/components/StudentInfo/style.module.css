@@ -1,0 +1,24 @@
+.infoContainer {
+    margin-top: 25px;
+    border: 1px solid rgb(239, 239, 239);
+    border-radius: 10px;
+    padding: 15px 20px;
+}
+
+.infoItem {
+    display: flex;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.infoItemTitle {
+    width: 40%;
+    font-weight: 500;
+    line-height: 18px;
+    color: rgb(111, 111, 111);
+}
+
+.infoItemContent {
+    font-weight: 500;
+    color: rgb(53, 53, 53);
+}

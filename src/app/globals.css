@@ -1,0 +1,121 @@
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0px;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: background-color 600000s 0s, color 600000s 0s;
+}
+
+input[data-autocompleted] {
+  background-color: transparent !important;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+#root,
+#__next {
+  isolation: isolate;
+}
+
+html {
+  height: 100%;
+}
+
+:root {
+  --bg: #fff;
+  --bg-1: #fefefe;
+  --bg-2: #f4f4f4;
+  --bg-3: #eaeaea;
+  --bg-4: #dfdfdf;
+  --bg-5: #d5d5d5;
+  --bg-6: #cbcbcb;
+  --bg-7: #c1c1c1;
+  --bg-8: #a2a2a2;
+
+  --primary-0: #6baeff;
+  --primary-1: #479aff;
+  --primary-2: #0073ff;
+  --primary-3: #0063db;
+  --primary-4: #0053b8;
+
+  --txt-0: #a6a6a6;
+  --txt-1: #929292;
+  --txt-2: #7e7e7e;
+  --txt-3: #696969;
+  --txt-4: #555555;
+  --txt-5: #2c2c2c;
+  --txt-6: #181818;
+  --txt-7: #030303;
+  --txt-8: #000000;
+
+  --shadow: #b9b9b9;
+}
+
+body {
+  width: 100%;
+  /* For browsers that don't support CSS variables */
+  min-height: 100vh;
+  /* This is the "polyfill" */
+  min-height: calc(var(--1dvh, 1vh) * 100);
+  /* This is for future browsers that support svh, dvh and lvh viewport units */
+  min-height: 100dvh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  background-color: var(--bg-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media all and (min-width: 768px) and (max-width: 1024px) {
+  body {
+    padding: 30px;
+  }
+}
+
+@media all and (min-width: 480px) and (max-width: 768px) {
+  body {
+    padding: 30px;
+  }
+
+  body:not(.before-search) {
+    display: block;
+  }
+}
+
+@media all and (max-width: 480px) {
+  body:not(.before-search) {
+    display: block;
+  }
+}

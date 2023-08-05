@@ -1,0 +1,26 @@
+{
+  "name": "pciu-cgpa-calculator-next13",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@react-input/mask": "^1.0.14",
+    "eslint": "8.46.0",
+    "eslint-config-next": "13.4.12",
+    "jotai": "^2.2.3",
+    "large-small-dynamic-viewport-units-polyfill": "^0.1.1",
+    "next": "13.4.12",
+    "node-html-parser": "^6.1.5",
+    "react": "18.2.0",
+    "react-charts": "^3.0.0-beta.55",
+    "react-dom": "18.2.0",
+    "react-hot-toast": "^2.4.1",
+    "swr": "^2.2.0",
+    "toastify-js": "^1.12.0"
+  }
+}

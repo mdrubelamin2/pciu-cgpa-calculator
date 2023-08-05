@@ -1,0 +1,44 @@
+.cgpaContainer {
+    margin-top: 20px;
+    background: rgb(248, 248, 248);
+    border-radius: 10px;
+    padding: 15px 20px;
+}
+
+.creditItem {
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 22px;
+    display: flex;
+    align-items: center;
+}
+
+.creditItemTitle {
+    color: rgb(111, 111, 111);
+    width: 50%;
+}
+
+.creditItemContent {
+    color: rgb(53, 53, 53);
+}
+
+.cgpaItem {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.cgpaItemTitle {
+    font-size: 20px;
+    line-height: 30px;
+    font-weight: 600;
+    color: rgb(111, 111, 111);
+    width: 50%;
+}
+
+.cgpaItemContent {
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 48px;
+    color: rgb(53, 53, 53);
+}

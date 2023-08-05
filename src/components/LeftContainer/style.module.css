@@ -1,0 +1,19 @@
+.leftContent {
+    width: 40%;
+}
+
+.leftContent.beforeSearch {
+    width: 100%;
+}
+
+@media all and (min-width: 480px) and (max-width: 768px) {
+    .leftContent {
+        width: 100%;
+    }
+}
+
+@media all and (max-width: 480px) {
+    .leftContent {
+        width: initial;
+    }
+}

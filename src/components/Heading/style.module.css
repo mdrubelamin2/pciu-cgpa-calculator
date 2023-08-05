@@ -1,0 +1,14 @@
+.headerTitle {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 27px;
+    color: rgb(53, 53, 53);
+}
+
+.headerSubtitle {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 21px;
+    margin: 0;
+    color: var(--txt-3);
+}

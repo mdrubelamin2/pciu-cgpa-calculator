@@ -1,0 +1,406 @@
+/* modal */
+.heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 600;
+    width: fit-content;
+    float: left;
+}
+
+.modal {
+    position: fixed;
+    overflow: auto;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex !important;
+    flex-direction: column;
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+/*Hide modal's scrollbar for Chrome, Safari and Opera */
+.modal::-webkit-scrollbar {
+    display: none;
+}
+
+.modalContainer {
+    overflow-x: auto;
+    background-color: #ffffff;
+    width: fit-content;
+    padding: 30px;
+    max-height: 90%;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.modalContainer::-webkit-scrollbar {
+    display: none;
+}
+
+.modalContent {
+    background-color: #ffffff;
+    height: fit-content;
+    margin-top: 15px;
+}
+
+.gridContainer {
+    width: fit-content;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    margin-top: 25px;
+    max-height: 45px;
+}
+
+.gridContainer:first-of-type {
+    margin-top: 0;
+}
+
+.gridItem {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.itemNoOne {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    margin-right: 10px;
+}
+
+.itemNoTwo {
+    display: inline-block;
+    width: fit-content;
+    font-size: 14px;
+    font-weight: 500;
+    color: #2b2b2b;
+    margin-left: 2px;
+}
+
+.itemNoThree {
+    grid-row: 2;
+    width: 420px;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    margin-top: 3px;
+}
+
+.center {
+    width: 45px;
+    height: 45px;
+    border-radius: 50px;
+    font-size: 18px;
+    line-height: 45px;
+    text-align: center;
+    background: #ededed;
+}
+
+.serialNo {
+    color: #505050;
+    font-weight: 600;
+}
+
+.grade {
+    color: #2b2b2b;
+    font-weight: 500;
+    margin-left: 3px;
+    margin-right: 5px;
+}
+
+.credit {
+    color: #2b2b2b;
+    font-weight: 500;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.type {
+    color: #2b2b2b;
+    font-weight: 500;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.courseName {
+    margin-right: 8px;
+}
+
+.courseCode {
+    padding: 0px 8px 0px 8px;
+    border-radius: 4px;
+    background-color: #ebebeb;
+    margin-left: 5px;
+    font-size: 12px;
+}
+
+.leftBox {
+    display: flex;
+    width: 40%;
+    align-items: center;
+}
+
+.middleBox {
+    display: flex;
+    width: 40%;
+    align-items: center;
+}
+
+.rightBox {
+    display: flex;
+    align-items: center;
+    width: 20%;
+}
+
+.cgpaLetter {
+    text-align: center;
+    border-radius: 10px;
+    font-weight: 500;
+    margin-left: 5px;
+    padding: 0 6px;
+    display: inline-block;
+}
+
+.gradePoint {
+    color: #4f4f4f;
+    font-weight: 500;
+}
+
+.typeStatus {
+    color: #4f4f4f;
+    font-weight: 500;
+}
+
+.subCreditPoint {
+    color: #4f4f4f;
+    font-weight: 500;
+}
+
+.modalBtn {
+    background-color: transparent;
+    color: grey;
+    width: 30px;
+    height: 30px;
+    border: none;
+    filter: invert(27%) sepia(51%) saturate(0%) hue-rotate(346deg) brightness(104%) contrast(97%);
+    cursor: pointer;
+}
+
+.modalBtn:hover,
+.modalBtn:focus {
+    filter: invert(27%) sepia(51%) saturate(8%) hue-rotate(346deg) brightness(104%) contrast(97%);
+}
+
+.activeModal {
+    width: 15px;
+}
+
+.btnTd {
+    text-align: left;
+}
+
+.hidden {
+    display: none;
+}
+
+.a {
+    background-color: #cbffbe;
+    color: #344a05;
+}
+
+.aPlus {
+    background-color: #fff9be;
+    color: #665000;
+}
+
+.aMinus {
+    background-color: #beffff;
+    color: #054a3e;
+}
+
+.b {
+    background-color: #d3beff;
+    color: #1b0066;
+}
+
+.bPlus {
+    background-color: #beccff;
+    color: #05184a;
+}
+
+.bMinus {
+    background-color: #eebeff;
+    color: #41054a;
+}
+
+.c {
+    background-color: #ffd9be;
+    color: #4a1505;
+}
+
+.cPlus {
+    background-color: #ffbef1;
+    color: #4a0543;
+}
+
+.d {
+    background-color: #ffbebe;
+    color: #4a0505;
+}
+
+.f {
+    background-color: #ffbebe;
+    color: #4a0505;
+}
+
+.i {
+    background-color: #dfdfdf;
+    color: #3c3c3c;
+}
+
+.w {
+    background-color: #dfdfdf;
+    color: #3c3c3c;
+}
+
+.closeBtn {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.closeBtn:hover,
+.closebtn:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+@media all and (min-width: 480px) and (max-width: 768px) {
+    .heading {
+        overflow: hidden;
+        background-color: white;
+        position: sticky;
+        top: 0;
+        padding: 10px 0px 0px 10px;
+
+    }
+
+    .modalContainer {
+        background-color: #ffffff;
+        width: auto;
+        max-height: 90%;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        margin-left: 5%;
+        margin-right: 5%;
+        overflow: auto;
+    }
+
+
+    .serialNo {
+        color: #505050;
+        font-weight: 600;
+    }
+
+    .itemNoOne {
+        margin-right: 3px;
+    }
+
+    .itemNoTwo {
+        font-size: 14px;
+    }
+
+    .itemNoThree {
+        min-width: 350px;
+        width: auto;
+        font-size: 12px;
+    }
+
+    .leftBox {
+        min-width: 36%;
+    }
+
+    .middleBox {
+        min-width: 36%;
+    }
+
+    .rightBox {
+        width: 28%;
+    }
+}
+
+@media all and (max-width: 480px) {
+    .title {
+        font-size: 18px;
+    }
+
+    .heading {
+        overflow: hidden;
+        background-color: white;
+        position: sticky;
+        top: 0;
+        padding: 10px 0px 0px 10px;
+
+    }
+
+    .modalContainer {
+        background-color: #ffffff;
+        min-width: 340px;
+        max-height: 90%;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        margin-left: 10px;
+        margin-right: 10px;
+        overflow: auto;
+        padding: 0px 10px 30px 10px;
+    }
+
+    .itemNoOne {
+        margin-right: 3px;
+    }
+
+    .itemNoTwo {
+        font-size: 12px;
+    }
+
+    .itemNoThree {
+        width: 300px;
+        font-size: 10px;
+    }
+
+    .leftBox {
+        width: 36%;
+    }
+
+    .middleBox {
+        width: 34%;
+    }
+
+    .rightBox {
+        width: 28%;
+    }
+
+    .svg {
+        font-size: 10px;
+        width: 10px;
+        height: 10px;
+    }
+}
