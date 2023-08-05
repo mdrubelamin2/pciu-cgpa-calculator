@@ -8,7 +8,6 @@ import styles from './style.module.css'
 
 export default function GPATable() {
     const allResults = useAtomValue($allResults)
-    console.log({ allResults })
     const editMode = useAtomValue($editMode)
     const setModal = useSetAtom($modal)
     const showModal = (trimesterResult) => () => setModal({ show: true, data: trimesterResult })
@@ -32,8 +31,18 @@ export default function GPATable() {
                             <td>{currentGPA ? roundToTwoDecimal(currentGPA, true) : '0.00'}</td>
                             <td>
                                 <button className={styles.detailsBtn} onClick={showModal(allResults[indx])}>
-                                    <Image src="/images/info.svg" className="info-img" width={13} height={13} alt="Info" />
-                                    <span>Details</span>
+                                    {editMode && (
+                                        <>
+                                            <Image src="/images/edit.svg" className="edit-img" width={13} height={13} alt="Edit" />
+                                            <span>Edit</span>
+                                        </>
+                                    )}
+                                    {!editMode && (
+                                        <>
+                                            <Image src="/images/info.svg" className="info-img" width={13} height={13} alt="Info" />
+                                            <span>Details</span>
+                                        </>
+                                    )}
                                 </button>
                             </td>
                         </tr>
