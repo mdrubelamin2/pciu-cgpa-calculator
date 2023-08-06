@@ -101,7 +101,7 @@ export default function ResultModal() {
                                 <div className={styles.courseName}>{item.courseTitle} <span className={styles.courseCode}>{item.courseCode}</span>
                                 </div>
                             </div>
-                            <div className={`${styles.gridItem} ${styles.itemNoThree}`}>
+                            <div className={`${styles.gridItem} ${styles.itemNoThree}`} style={{ gridTemplateColumns: editMode ? '4fr 3fr 2fr' : '3fr 3fr 3fr' }}>
                                 <div className={styles.leftBox}>
                                     <Image className={styles.svg} src="/images/grade.svg" alt="" width={17} height={17} />
                                     <span className={styles.grade}>Grade: </span>
