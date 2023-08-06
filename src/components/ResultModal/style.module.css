@@ -120,8 +120,6 @@
 .grade {
     color: #2b2b2b;
     font-weight: 500;
-    margin-left: 3px;
-    margin-right: 5px;
 }
 
 .credit {
@@ -154,6 +152,7 @@
     display: flex;
     width: 40%;
     align-items: center;
+    gap: 4px;
 }
 
 .middleBox {
@@ -178,7 +177,6 @@
 }
 
 .gradeSelect {
-    margin-left: 5px;
     border-radius: 10px;
     border: 1px solid #999;
 }
@@ -297,6 +295,19 @@
     color: #000;
     text-decoration: none;
     cursor: pointer;
+}
+
+.undoBtn {
+    background: var(--bg);
+    border-radius: 6px;
+    padding: 2px 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.undoBtn:hover {
+    background: var(--bg-2);
 }
 
 @media all and (min-width: 480px) and (max-width: 768px) {

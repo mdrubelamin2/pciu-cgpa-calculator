@@ -1,5 +1,5 @@
-import { $allResults, $editMode } from "@/atoms/global"
-import { useAtom } from "jotai"
+import { $allResults, $editMode, $tempResults } from "@/atoms/global"
+import { useAtom, useSetAtom } from "jotai"
 import Image from "next/image"
 import { useRef } from "react"
 import styles from './style.module.css'
@@ -8,10 +8,18 @@ export default function EditModeButton() {
     const [editMode, setEditMode] = useAtom($editMode)
     const [allResults, setAllResults] = useAtom($allResults)
     const realResults = useRef([])
+    const setTempResults = useSetAtom($tempResults)
 
     const toggleEditMode = () => {
-        if (!editMode) realResults.current = structuredClone(allResults)
-        else setAllResults(realResults.current)
+        if (!editMode) {
+            const newResults = structuredClone(allResults)
+            setTempResults(newResults)
+            realResults.current = newResults
+        } else {
+            setAllResults(realResults.current)
+            setTempResults([])
+            realResults.current = []
+        }
         setEditMode(prev => !prev)
     }
 
