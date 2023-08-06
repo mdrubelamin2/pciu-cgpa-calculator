@@ -1,5 +1,6 @@
 import 'large-small-dynamic-viewport-units-polyfill';
 import { Poppins } from 'next/font/google';
+import Script from 'next/script';
 import "toastify-js/src/toastify.css";
 import './globals.css';
 
@@ -17,6 +18,16 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${poppins.className} before-search`}>{children}</body>
+      <Script src="https://www.googletagmanager.com/gtag/js?id=G-5XCDC75JBJ" />
+      <Script id="google-analytics">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+  
+          gtag('config', 'G-5XCDC75JBJ');
+        `}
+      </Script>
     </html>
   )
 }
