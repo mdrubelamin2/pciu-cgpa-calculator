@@ -98,15 +98,12 @@ export default function ResultModal() {
                                 </div>
                             </div>
                             <div className={`${styles.gridItem} ${styles.itemNoTwo}`}>
-                                <div className={styles.courseName}>{item.courseTitle} <span className={styles.courseCode}>{item.courseCode
-                                }</span>
+                                <div className={styles.courseName}>{item.courseTitle} <span className={styles.courseCode}>{item.courseCode}</span>
                                 </div>
                             </div>
                             <div className={`${styles.gridItem} ${styles.itemNoThree}`}>
                                 <div className={styles.leftBox}>
-                                    <span>
-                                        <Image className={styles.svg} src="/images/grade.svg" alt="" width={17} height={17} />
-                                    </span>
+                                    <Image className={styles.svg} src="/images/grade.svg" alt="" width={17} height={17} />
                                     <span className={styles.grade}>Grade: </span>
                                     <span className={styles.gradePoint}>{item.GradePoint}</span>
                                     {editMode && checkIfGradeEdittable(item.courseCode) ? (
@@ -123,16 +120,12 @@ export default function ResultModal() {
                                     )}
                                 </div>
                                 <div className={styles.middleBox}>
-                                    <span>
-                                        <Image className={styles.svg} src="/images/type.svg" alt="" width={16} height={16} />
-                                    </span>
+                                    <Image className={styles.svg} src="/images/type.svg" alt="" width={16} height={16} />
                                     <span className={styles.type}>Type: </span>
                                     <span className={styles.typeStatus}>{item.status}</span>
                                 </div>
                                 <div className={styles.rightBox}>
-                                    <span>
-                                        <Image className={styles.svg} src="/images/credit.svg" alt="" height={16} width={16} />
-                                    </span>
+                                    <Image className={styles.svg} src="/images/credit.svg" alt="" height={16} width={16} />
                                     <span className={styles.credit}>Credit: </span>
                                     <span className={styles.subCreditPoint}>{item.creditHr}</span>
                                 </div>
@@ -178,7 +171,7 @@ const GradeUndoButton = ({ courseIndex, trimester }) => {
 
     return (
         <button className={styles.undoBtn} onClick={undoGradeChange}>
-            <Image src="/images/undo.svg" alt="" width={12} height={12} />
+            <Image src="/images/undo.svg" alt="Undo" className={styles.svg} width={13} height={13} />
         </button>
     )
 }

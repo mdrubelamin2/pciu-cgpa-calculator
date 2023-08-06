@@ -63,9 +63,8 @@
 }
 
 .gridContainer {
-    width: fit-content;
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: 50px;
     margin-top: 25px;
     max-height: 45px;
 }
@@ -95,9 +94,8 @@
 
 .itemNoThree {
     grid-row: 2;
-    width: 420px;
-    display: flex;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 4fr 3fr 2fr;
     font-size: 12px;
     margin-top: 3px;
 }
@@ -150,21 +148,18 @@
 
 .leftBox {
     display: flex;
-    width: 40%;
     align-items: center;
-    gap: 4px;
+    gap: 5px;
 }
 
 .middleBox {
     display: flex;
-    width: 40%;
     align-items: center;
 }
 
 .rightBox {
     display: flex;
     align-items: center;
-    width: 20%;
 }
 
 .cgpaLetter {
@@ -300,7 +295,7 @@
 .undoBtn {
     background: var(--bg);
     border-radius: 6px;
-    padding: 2px 5px;
+    padding: 0;
     border: none;
     cursor: pointer;
     font-size: 12px;
@@ -346,21 +341,7 @@
     }
 
     .itemNoThree {
-        min-width: 350px;
-        width: auto;
         font-size: 12px;
-    }
-
-    .leftBox {
-        min-width: 36%;
-    }
-
-    .middleBox {
-        min-width: 36%;
-    }
-
-    .rightBox {
-        width: 28%;
     }
 }
 
@@ -399,25 +380,12 @@
     }
 
     .itemNoThree {
-        width: 300px;
         font-size: 10px;
-    }
-
-    .leftBox {
-        width: 36%;
-    }
-
-    .middleBox {
-        width: 34%;
-    }
-
-    .rightBox {
-        width: 28%;
     }
 
     .svg {
         font-size: 10px;
-        width: 10px;
-        height: 10px;
+        width: 12px;
+        height: 12px;
     }
 }
