@@ -1,14 +1,16 @@
 'use client'
 
 import { $studentInfo } from '@/atoms/global'
-import CGPAChart from '@/components/CGPAChart/CGPAChart'
 import Heading from '@/components/Heading/Heading'
 import LeftContainer from '@/components/LeftContainer/LeftContainer'
-import ResultModal from '@/components/ResultModal/ResultModal'
 import RightContainer from '@/components/RightContainer/RightContainer'
 import { isObjectEmpty } from '@/utils/helpers'
 import { useAtomValue } from 'jotai'
+import dynamic from 'next/dynamic'
 import styles from './page.module.css'
+
+const CGPAChart = dynamic(() => import('@/components/CGPAChart/CGPAChart'), { ssr: false })
+const ResultModal = dynamic(() => import('@/components/ResultModal/ResultModal'), { ssr: false })
 
 export default function Home() {
   const studentInfo = useAtomValue($studentInfo)
@@ -19,8 +21,12 @@ export default function Home() {
         <LeftContainer />
         <RightContainer />
       </div>
-      <CGPAChart />
-      <ResultModal />
+      {!isObjectEmpty(studentInfo) && (
+        <>
+          <CGPAChart />
+          <ResultModal />
+        </>
+      )}
     </div>
   )
 }
