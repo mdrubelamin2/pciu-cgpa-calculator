@@ -6,8 +6,8 @@ import './globals.css';
 const poppins = Poppins({ subsets: ['latin'], weight: ['400', '500', '600', '700'] })
 
 export const metadata = {
-  title: 'PCIU CGPA Calculator - CGPA Calculator for Port City International University',
-  description: 'Generate the CGPA (Cumulative Grade Point Average) based on your PCIU (Port City International University) results in a single click.',
+  title: 'Port City International University Online Result',
+  description: 'Check Results and calculate the Cumulative Grade Point Average(CGPA) for Port City International University (PCIU) students on online',
   keywords: ['PCIU', 'Port City International University', 'PCIU CGPA Calculator', 'PCIU Result', 'PCIU CGPA'],
   authors: [{ name: 'Md Rubel Amin', url: 'https://github.com/mdrubelamin2/' }],
   robots: { index: true, follow: true },
