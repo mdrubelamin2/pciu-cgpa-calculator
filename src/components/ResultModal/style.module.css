@@ -95,7 +95,7 @@
 .itemNoThree {
     grid-row: 2;
     display: flex;
-    justify-content: space-between;
+    gap: 15px;
     font-size: 12px;
     margin-top: 3px;
 }
