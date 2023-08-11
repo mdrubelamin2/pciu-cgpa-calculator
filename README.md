@@ -11,12 +11,11 @@ https://pciu-cgpa-calculator.vercel.app/
 
 ## Tech Stack
 
-**Client:** HTML, CSS, Vanilla JS
+**Framework:** Next.js
 
-**Server:** Node, Express
+**Libraries:** Node HTML Parser, Chart.js
 
-**Libraries:** Critical, Node HTML Parser
-
+**Hosting:** Vercel
 
 ## Installation
 
@@ -25,16 +24,16 @@ Install pciu-cgpa-calculator with npm / yarn / pnpm
 ```bash
   git clone https://github.com/mdrubelamin2/pciu-cgpa-calculator.git
   cd pciu-cgpa-calculator
-  npm install
+  pnpm install
 ```
 
 For Development mode:
 ```bash
-    npm run dev
+    pnpm dev
 ```
 
 For Production mode:
 ```bash
-    npm run build
-    npm run start
+    pnpm build
+    pnpm start
 ```
