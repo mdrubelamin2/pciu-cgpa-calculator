@@ -8,6 +8,11 @@ Generate the CGPA (Cumulative Grade Point Average) based on your PCIU (Port City
 
 https://pciu-cgpa-calculator.vercel.app/
 
+## Example ID
+
+```javascript
+CSE 019 06859
+```
 
 ## Tech Stack
 
