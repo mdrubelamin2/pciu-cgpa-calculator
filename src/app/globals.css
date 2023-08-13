@@ -92,7 +92,7 @@ body {
   min-height: 100dvh;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  background-color: var(--bg-2);
+  background-color: #fffbef;
   display: flex;
   align-items: center;
   justify-content: center;
