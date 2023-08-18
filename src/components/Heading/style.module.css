@@ -1,3 +1,9 @@
+.headerSection{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .headerTitle {
     font-weight: 600;
     font-size: 18px;
