@@ -3,9 +3,11 @@
 import { $studentInfo } from '@/atoms/global'
 import { useAtomValue } from 'jotai'
 import styles from './style.module.css'
+import { isObjectEmpty } from '@/utils/helpers'
 
 export default function StudentInfo() {
     const studentInfo = useAtomValue($studentInfo)
+    if (isObjectEmpty(studentInfo)) return null
     const { studentIdNo, StudentName, studentProgram, studentSession, studentBatch, Shift } = studentInfo
     return (
         <div className={styles.infoContainer}>

@@ -87,3 +87,10 @@ export const showToast = (msg = '', type = 'error') => {
     }
     Toastify(toastConfig).showToast();
 }
+
+export const formatStudentId = studentId => {
+    const decodedStudentId = decodeURIComponent(studentId)
+    let formattedStudentId = decodedStudentId.replace(/(\w{3})(\d{3})(\d{5})/, '$1 $2 $3')
+    formattedStudentId = formattedStudentId.replace(/(\w{3})/, (match, p1) => p1.toUpperCase())
+    return formattedStudentId
+}

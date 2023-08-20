@@ -1,14 +1,14 @@
 'use client'
 
-import { $allResults, $editMode, $studentInfo } from '@/atoms/global'
+import { $allResults, $editMode, $studentId, $studentInfo } from '@/atoms/global'
 import { getOnlineResult, getStudentInfo, getTrimesterList, getTrimesterResult, isObjectEmpty, showToast } from '@/utils/helpers'
 import { InputMask } from '@react-input/mask'
-import { useSetAtom } from 'jotai'
+import { useAtom, useSetAtom } from 'jotai'
 import { useState } from 'react'
 import styles from './style.module.css'
 
 export default function StudentIdForm() {
-    const [studentId, setStudentId] = useState('')
+    const [studentId, setStudentId] = useAtom($studentId)
     const setStudentInfo = useSetAtom($studentInfo)
     const setAllResults = useSetAtom($allResults)
     const setEditMode = useSetAtom($editMode)
