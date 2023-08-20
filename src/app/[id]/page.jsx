@@ -18,7 +18,6 @@ export default async function Page({ params }) {
     if (isObjectEmpty(studentInfo)) return notFound()
     const allTrimesters = await fetcher(`${url}/api/trimesters`)
     const studentTrimesters = allTrimesters.slice(allTrimesters.indexOf(studentInfo.studentSession))
-    studentTrimesters.reverse()
     const allResults = []
     for (let i = 0; i < studentTrimesters.length; i++) {
         const trimester = studentTrimesters[i]
