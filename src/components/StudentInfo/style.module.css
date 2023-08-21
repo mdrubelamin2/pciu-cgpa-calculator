@@ -12,10 +12,12 @@
 }
 
 .infoItemTitle {
-    width: 40%;
+    width: 35%;
     font-weight: 500;
     line-height: 18px;
     color: rgb(111, 111, 111);
+    flex-grow: 0;
+    flex-shrink: 0;
 }
 
 .infoItemContent {
