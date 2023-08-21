@@ -90,7 +90,29 @@ export const showToast = (msg = '', type = 'error') => {
 
 export const formatStudentId = studentId => {
     const decodedStudentId = decodeURIComponent(studentId)
-    let formattedStudentId = decodedStudentId.replace(/(\w{3})(\d{3})(\d{5})/, '$1 $2 $3')
+    let formattedStudentId = decodedStudentId.replace(/[^a-zA-Z0-9]/g, '')
+    formattedStudentId = formattedStudentId.replace(/([\w]{3})(\d{3})(\d{5})/, '$1 $2 $3')
     formattedStudentId = formattedStudentId.replace(/(\w{3})/, (match, p1) => p1.toUpperCase())
     return formattedStudentId
+}
+
+export const copyToClipboard = (textToCopy) => {
+    if (navigator.clipboard && window.isSecureContext) {
+        return navigator.clipboard.writeText(textToCopy)
+    }
+    // if navigator.clipboard is undefined, try with document.execCommand
+    const input = document.createElement('input')
+    input.value = textToCopy
+    input.setAttribute('readonly', '');
+    input.style.position = 'absolute';
+    input.style.left = '-9999px';
+    document.body.appendChild(input);
+    input.select()
+    return new Promise((res, rej) => {
+        if (document.execCommand('copy')) {
+            input.parentNode.removeChild(input);
+            res()
+        }
+        else rej()
+    })
 }
