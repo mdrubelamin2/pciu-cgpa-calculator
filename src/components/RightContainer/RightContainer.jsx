@@ -6,6 +6,7 @@ import { useAtomValue } from 'jotai'
 import EditModeButton from '../EditModeButton/EditModeButton'
 import GPATable from '../GPATable/GPATable'
 import styles from './style.module.css'
+import ShareButton from '../ShareButton/ShareButton'
 
 export default function RightContainer() {
     const studentInfo = useAtomValue($studentInfo)
@@ -18,6 +19,9 @@ export default function RightContainer() {
                 <div className={styles.leftHeader}>
                     <h4 className={styles.rightContainerTitle}>GPA History</h4>
                     <EditModeButton />
+                </div>
+                <div className={styles.rightHeader}>
+                    <ShareButton />
                 </div>
             </div>
             <GPATable />

@@ -80,7 +80,6 @@
 .itemNoOne {
     grid-column: 1;
     grid-row: 1 / span 2;
-    margin-right: 10px;
 }
 
 .itemNoTwo {
@@ -89,15 +88,13 @@
     font-size: 14px;
     font-weight: 500;
     color: #2b2b2b;
-    margin-left: 2px;
 }
 
 .itemNoThree {
     grid-row: 2;
-    display: flex;
+    column-count: 3;
     gap: 15px;
     font-size: 12px;
-    margin-top: 3px;
 }
 
 .center {
@@ -123,19 +120,11 @@
 .credit {
     color: #2b2b2b;
     font-weight: 500;
-    margin-left: 5px;
-    margin-right: 5px;
 }
 
 .type {
     color: #2b2b2b;
     font-weight: 500;
-    margin-left: 5px;
-    margin-right: 5px;
-}
-
-.courseName {
-    margin-right: 8px;
 }
 
 .courseCode {
@@ -146,27 +135,18 @@
     font-size: 12px;
 }
 
-.leftBox {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.middleBox {
-    display: flex;
-    align-items: center;
-}
-
+.leftBox,
+.middleBox,
 .rightBox {
     display: flex;
     align-items: center;
+    gap: 3px;
 }
 
 .cgpaLetter {
     text-align: center;
     border-radius: 10px;
     font-weight: 500;
-    margin-left: 5px;
     padding: 0 6px;
     display: inline-block;
 }

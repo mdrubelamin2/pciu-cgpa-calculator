@@ -12,6 +12,8 @@ import SSRProvider from "./SSRProvider"
 export default async function Page({ params }) {
     const { id } = params
     const studentId = formatStudentId(id)
+    const TOTAL_ID_LENGTH = 13 // ### ### ##### ex: CSE 019 06859
+    if (studentId.length !== TOTAL_ID_LENGTH) return notFound()
     const pageHeaders = headers()
     const url = pageHeaders.get('x-forwarded-proto') + '://' + pageHeaders.get('host')
     const studentInfo = await fetcher(`${url}/api/student/${studentId}`)

@@ -1,7 +1,7 @@
 'use client'
 
 import { $allResults, $editMode, $modal, $tempResults } from "@/atoms/global"
-import { checkIfImprovement, generateCurrentGPA, handleResultData, trimStr } from "@/utils/helpers"
+import { checkIfImprovement, generateCurrentGPA, handleResultData, roundToTwoDecimal, trimStr } from "@/utils/helpers"
 import { useAtom, useAtomValue, useSetAtom } from "jotai"
 import Image from "next/image"
 import styles from './style.module.css'
@@ -105,7 +105,7 @@ export default function ResultModal() {
                                 <div className={styles.leftBox}>
                                     <Image className={styles.svg} src="/images/grade.svg" alt="" width={17} height={17} />
                                     <span className={styles.grade}>Grade: </span>
-                                    <span className={styles.gradePoint}>{item.GradePoint}</span>
+                                    <span className={styles.gradePoint}>{roundToTwoDecimal(item.GradePoint, true)}</span>
                                     {editMode && checkIfGradeEdittable(item.courseCode) ? (
                                         <>
                                             <select className={styles.gradeSelect} onChange={handleGradeChange(item)} value={trimStr(item.LetterGrade)}>

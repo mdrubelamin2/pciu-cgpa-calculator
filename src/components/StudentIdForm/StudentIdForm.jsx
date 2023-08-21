@@ -20,7 +20,7 @@ export default function StudentIdForm() {
         e.preventDefault()
         const TOTAL_ID_LENGTH = 13 // ### ### ##### ex: CSE 019 06859
 
-        if (studentId.length < TOTAL_ID_LENGTH) {
+        if (studentId.length !== TOTAL_ID_LENGTH) {
             showToast('Please check if the Student ID is valid')
             return
         }
