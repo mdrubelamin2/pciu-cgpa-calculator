@@ -1,10 +1,4 @@
 .loadingContainer {
-  /* For browsers that don't support CSS variables */
-  min-height: 100vh;
-  /* This is the "polyfill" */
-  min-height: calc(var(--1dvh, 1vh) * 100);
-  /* This is for future browsers that support svh, dvh and lvh viewport units */
-  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
