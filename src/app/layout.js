@@ -12,6 +12,9 @@ export const metadata = {
   keywords: ['PCIU', 'Port City International University', 'PCIU CGPA Calculator', 'PCIU Result', 'PCIU GPA'],
   authors: [{ name: 'Md Rubel Amin', url: 'https://github.com/mdrubelamin2/' }],
   robots: { index: true, follow: true },
+  manifest: '/manifest.json',
+  themeColor: '#fffbef',
+  icons: { apple: '/images/pciu-logo.png' }
 }
 
 export default function RootLayout({ children }) {
