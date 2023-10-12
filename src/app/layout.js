@@ -32,6 +32,27 @@ export default function RootLayout({ children }) {
           gtag('config', 'G-5XCDC75JBJ');
         `}
       </Script>
+
+      <Script id="tawk.to">
+        {`
+          var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+          (function () {
+            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/60eac4b6d6e7610a49aab375/1faah0r3e';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+          })();
+        `}
+      </Script>
+
+      <Script id="bit-assist">
+        {`
+        var bit_assist_ = {api: {"base": "https://formsintegrations.com/wp-json/bit-assist/v1", "separator": "?" } };
+        (function () { var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'https://formsintegrations.com/wp-content/plugins/bit-assist/iframe/bit-assist.js'; t = document.getElementsByTagName('script')[0]; t.parentNode.insertBefore(s, t) })()
+        `}
+      </Script>
     </html>
   )
 }
