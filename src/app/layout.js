@@ -33,6 +33,14 @@ export default function RootLayout({ children }) {
         `}
       </Script>
 
+
+      <Script id="bit-assist">
+        {`
+        var bit_assist_ = {api: {"base": "https://formsintegrations.com/wp-json/bit-assist/v1", "separator": "?" } };
+        (function () { var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'https://formsintegrations.com/wp-content/plugins/bit-assist/iframe/bit-assist.js'; t = document.getElementsByTagName('script')[0]; t.parentNode.insertBefore(s, t) })()
+        `}
+      </Script>
+
       <Script id="tawk.to">
         {`
           var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
@@ -47,12 +55,6 @@ export default function RootLayout({ children }) {
         `}
       </Script>
 
-      <Script id="bit-assist">
-        {`
-        var bit_assist_ = {api: {"base": "https://formsintegrations.com/wp-json/bit-assist/v1", "separator": "?" } };
-        (function () { var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'https://formsintegrations.com/wp-content/plugins/bit-assist/iframe/bit-assist.js'; t = document.getElementsByTagName('script')[0]; t.parentNode.insertBefore(s, t) })()
-        `}
-      </Script>
     </html>
   )
 }
