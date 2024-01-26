@@ -44,7 +44,7 @@ export default function StudentIdForm() {
             if (!isObjectEmpty(resultData)) setAllResults(prevResults => [resultData, ...prevResults])
         }
         const onlineResultData = await getOnlineResult(studentId)
-        if (!isObjectEmpty(onlineResultData)) setAllResults(prevResults => [onlineResultData, ...prevResults])
+        if (onlineResultData.length) setAllResults(prevResults => [...onlineResultData, ...prevResults])
         setIsLoading(false)
     }
 
