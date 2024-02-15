@@ -42,7 +42,7 @@ export const GET = async (_, { params }) => {
     for (let i = 0; i < semestersList.length; i++) {
         const semester = semestersList[i]
         const singleResult = await fetchOnlineResult({ studentId, semester, requestVerificationToken, RsData, siteCookies })
-        if (!isObjectEmpty(singleResult)) allResults.push(singleResult)
+        if (singleResult && !isObjectEmpty(singleResult)) allResults.push(singleResult)
     }
 
     return new NextResponse(JSON.stringify(allResults))
