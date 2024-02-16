@@ -1,8 +1,8 @@
 .btn {
-    background: var(--bg);
     border-radius: 6px;
     padding: 2px 5px;
-    border: 1px solid var(--shadow);
+    background: var(--bg-secondary-color);
+    border: 1px solid var(--border-primary-color);
     cursor: pointer;
     justify-content: space-between;
     align-items: center;
@@ -12,5 +12,9 @@
 }
 
 .btn:hover {
-    background: var(--bg-2);
+    background: var(--border-primary-color);
+}
+
+.btn:active {
+    background: var(--border-primary-color);
 }

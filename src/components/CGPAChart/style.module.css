@@ -1,9 +1,9 @@
 .chartContainer {
     margin-top: 30px;
     padding: 10px;
-    box-shadow: 0 7px 25px rgb(0 0 0 / 8%);
+    box-shadow: 0 7px 25px var(--opacity-8);
     border-radius: 20px;
-    border: 1px solid var(--bg-3);
+    border: 1px solid var(--border-primary-color);
 }
 
 .chartBox {

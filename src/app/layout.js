@@ -1,3 +1,5 @@
+import ToggleThemeButton from '@/components/ToggleThemeButton/ToggleThemeButton';
+import { ThemeProvider } from '@designcise/next-theme-toggle';
 import 'large-small-dynamic-viewport-units-polyfill';
 import { Poppins } from 'next/font/google';
 import Script from 'next/script';
@@ -20,8 +22,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      {/* <link rel="icon" href="./favicon.svg" type="image/svg" /> */}
-      <body className={`${poppins.className} before-search`}>{children}</body>
+      <body className={`${poppins.className} before-search`}>
+        <ThemeProvider>
+          <ToggleThemeButton />
+          {children}
+        </ThemeProvider>
+      </body>
       <Script src="https://www.googletagmanager.com/gtag/js?id=G-5XCDC75JBJ" />
       <Script id="google-analytics">
         {`

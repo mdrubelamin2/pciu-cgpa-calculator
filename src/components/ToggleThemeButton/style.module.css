@@ -1,0 +1,9 @@
+.btn {
+  background-color: var(--text-primary-color);
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 10px;
+  border-radius: 100%;
+  border: 0px;
+}

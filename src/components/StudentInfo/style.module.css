@@ -1,6 +1,7 @@
 .infoContainer {
     margin-top: 25px;
-    border: 1px solid rgb(239, 239, 239);
+    border: 1px solid var(--border-primary-color);
+    background-color: var(--bg-secondary-color);
     border-radius: 10px;
     padding: 15px 20px;
 }
@@ -15,12 +16,12 @@
     width: 35%;
     font-weight: 500;
     line-height: 18px;
-    color: rgb(111, 111, 111);
+    color: var(--text-secondary-color);
     flex-grow: 0;
     flex-shrink: 0;
 }
 
 .infoItemContent {
     font-weight: 500;
-    color: rgb(53, 53, 53);
+    color: var(--text-primary-color);
 }

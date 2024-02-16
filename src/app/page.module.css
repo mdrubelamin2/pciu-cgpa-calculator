@@ -1,6 +1,6 @@
 .mainContainer {
-  border: 1px solid var(--bg-3);
-  background: var(--bg);
+  border: 1px solid var(--border-secondary-color);
+  background: var(--bg-primary-color);
   width: 60vw;
   padding: 30px 50px 50px;
   border-radius: 15px;

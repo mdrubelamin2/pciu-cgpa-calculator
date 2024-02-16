@@ -1,6 +1,7 @@
 .cgpaContainer {
     margin-top: 20px;
-    background: rgb(248, 248, 248);
+    background: var(--bg-secondary-color);
+    border: 1px solid var(--border-primary-color);
     border-radius: 10px;
     padding: 15px 20px;
 }
@@ -14,12 +15,12 @@
 }
 
 .creditItemTitle {
-    color: rgb(111, 111, 111);
+    color: var(--text-secondary-color);
     width: 50%;
 }
 
 .creditItemContent {
-    color: rgb(53, 53, 53);
+    color: var(--text-primary-color);
 }
 
 .cgpaItem {
@@ -32,7 +33,7 @@
     font-size: 20px;
     line-height: 30px;
     font-weight: 600;
-    color: rgb(111, 111, 111);
+    color: var(--text-secondary-color);
     width: 50%;
 }
 
@@ -40,5 +41,5 @@
     font-weight: 700;
     font-size: 32px;
     line-height: 48px;
-    color: rgb(53, 53, 53);
+    color: var(--text-primary-color);
 }

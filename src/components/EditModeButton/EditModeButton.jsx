@@ -30,7 +30,7 @@ export default function EditModeButton() {
             )}
             {editMode && (
                 <>
-                    <Image src="/images/stop.svg" width={14} height={14} alt="Check" />
+                    <Image src="/images/stop.svg" width={14} height={14} alt="Check" className="ignore-dark" />
                     {'Stop '}
                 </>
             )}

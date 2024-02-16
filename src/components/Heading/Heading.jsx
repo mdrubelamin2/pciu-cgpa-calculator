@@ -4,7 +4,7 @@ import styles from './style.module.css'
 export default function Heading() {
     return (
         <div className={styles.headerSection}>
-            <Image src="/images/pciu-logo.png" alt="pciu logo" width={35} height={46} />
+            <Image src="/images/pciu-logo.png" alt="pciu logo" width={35} height={46} className="ignore-dark" />
             <div>
                 <h1 className={styles.headerTitle}>PCIU Online Result</h1>
                 <p className={styles.headerSubtitle}>

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@designcise/next-theme-toggle": "^4.0.0",
     "@react-input/mask": "^1.0.20",
     "chart.js": "^4.4.1",
     "eslint": "8.56.0",
