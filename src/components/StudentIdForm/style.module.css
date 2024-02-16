@@ -28,7 +28,7 @@
     border: 1px solid var(--border-primary-color);
     background: var(--primary-2);
     font-weight: 600;
-    color: var(--bg-primary-color);
+    color: var(--btn-text-color);
     text-shadow: rgba(0, 0, 0, 0.25) 0px 1px 0.5px;
     font-size: 14px;
     line-height: 24px;
