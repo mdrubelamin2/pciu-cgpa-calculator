@@ -16,8 +16,16 @@ export default function StudentIdForm() {
 
     const handleStudentId = e => { setStudentId(e.target.value.toUpperCase()) }
 
-    const handleFormSubmit = async e => {
+    const submitForm = async e => {
         e.preventDefault()
+        try {
+            await generateStudentResult()
+        } catch (_) { }
+
+        setIsLoading(false)
+    }
+
+    const generateStudentResult = async () => {
         const TOTAL_ID_LENGTH = 13 // ### ### ##### ex: CSE 019 06859
 
         if (studentId.length !== TOTAL_ID_LENGTH) {
@@ -45,11 +53,10 @@ export default function StudentIdForm() {
         }
         const onlineResultData = await getOnlineResult(studentId)
         if (onlineResultData.length) setAllResults(prevResults => [...onlineResultData, ...prevResults])
-        setIsLoading(false)
     }
 
     return (
-        <form className="form-container" onSubmit={handleFormSubmit}>
+        <form className="form-container" onSubmit={submitForm}>
             <div className="input-container">
                 <label htmlFor="id-input" className={styles.inputLabel}>Enter Your ID</label>
                 <InputMask id="id-input" className={styles.idInput} mask="@@@ ### #####" replacement={{ '#': /\d/, '@': /[A-Z]/i }} onInput={handleStudentId} value={studentId} placeholder="XXX XXX XXXX" />

@@ -10,24 +10,28 @@ import styles from '../page.module.css'
 import SSRProvider from "./SSRProvider"
 
 export default async function Page({ params }) {
-    const { id } = params
-    const studentId = formatStudentId(id)
-    const TOTAL_ID_LENGTH = 13 // ### ### ##### ex: CSE 019 06859
-    if (studentId.length !== TOTAL_ID_LENGTH) return notFound()
-    const pageHeaders = headers()
-    const url = pageHeaders.get('x-forwarded-proto') + '://' + pageHeaders.get('host')
-    const studentInfo = await fetcher(`${url}/api/student/${studentId}`)
-    if (isObjectEmpty(studentInfo)) return notFound()
-    const allTrimesters = await fetcher(`${url}/api/trimesters`)
-    const studentTrimesters = allTrimesters.slice(allTrimesters.indexOf(studentInfo.studentSession))
-    const allResults = []
-    for (let i = 0; i < studentTrimesters.length; i++) {
-        const trimester = studentTrimesters[i]
-        const resultData = await fetcher(`${url}/api/trimester-result/${studentId}/${trimester}`)
-        if (!isObjectEmpty(resultData)) allResults.unshift(resultData)
-    }
-    const onlineResultData = await fetcher(`${url}/api/online-result/${studentId}`)
-    if (!isObjectEmpty(onlineResultData)) allResults.unshift(onlineResultData)
+    let studentId = null
+    let studentInfo = {}
+    let allResults = []
+    try {
+        const { id } = params
+        studentId = formatStudentId(id)
+        const TOTAL_ID_LENGTH = 13 // ### ### ##### ex: CSE 019 06859
+        if (studentId.length !== TOTAL_ID_LENGTH) return notFound()
+        const pageHeaders = headers()
+        const url = pageHeaders.get('x-forwarded-proto') + '://' + pageHeaders.get('host')
+        studentInfo = await fetcher(`${url}/api/student/${studentId}`)
+        if (isObjectEmpty(studentInfo)) return notFound()
+        const allTrimesters = await fetcher(`${url}/api/trimesters`)
+        const studentTrimesters = allTrimesters.slice(allTrimesters.indexOf(studentInfo.studentSession))
+        for (let i = 0; i < studentTrimesters.length; i++) {
+            const trimester = studentTrimesters[i]
+            const resultData = await fetcher(`${url}/api/trimester-result/${studentId}/${trimester}`)
+            if (!isObjectEmpty(resultData)) allResults.unshift(resultData)
+        }
+        const onlineResultData = await fetcher(`${url}/api/online-result/${studentId}`)
+        if (!isObjectEmpty(onlineResultData)) allResults.unshift(onlineResultData)
+    } catch (_) { }
 
     return (
         <div className={styles.mainContainer}>

@@ -7,7 +7,7 @@
 
 .loading {
   position: relative;
-  color: var(--txt-3);
+  color: var(--bg-primary-color);
   font-weight: 600;
 }
 
@@ -17,7 +17,7 @@
   overflow: hidden;
   max-width: 100px;
   white-space: nowrap;
-  color: rgb(53, 53, 53);
+  color: var(--text-primary-color);
   animation: loading 1.5s linear infinite;
 }
 
