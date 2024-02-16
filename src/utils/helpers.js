@@ -4,9 +4,9 @@ export const isObjectEmpty = (obj) => obj && Object.keys(obj).length === 0 && ob
 
 export const trimStr = (str) => str.replace(/[\n\r]+|[\s]{2,}/g, ' ').trim()
 
-export const fetcher = (...args) => fetch(...args).then(res => res.json())
+export const fetcher = (...args) => fetch(...args).then(res => res.json()).catch()
 
-export const fetcherText = (...args) => fetch(...args).then(res => res.text())
+export const fetcherText = (...args) => fetch(...args).then(res => res.text()).catch()
 
 export const roundToTwoDecimal = (num, onlyFirstTwoDecimal = false) => onlyFirstTwoDecimal ? num.toFixed(2) : (Math.round(num * 100) / 100)
 
