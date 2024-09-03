@@ -30,7 +30,7 @@ export default async function Page({ params }) {
             if (!isObjectEmpty(resultData)) allResults.unshift(resultData)
         }
         const onlineResultData = await fetcher(`${url}/api/online-result/${studentId}`)
-        if (!isObjectEmpty(onlineResultData)) allResults.unshift(onlineResultData)
+        if (!isObjectEmpty(onlineResultData)) allResults.unshift(...onlineResultData)
     } catch (_) { }
 
     return (
