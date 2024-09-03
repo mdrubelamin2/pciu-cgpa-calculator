@@ -16,17 +16,18 @@ export const GET = async (_, { params }) => {
 
     const requestVerificationToken = initialRoot.querySelector('form [name="__RequestVerificationToken"]').getAttribute('value')
     const RsData = initialRoot.querySelector('form [name="RsData"]').getAttribute('value')
-    const semesters = initialRoot.querySelectorAll('#Semester option')
-    const semestersList = []
-    semesters.forEach(trimester => {
-        const optValue = trimStr(trimester.rawAttrs.split('value=')[1].split('"')[1])
-        if (!optValue) return null
-        semestersList.unshift(optValue)
-    })
+    const semester = initialRoot.querySelector('form [name="Semester"]').attributes['Value']
+    // const semesters = initialRoot.querySelectorAll('#Semester option')
+    // const semestersList = []
+    // semesters.forEach(trimester => {
+    //     const optValue = trimStr(trimester.rawAttrs.split('value=')[1].split('"')[1])
+    //     if (!optValue) return null
+    //     semestersList.unshift(optValue)
+    // })
 
     const allResults = []
 
-    if (!(requestVerificationToken && semestersList.length)) return new NextResponse(JSON.stringify(allResults))
+    if (!requestVerificationToken || !semester) return new NextResponse(JSON.stringify(allResults))
 
     // get the cookies from the fetch response
     const headers = initialReq.headers
@@ -39,11 +40,11 @@ export const GET = async (_, { params }) => {
         }
     })
 
-    for (let i = 0; i < semestersList.length; i++) {
-        const semester = semestersList[i]
-        const singleResult = await fetchOnlineResult({ studentId, semester, requestVerificationToken, RsData, siteCookies })
-        if (singleResult && !isObjectEmpty(singleResult)) allResults.push(singleResult)
-    }
+    // for (let i = 0; i < semestersList.length; i++) {
+    // const semester = semestersList[i]
+    const singleResult = await fetchOnlineResult({ studentId, semester, requestVerificationToken, RsData, siteCookies })
+    if (singleResult && !isObjectEmpty(singleResult)) allResults.push(singleResult)
+    // }
 
     return new NextResponse(JSON.stringify(allResults))
 }
