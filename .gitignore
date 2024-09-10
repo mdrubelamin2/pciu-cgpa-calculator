@@ -134,3 +134,5 @@ yarn.lock
 pnpm-lock.yaml
 index.htm
 .vscode
+sw.js*
+workbox-*.js*
