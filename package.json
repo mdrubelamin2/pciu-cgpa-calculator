@@ -11,6 +11,7 @@
   "dependencies": {
     "@designcise/next-theme-toggle": "^4.0.0",
     "@ducanh2912/next-pwa": "^10.2.8",
+    "@formkit/auto-animate": "^0.8.2",
     "@react-input/mask": "^1.2.5",
     "chart.js": "^4.4.4",
     "eslint": "9.9.1",

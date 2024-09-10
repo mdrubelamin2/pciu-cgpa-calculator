@@ -2,11 +2,13 @@
 
 import { $allResults, $editMode, $modal } from '@/atoms/global'
 import { roundToTwoDecimal } from '@/utils/helpers'
+import { useAutoAnimate } from "@formkit/auto-animate/react"
 import { useAtomValue, useSetAtom } from 'jotai'
 import Image from 'next/image'
 import styles from './style.module.css'
 
 export default function GPATable() {
+    const [animatedTbody] = useAutoAnimate();
     const allResults = useAtomValue($allResults)
     const editMode = useAtomValue($editMode)
     const setModal = useSetAtom($modal)
@@ -23,7 +25,7 @@ export default function GPATable() {
                         <th>Details</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody ref={animatedTbody}>
                     {allResults.map(({ trimester, totalCreditHrs, currentGPA }, indx) => (
                         <tr key={trimester}>
                             <td>{trimester}</td>
