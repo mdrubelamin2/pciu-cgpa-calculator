@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${poppins.className} before-search`}>
-        <ThemeProvider defaultTheme={themes.light.type}>
+        <ThemeProvider storageKey="pciu-cgpa-calculator" defaultTheme={themes.light.type}>
           <ToggleThemeButton />
           {children}
         </ThemeProvider>
