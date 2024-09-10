@@ -4,7 +4,6 @@ import { $studentInfo } from '@/atoms/global'
 import Heading from '@/components/Heading/Heading'
 import LeftContainer from '@/components/LeftContainer/LeftContainer'
 import { isObjectEmpty } from '@/utils/helpers'
-import { useAutoAnimate } from "@formkit/auto-animate/react"
 import { Provider, useAtomValue } from 'jotai'
 import dynamic from 'next/dynamic'
 import styles from './page.module.css'
@@ -14,11 +13,9 @@ const CGPAChart = dynamic(() => import('@/components/CGPAChart/CGPAChart'))
 const ResultModal = dynamic(() => import('@/components/ResultModal/ResultModal'))
 
 function Home() {
-  const [animatedMainContainer] = useAutoAnimate();
   const studentInfo = useAtomValue($studentInfo)
-
   return (
-    <div ref={animatedMainContainer} className={`${styles.mainContainer} ${isObjectEmpty(studentInfo) && styles.beforeSearch}`}>
+    <div className={`${styles.mainContainer} ${isObjectEmpty(studentInfo) && styles.beforeSearch}`}>
       <Heading />
       <div className={styles.contentContainer}>
         <LeftContainer />
