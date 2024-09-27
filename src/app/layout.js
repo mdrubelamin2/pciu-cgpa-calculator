@@ -1,6 +1,7 @@
 import ToggleThemeButton from '@/components/ToggleThemeButton/ToggleThemeButton';
 import { ThemeProvider } from '@designcise/next-theme-toggle';
 import { themes } from '@designcise/next-theme-toggle/server';
+import { Analytics } from '@vercel/analytics/react';
 import 'large-small-dynamic-viewport-units-polyfill';
 import { Poppins } from 'next/font/google';
 import Script from 'next/script';
@@ -28,6 +29,7 @@ export default function RootLayout({ children }) {
           <ToggleThemeButton />
           {children}
         </ThemeProvider>
+        <Analytics />
       </body>
       <Script src="https://www.googletagmanager.com/gtag/js?id=G-5XCDC75JBJ" />
       <Script id="google-analytics">
