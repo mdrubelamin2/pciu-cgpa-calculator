@@ -1,10 +1,9 @@
 import ToggleThemeButton from '@/components/ToggleThemeButton/ToggleThemeButton';
 import { ThemeProvider } from '@designcise/next-theme-toggle';
 import { themes } from '@designcise/next-theme-toggle/server';
-import { Analytics } from '@vercel/analytics/react';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import 'large-small-dynamic-viewport-units-polyfill';
 import { Poppins } from 'next/font/google';
-import Script from 'next/script';
 import "toastify-js/src/toastify.css";
 import './globals.css';
 
@@ -29,18 +28,8 @@ export default function RootLayout({ children }) {
           <ToggleThemeButton />
           {children}
         </ThemeProvider>
-        <Analytics />
       </body>
-      <Script src="https://www.googletagmanager.com/gtag/js?id=G-5XCDC75JBJ" />
-      <Script id="google-analytics">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-  
-          gtag('config', 'G-5XCDC75JBJ');
-        `}
-      </Script>
+      <GoogleAnalytics gaId="G-5XCDC75JBJ" />
     </html>
   )
 }

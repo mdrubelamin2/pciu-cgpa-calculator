@@ -2,6 +2,7 @@
 
 import { $allResults, $editMode, $studentId, $studentInfo } from '@/atoms/global'
 import { getOnlineResult, getStudentInfo, getTrimesterList, getTrimesterResult, isObjectEmpty, showToast } from '@/utils/helpers'
+import { sendGAEvent } from '@next/third-parties/google'
 import { InputMask } from '@react-input/mask'
 import { useAtom, useSetAtom } from 'jotai'
 import { useState } from 'react'
@@ -39,6 +40,7 @@ export default function StudentIdForm() {
             showToast('Student ID not found in the PCIU database')
             return
         }
+        sendGAEvent({ event: 'STUDENT-ID', value: studentId })
         const bodyElm = document.querySelector('body')
         bodyElm.classList.remove('before-search')
         setStudentInfo(studentData)
