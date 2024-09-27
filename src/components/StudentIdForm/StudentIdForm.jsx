@@ -40,7 +40,7 @@ export default function StudentIdForm() {
             showToast('Student ID not found in the PCIU database')
             return
         }
-        sendGAEvent({ event: 'STUDENT-ID', value: studentId })
+        sendGAEvent('event', 'STUDENT-ID', { value: studentId })
         const bodyElm = document.querySelector('body')
         bodyElm.classList.remove('before-search')
         setStudentInfo(studentData)
