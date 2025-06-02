@@ -8,6 +8,9 @@ import { headers } from "next/headers"
 import { notFound } from 'next/navigation'
 import styles from '../page.module.css'
 import SSRProvider from "./SSRProvider"
+import { generateMetadata } from './generateMetadata'
+
+export { generateMetadata }
 
 export default async function Page({ params }) {
     let studentId = null
