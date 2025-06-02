@@ -66,3 +66,58 @@
     gap: 20px;
   }
 }
+
+/* Not Found Page Styles */
+.notFoundContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  width: 100%;
+  padding: 2rem;
+}
+
+.notFoundContent {
+  text-align: center;
+  max-width: 600px;
+}
+
+.notFoundTitle {
+  font-size: 2rem;
+  color: var(--text-primary-color);
+  margin-bottom: 1rem;
+}
+
+.notFoundMessage {
+  font-size: 1.1rem;
+  color: var(--text-secondary-color);
+  margin-bottom: 2rem;
+  line-height: 1.5;
+}
+
+.notFoundLink {
+  display: inline-block;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.notFoundLink:hover {
+  background-color: var(--secondary-color);
+  text-decoration: none;
+}
+
+@media all and (max-width: 480px) {
+  .notFoundTitle {
+    font-size: 1.5rem;
+  }
+  
+  .notFoundMessage {
+    font-size: 1rem;
+  }
+}
