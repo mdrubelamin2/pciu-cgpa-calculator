@@ -14,14 +14,16 @@ const ResultModal = dynamic(() => import('@/components/ResultModal/ResultModal')
 
 function Home() {
   const studentInfo = useAtomValue($studentInfo)
+  const hasStudentData = !isObjectEmpty(studentInfo)
+  
   return (
-    <div className={`${styles.mainContainer} ${isObjectEmpty(studentInfo) && styles.beforeSearch}`}>
+    <div className={`${styles.mainContainer} ${!hasStudentData && styles.beforeSearch}`}>
       <Heading />
       <div className={styles.contentContainer}>
         <LeftContainer />
         <RightContainer />
       </div>
-      {!isObjectEmpty(studentInfo) && (
+      {hasStudentData && (
         <>
           <CGPAChart />
           <ResultModal />
