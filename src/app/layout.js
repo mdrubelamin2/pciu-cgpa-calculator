@@ -1,7 +1,6 @@
 import ToggleThemeButton from '@/components/ToggleThemeButton/ToggleThemeButton';
+import { ThemeProvider } from '@/components/ThemeProvider';
 import { PRIMARY_DOMAIN, SECONDARY_DOMAIN } from '@/utils/domains';
-import { ThemeProvider } from '@designcise/next-theme-toggle';
-import { themes } from '@designcise/next-theme-toggle/server';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import 'large-small-dynamic-viewport-units-polyfill';
 import { Poppins } from 'next/font/google';
@@ -18,7 +17,6 @@ export const metadata = {
   authors: [{ name: 'Md Rubel Amin', url: 'https://github.com/mdrubelamin2/' }],
   robots: { index: true, follow: true },
   manifest: '/manifest.json',
-  themeColor: '#fffbef',
   icons: { apple: '/images/pciu-logo.png' },
   alternates: {
     canonical: '/',
@@ -51,11 +49,17 @@ export const metadata = {
   }
 }
 
+export const viewport = {
+  themeColor: '#fffbef',
+  width: 'device-width',
+  initialScale: 1,
+}
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${poppins.className} before-search`}>
-        <ThemeProvider storageKey="pciu-cgpa-calculator" defaultTheme={themes.light.type}>
+        <ThemeProvider>
           <ToggleThemeButton />
           {children}
         </ThemeProvider>
