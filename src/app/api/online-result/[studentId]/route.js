@@ -3,6 +3,9 @@ import { urls } from "@/utils/urls"
 import { NextResponse } from "next/server"
 import parse from "node-html-parser"
 import { fetchOnlineResult } from "../../helpers"
+import { getCache } from "@/utils/cache"
+
+const onlineResultCache = getCache("onlineResult", { max: 1000 })
 
 export const GET = async (_, { params }) => {
     const { studentId } = await params
@@ -30,8 +33,7 @@ export const GET = async (_, { params }) => {
     }
 
     const allResults = []
-
-    if (!requestVerificationToken || !semester) return new NextResponse(JSON.stringify(allResults))
+    if (!requestVerificationToken || !semester) return NextResponse.json(allResults)
 
     // get the cookies from the fetch response
     const headers = initialReq.headers
@@ -47,8 +49,11 @@ export const GET = async (_, { params }) => {
     for (let i = 0; i < semestersList.length; i++) {
         const currentSemester = semestersList[i]
         const singleResult = await fetchOnlineResult({ studentId, semester: currentSemester, requestVerificationToken, RsData, siteCookies })
-        if (singleResult && !isObjectEmpty(singleResult)) allResults.push(singleResult)
+        const cacheKey = `${studentId}:${currentSemester}`
+        if (singleResult && !isObjectEmpty(singleResult)) {
+            onlineResultCache.set(cacheKey, singleResult)
+            allResults.push(singleResult)
+        }
     }
-
-    return new NextResponse(JSON.stringify(allResults))
+    return NextResponse.json(allResults)
 }
