@@ -2,6 +2,12 @@
   "name": "pciu-cgpa-calculator-next13",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@8.15.4",
+  "pnpm": {
+    "overrides": {
+      "@humanwhocodes/retry": "0.4.1"
+    }
+  },
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
