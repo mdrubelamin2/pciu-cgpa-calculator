@@ -2,7 +2,6 @@
   "name": "pciu-cgpa-calculator-next13",
   "version": "0.1.0",
   "private": true,
-  "packageManager": "bun@1.0.30",
   "scripts": {
     "dev": "bun --bun next dev",
     "build": "bun --bun next build",
