@@ -14,6 +14,5 @@ export const GET = async () => {
         if (!optValue) return
         trimestersList.unshift(optValue)
     })
-
-    return new NextResponse(JSON.stringify(trimestersList));
+    return NextResponse.json(trimestersList);
 }
