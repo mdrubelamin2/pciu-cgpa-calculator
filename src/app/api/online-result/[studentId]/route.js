@@ -5,7 +5,7 @@ import parse from "node-html-parser"
 import { fetchOnlineResult } from "../../helpers"
 
 export const GET = async (_, { params }) => {
-    const { studentId } = params
+    const { studentId } = await params
     const url = urls.ONLINE_RESULT_SITE
     const initialReq = await fetch(url, {
         cache: "no-cache",

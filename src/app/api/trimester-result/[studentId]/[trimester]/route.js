@@ -3,7 +3,7 @@ import { urls } from "@/utils/urls"
 import { NextResponse } from "next/server"
 
 export const GET = async (_, { params }) => {
-    const { studentId, trimester } = params
+    const { studentId, trimester } = await params
     // fetch the trimester result
     const url = `${urls.STUDENT_RESULT_API}/get?studentIdNo=${studentId}&Trimester=${trimester}`
     const data = await fetcher(url)
