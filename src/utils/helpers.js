@@ -97,22 +97,60 @@ export const formatStudentId = studentId => {
 }
 
 export const copyToClipboard = (textToCopy) => {
-    if (navigator.clipboard && window.isSecureContext) {
-        return navigator.clipboard.writeText(textToCopy)
-    }
-    // if navigator.clipboard is undefined, try with document.execCommand
-    const input = document.createElement('input')
-    input.value = textToCopy
-    input.setAttribute('readonly', '');
-    input.style.position = 'absolute';
-    input.style.left = '-9999px';
-    document.body.appendChild(input);
-    input.select()
-    return new Promise((res, rej) => {
-        if (document.execCommand('copy')) {
-            input.parentNode.removeChild(input);
-            res()
+    return new Promise((resolve, reject) => {
+        // Method 1: Use Clipboard API if available and in secure context
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(textToCopy)
+                .then(() => resolve())
+                .catch(err => {
+                    console.warn('Clipboard API failed:', err);
+                    // Fall back to method 2
+                    tryExecCommand();
+                });
+            return;
         }
-        else rej()
-    })
+        
+        // Method 2: Use document.execCommand
+        tryExecCommand();
+        
+        function tryExecCommand() {
+            try {
+                const input = document.createElement('textarea'); // Use textarea for multi-line support
+                input.value = textToCopy;
+                input.setAttribute('readonly', '');
+                input.style.position = 'fixed';
+                input.style.top = '0';
+                input.style.left = '0';
+                input.style.opacity = '0';
+                document.body.appendChild(input);
+                
+                // For iOS devices
+                if (navigator.userAgent.match(/ipad|ipod|iphone/i)) {
+                    input.contentEditable = true;
+                    input.readOnly = false;
+                    const range = document.createRange();
+                    range.selectNodeContents(input);
+                    const selection = window.getSelection();
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                    input.setSelectionRange(0, 999999);
+                } else {
+                    input.select();
+                }
+                
+                const success = document.execCommand('copy');
+                document.body.removeChild(input);
+                
+                if (success) {
+                    resolve();
+                } else {
+                    console.warn('execCommand failed');
+                    reject(new Error('Copy command failed'));
+                }
+            } catch (err) {
+                console.error('Copy failed:', err);
+                reject(err);
+            }
+        }
+    });
 }
