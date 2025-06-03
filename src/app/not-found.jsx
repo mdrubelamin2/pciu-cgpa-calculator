@@ -1,9 +1,5 @@
-'use client';
-
 import Link from "next/link";
-import { useEffect } from "react";
 import styles from "./page.module.css";
-import { PRIMARY_DOMAIN, SECONDARY_DOMAIN } from "@/utils/domains";
 
 /**
  * Metadata for the global 404 page
@@ -29,10 +25,6 @@ export const metadata = {
  * Displays when a route is not found
  */
 export default function NotFound() {
-  // Add page view tracking
-  useEffect(() => {
-    // You could add analytics tracking here if needed
-  }, []);
 
   return (
     <div className={styles.mainContainer}>

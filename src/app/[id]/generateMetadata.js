@@ -3,10 +3,9 @@ import { PRIMARY_DOMAIN, SECONDARY_DOMAIN } from "@/utils/domains";
 
 export async function generateMetadata({ params }) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const studentId = formatStudentId(id);
     
-    // Use relative URL for API call to work in both domains
     const response = await fetch(`/api/student/${studentId}`);
     const studentInfo = await response.json();
     
