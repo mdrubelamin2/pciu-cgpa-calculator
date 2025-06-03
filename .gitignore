@@ -41,7 +41,9 @@ next-env.d.ts
 # workbox generated files (keep sw.js, ignore others)
 public/workbox-*.js
 public/workbox-*.js.map
-public/sw.js.map
+
+# Ignore all service worker files including sw.js (auto-generated)
+public/sw.js*
 
 # macOS
 .AppleDouble
