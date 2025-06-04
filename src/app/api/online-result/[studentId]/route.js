@@ -59,7 +59,7 @@ export const GET = async (_, { params }) => {
     console.warn(
       `Missing required tokens: requestVerificationToken=${!!requestVerificationToken}, semester=${!!semester}`
     )
-    return NextResponse.json(allResults)
+    return NextResponse.json([])
   }
 
   // get the cookies from the fetch response
@@ -73,39 +73,45 @@ export const GET = async (_, { params }) => {
     }
   })
 
-  for (let i = 0; i < semestersList.length; i++) {
-    const currentSemester = semestersList[i]
-    const cacheKey = `${studentId}:${currentSemester}`
+  const results = await Promise.allSettled(
+    semestersList.map(async currentSemester => {
+      const cacheKey = `${studentId}:${currentSemester}`
 
-    // Check cache first to avoid unnecessary requests
-    if (onlineResultCache.has(cacheKey)) {
-      const cachedResult = onlineResultCache.get(cacheKey)
-      if (cachedResult && !isObjectEmpty(cachedResult)) {
-        allResults.push(cachedResult)
-        continue
+      if (onlineResultCache.has(cacheKey)) {
+        const cachedResult = onlineResultCache.get(cacheKey)
+        if (cachedResult && !isObjectEmpty(cachedResult)) {
+          return cachedResult
+        }
       }
-    }
 
-    try {
-      const singleResult = await fetchOnlineResult({
-        studentId,
-        semester: currentSemester,
-        requestVerificationToken,
-        RsData,
-        siteCookies,
-      })
+      try {
+        const singleResult = await fetchOnlineResult({
+          studentId,
+          semester: currentSemester,
+          requestVerificationToken,
+          RsData,
+          siteCookies,
+        })
 
-      if (singleResult && !isObjectEmpty(singleResult)) {
-        onlineResultCache.set(cacheKey, singleResult)
-        allResults.push(singleResult)
+        if (singleResult && !isObjectEmpty(singleResult)) {
+          onlineResultCache.set(cacheKey, singleResult)
+          return singleResult
+        }
+      } catch (error) {
+        console.error(
+          `Error fetching semester ${currentSemester}: ${error.message}`
+        )
       }
-    } catch (error) {
-      console.warn(
-        `Error processing semester ${currentSemester} for ${studentId}:`,
-        error.message
-      )
+
+      return null
+    })
+  )
+
+  results.forEach(result => {
+    if (result.status === 'fulfilled' && result.value) {
+      allResults.push(result.value)
     }
-  }
+  })
 
   return NextResponse.json(allResults)
 }
