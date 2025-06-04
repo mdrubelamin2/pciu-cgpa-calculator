@@ -1,79 +1,79 @@
 .tableContainer {
-    margin-top: 4.1px;
-    background: var(--bg-secondary-color);
-    border-radius: 10px;
-    font-size: 12px;
-    line-height: 18px;
-    height: calc(100% - 23px);
-    overflow: hidden;
-    border: 1px solid transparent;
+  margin-top: 4.1px;
+  background: var(--bg-secondary-color);
+  border-radius: 10px;
+  font-size: 12px;
+  line-height: 18px;
+  height: calc(100% - 23px);
+  overflow: hidden;
+  border: 1px solid transparent;
 }
 
 .table {
-    width: 100%;
-    font-size: 12px;
-    color: var(--text-primary-color);
-    border-collapse: collapse;
-    table-layout: fixed;
+  width: 100%;
+  font-size: 12px;
+  color: var(--text-primary-color);
+  border-collapse: collapse;
+  table-layout: fixed;
 }
 
 .table tbody tr {
-    border-top: 1px solid var(--border-primary-color);
+  border-top: 1px solid var(--border-primary-color);
 }
 
 .table tbody tr:hover {
-    background-color: var(--border-secondary-color);
+  background-color: var(--border-secondary-color);
 }
 
 .table thead tr th {
-    text-align: left;
-    color: var(--text-secondary-color);
-    font-weight: 600;
+  text-align: left;
+  color: var(--text-secondary-color);
+  font-weight: 600;
 }
 
 .table tbody tr {
-    height: 40px;
+  height: 40px;
 }
 
 .table thead tr {
-    height: 50px;
-    background: var(--border-primary-color);
+  height: 50px;
+  background: var(--border-primary-color);
 }
 
 .table tr th:first-child,
 .table tr td:first-child {
-    padding-left: 20px;
-    width: 40%;
+  padding-left: 20px;
+  width: 40%;
 }
 
 .table tr th:last-child,
 .table tr td:last-child {
-    padding-right: 20px;
-    width: 26%;
+  padding-right: 20px;
+  width: 26%;
 }
 
 .detailsBtn {
-    background: var(--bg-secondary-color);
-    border-radius: 6px;
-    padding: 2px 9px;
-    border: 1px solid var(--border-primary-color);
-    /* box-shadow: 0 1px 2px ; */
-    cursor: pointer;
-    width: max-content;
-    justify-content: space-between;
-    align-items: center;
-    gap: 3px;
-    display: flex;
+  background: var(--bg-secondary-color);
+  border-radius: 6px;
+  padding: 2px 9px;
+  border: 1px solid var(--border-primary-color);
+  /* box-shadow: 0 1px 2px ; */
+  cursor: pointer;
+  width: max-content;
+  justify-content: space-between;
+  align-items: center;
+  gap: 3px;
+  display: flex;
 }
 
 .detailsBtn:hover {
-    background: var(--border-secondary-color);
+  background: var(--border-secondary-color);
 }
 
 .table .infoImg {
-    width: 13px;
-    height: 13px;
-    color: var(--text-primary-color);
-    cursor: pointer;
-    display: inline-block;
+  width: 13px;
+  height: 13px;
+  color: var(--text-primary-color);
+  cursor: pointer;
+  display: inline-block;
 }

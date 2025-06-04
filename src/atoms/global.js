@@ -1,4 +1,4 @@
-import { atom } from "jotai";
+import { atom } from 'jotai'
 
 export const $studentId = atom('')
 export const $studentInfo = atom({})

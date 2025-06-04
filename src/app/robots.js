@@ -1,4 +1,4 @@
-import { PRIMARY_DOMAIN, SECONDARY_DOMAIN } from '@/utils/domains';
+import { PRIMARY_DOMAIN, SECONDARY_DOMAIN } from '@/utils/domains'
 
 /**
  * Dynamically generate robots.txt content
@@ -15,5 +15,5 @@ export default function robots() {
       `${PRIMARY_DOMAIN}/sitemap.xml`,
       `${SECONDARY_DOMAIN}/sitemap.xml`,
     ],
-  };
+  }
 }

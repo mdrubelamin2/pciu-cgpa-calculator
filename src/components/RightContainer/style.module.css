@@ -1,34 +1,34 @@
 .rightContainer {
-    width: 55%;
+  width: 55%;
 }
 
 .headerWrp {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .leftHeader {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 @media all and (min-width: 480px) and (max-width: 768px) {
-    .rightContainer {
-        width: 100%;
-    }
+  .rightContainer {
+    width: 100%;
+  }
 }
 
 @media all and (max-width: 480px) {
-    .rightContainer {
-        width: auto;
-    }
+  .rightContainer {
+    width: auto;
+  }
 }
 
 .rightContainerTitle {
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 21px;
-    color: var(--text-primary-color);
-    padding-left: 2px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 21px;
+  color: var(--text-primary-color);
+  padding-left: 2px;
 }

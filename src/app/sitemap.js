@@ -1,7 +1,6 @@
-import { PRIMARY_DOMAIN, SECONDARY_DOMAIN } from '@/utils/domains';
+import { PRIMARY_DOMAIN, SECONDARY_DOMAIN } from '@/utils/domains'
 
 export default function sitemap() {
-  
   // Define the static routes for both domains
   return [
     {
@@ -18,5 +17,5 @@ export default function sitemap() {
     },
     // Note: For dynamic student routes, we can't pre-generate them all
     // as they're created on-demand based on student IDs
-  ];
+  ]
 }

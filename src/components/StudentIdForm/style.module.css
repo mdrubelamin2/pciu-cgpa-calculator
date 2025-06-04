@@ -1,55 +1,55 @@
 .inputLabel {
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 21px;
-    color: var(--text-primary-color);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  color: var(--text-primary-color);
 }
 
 .idInput {
-    background: var(--border-secondary-color);
-    border: 1px solid var(--border-primary-color);
-    border-radius: 10px;
-    height: 40px;
-    width: 100%;
-    padding: 10px;
-    font-size: 12px;
-    margin-top: 2px;
+  background: var(--border-secondary-color);
+  border: 1px solid var(--border-primary-color);
+  border-radius: 10px;
+  height: 40px;
+  width: 100%;
+  padding: 10px;
+  font-size: 12px;
+  margin-top: 2px;
 }
 
 .searchBtn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 17px;
-    width: 100%;
-    height: 40px;
-    border-radius: 10px;
-    border: 1px solid var(--border-primary-color);
-    background: var(--primary-2);
-    font-weight: 600;
-    color: var(--btn-text-color);
-    text-shadow: rgba(0, 0, 0, 0.25) 0px 1px 0.5px;
-    font-size: 14px;
-    line-height: 24px;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 17px;
+  width: 100%;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--border-primary-color);
+  background: var(--primary-2);
+  font-weight: 600;
+  color: var(--btn-text-color);
+  text-shadow: rgba(0, 0, 0, 0.25) 0px 1px 0.5px;
+  font-size: 14px;
+  line-height: 24px;
+  cursor: pointer;
 }
 
 .searchBtn:hover {
-    background: var(--primary-1);
+  background: var(--primary-1);
 }
 
 .searchBtn:active {
-    background: var(--primary-3);
+  background: var(--primary-3);
 }
 
 .searchBtn:focus {
-    outline: none;
+  outline: none;
 }
 
 .searchBtn:disabled {
-    background: var(--bg-secondary-color);
-    border: 1px solid var(--border-primary-color);
-    cursor: not-allowed;
-    color: var(--text-secondary-color);
+  background: var(--bg-secondary-color);
+  border: 1px solid var(--border-primary-color);
+  cursor: not-allowed;
+  color: var(--text-secondary-color);
 }

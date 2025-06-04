@@ -9,22 +9,22 @@ import styles from './style.module.css'
 import ShareButton from '../ShareButton/ShareButton'
 
 export default function RightContainer() {
-    const studentInfo = useAtomValue($studentInfo)
+  const studentInfo = useAtomValue($studentInfo)
 
-    if (isObjectEmpty(studentInfo)) return null
+  if (isObjectEmpty(studentInfo)) return null
 
-    return (
-        <div className={styles.rightContainer}>
-            <div className={styles.headerWrp}>
-                <div className={styles.leftHeader}>
-                    <h4 className={styles.rightContainerTitle}>GPA History</h4>
-                    <EditModeButton />
-                </div>
-                <div className={styles.rightHeader}>
-                    <ShareButton />
-                </div>
-            </div>
-            <GPATable />
+  return (
+    <div className={styles.rightContainer}>
+      <div className={styles.headerWrp}>
+        <div className={styles.leftHeader}>
+          <h4 className={styles.rightContainerTitle}>GPA History</h4>
+          <EditModeButton />
         </div>
-    )
+        <div className={styles.rightHeader}>
+          <ShareButton />
+        </div>
+      </div>
+      <GPATable />
+    </div>
+  )
 }

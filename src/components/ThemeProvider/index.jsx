@@ -15,16 +15,12 @@ export function ThemeProvider({ children }) {
   // Prevent flash by rendering a simplified version during SSR
   if (!mounted) {
     // Return a placeholder with the same structure but no theme applied
-    return (
-      <div style={{ visibility: 'hidden' }}>
-        {children}
-      </div>
-    )
+    return <div style={{ visibility: 'hidden' }}>{children}</div>
   }
 
   return (
-    <NextThemesProvider 
-      storageKey="pciu-cgpa-calculator" 
+    <NextThemesProvider
+      storageKey='pciu-cgpa-calculator'
       defaultTheme={themes.light.type}
     >
       {children}

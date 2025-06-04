@@ -1,20 +1,20 @@
 .headerSection {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .headerTitle {
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 27px;
-    color: var(--text-primary-color);
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 27px;
+  color: var(--text-primary-color);
 }
 
 .headerSubtitle {
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 21px;
-    margin: 0;
-    color: var(--text-secondary-color);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 21px;
+  margin: 0;
+  color: var(--text-secondary-color);
 }

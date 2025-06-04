@@ -1,20 +1,20 @@
 .btn {
-    border-radius: 6px;
-    padding: 2px 5px;
-    background: var(--bg-secondary-color);
-    border: 1px solid var(--border-primary-color);
-    cursor: pointer;
-    justify-content: space-between;
-    align-items: center;
-    gap: 4px;
-    display: flex;
-    font-size: 12px;
+  border-radius: 6px;
+  padding: 2px 5px;
+  background: var(--bg-secondary-color);
+  border: 1px solid var(--border-primary-color);
+  cursor: pointer;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
+  display: flex;
+  font-size: 12px;
 }
 
 .btn:hover {
-    background: var(--border-primary-color);
+  background: var(--border-primary-color);
 }
 
 .btn:active {
-    background: var(--border-primary-color);
+  background: var(--border-primary-color);
 }

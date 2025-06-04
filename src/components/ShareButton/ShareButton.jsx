@@ -20,7 +20,13 @@ export default function ShareButton() {
 
   return (
     <button className={styles.btn} onClick={copyShareUrl}>
-      <Image src="/images/share.svg" className="share-img" width={13} height={13} alt="Share" />
+      <Image
+        src='/images/share.svg'
+        className='share-img'
+        width={13}
+        height={13}
+        alt='Share'
+      />
       <span>Share</span>
     </button>
   )

@@ -1,7 +1,7 @@
 module.exports = {
   globDirectory: 'public',
   globPatterns: [
-    '**/*.{html,js,css,png,svg,ico,json,txt,map,jpg,jpeg,webp,gif,woff,woff2,eot,ttf,otf}'
+    '**/*.{html,js,css,png,svg,ico,json,txt,map,jpg,jpeg,webp,gif,woff,woff2,eot,ttf,otf}',
   ],
   swDest: 'public/sw.js',
   clientsClaim: true,
@@ -22,4 +22,4 @@ module.exports = {
       },
     },
   ],
-};
+}

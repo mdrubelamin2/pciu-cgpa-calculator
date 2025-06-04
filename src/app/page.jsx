@@ -8,16 +8,22 @@ import { Provider, useAtomValue } from 'jotai'
 import dynamic from 'next/dynamic'
 import styles from './page.module.css'
 
-const RightContainer = dynamic(() => import('@/components/RightContainer/RightContainer'))
+const RightContainer = dynamic(
+  () => import('@/components/RightContainer/RightContainer')
+)
 const CGPAChart = dynamic(() => import('@/components/CGPAChart/CGPAChart'))
-const ResultModal = dynamic(() => import('@/components/ResultModal/ResultModal'))
+const ResultModal = dynamic(
+  () => import('@/components/ResultModal/ResultModal')
+)
 
 function Home() {
   const studentInfo = useAtomValue($studentInfo)
   const hasStudentData = !isObjectEmpty(studentInfo)
-  
+
   return (
-    <div className={`${styles.mainContainer} ${!hasStudentData && styles.beforeSearch}`}>
+    <div
+      className={`${styles.mainContainer} ${!hasStudentData && styles.beforeSearch}`}
+    >
       <Heading />
       <div className={styles.contentContainer}>
         <LeftContainer />
@@ -34,5 +40,9 @@ function Home() {
 }
 
 export default function Page() {
-  return <Provider><Home /></Provider>
+  return (
+    <Provider>
+      <Home />
+    </Provider>
+  )
 }

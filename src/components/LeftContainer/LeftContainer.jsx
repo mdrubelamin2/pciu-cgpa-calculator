@@ -9,17 +9,19 @@ import StudentInfo from '../StudentInfo/StudentInfo'
 import styles from './style.module.css'
 
 export default function LeftContainer() {
-    const studentInfo = useAtomValue($studentInfo)
+  const studentInfo = useAtomValue($studentInfo)
 
-    return (
-        <div className={`${styles.leftContent} ${isObjectEmpty(studentInfo) && styles.beforeSearch}`}>
-            <StudentIdForm />
-            {!isObjectEmpty(studentInfo) && (
-                <>
-                    <StudentInfo />
-                    <CGPABox />
-                </>
-            )}
-        </div>
-    )
+  return (
+    <div
+      className={`${styles.leftContent} ${isObjectEmpty(studentInfo) && styles.beforeSearch}`}
+    >
+      <StudentIdForm />
+      {!isObjectEmpty(studentInfo) && (
+        <>
+          <StudentInfo />
+          <CGPABox />
+        </>
+      )}
+    </div>
+  )
 }
