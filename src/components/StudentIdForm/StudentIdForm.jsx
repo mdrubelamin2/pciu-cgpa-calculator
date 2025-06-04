@@ -46,15 +46,29 @@ export default function StudentIdForm() {
         setStudentInfo(studentData)
         setEditMode(false)
         setAllResults([])
+        
         const allTrimesters = await getTrimesterList()
         const studentTrimesters = allTrimesters.slice(allTrimesters.indexOf(studentData.studentSession))
-        for (let i = 0; i < studentTrimesters.length; i++) {
-            const trimester = studentTrimesters[i]
-            const resultData = await getTrimesterResult(studentId, trimester)
-            if (!isObjectEmpty(resultData)) setAllResults(prevResults => [resultData, ...prevResults])
-        }
-        const onlineResultData = await getOnlineResult(studentId)
-        if (onlineResultData.length) setAllResults(prevResults => [...onlineResultData, ...prevResults])
+        
+        const trimesterPromises = studentTrimesters.map(trimester => 
+            getTrimesterResult(studentId, trimester)
+                .then(result => {
+                    if (!isObjectEmpty(result)) {
+                        setAllResults(prevResults => [result, ...prevResults])
+                    }
+                    return result
+                })
+        )
+        
+        const onlineResultPromise = getOnlineResult(studentId)
+            .then(onlineData => {
+                if (!isObjectEmpty(onlineData)) {
+                    setAllResults(prevResults => [...onlineData, ...prevResults])
+                }
+                return onlineData
+            })
+        
+        await Promise.allSettled([...trimesterPromises, onlineResultPromise])
     }
 
     return (
@@ -66,12 +80,6 @@ export default function StudentIdForm() {
             <button className={`${styles.searchBtn} ${isLoading && styles.loading}`} type="submit" disabled={isLoading}>
                 {!isLoading && 'Search'}
                 {isLoading && 'Searching...'}
-                {/* <div className={styles.ldsRing}>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div> */}
             </button>
         </form >
     )

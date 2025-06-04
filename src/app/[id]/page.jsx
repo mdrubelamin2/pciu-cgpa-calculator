@@ -27,13 +27,18 @@ export default async function Page({ params }) {
         if (isObjectEmpty(studentInfo)) return notFound()
         const allTrimesters = await fetcher(`${url}/api/trimesters`)
         const studentTrimesters = allTrimesters.slice(allTrimesters.indexOf(studentInfo.studentSession))
-        for (let i = 0; i < studentTrimesters.length; i++) {
-            const trimester = studentTrimesters[i]
-            const resultData = await fetcher(`${url}/api/trimester-result/${studentId}/${trimester}`)
-            if (!isObjectEmpty(resultData)) allResults.unshift(resultData)
-        }
-        const onlineResultData = await fetcher(`${url}/api/online-result/${studentId}`)
-        if (!isObjectEmpty(onlineResultData)) allResults.unshift(...onlineResultData)
+        const trimesterPromises = studentTrimesters.map(trimester => 
+            fetcher(`${url}/api/trimester-result/${studentId}/${trimester}`)
+        )
+        const onlineResultPromise = fetcher(`${url}/api/online-result/${studentId}`)
+        const [trimesterResults, onlineResultData] = await Promise.all([
+            Promise.all(trimesterPromises),
+            onlineResultPromise
+        ])
+
+        const validTrimesterResults = trimesterResults.filter(result => !isObjectEmpty(result))
+        if (!isObjectEmpty(onlineResultData)) allResults.push(...onlineResultData)
+        allResults.push(...validTrimesterResults)
     } catch (_) { }
 
     return (

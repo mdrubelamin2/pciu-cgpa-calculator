@@ -17,33 +17,49 @@ export const fetchOnlineResult = async ({ studentId, semester, requestVerificati
     body: formData
   }
 
-  const resultResp = await fetcherText(urls.ONLINE_RESULT_API, config)
-  const bodyHTML = trimStr(resultResp)
-  const parsedResHTML = parse(bodyHTML)
-  const cgpaTd = parsedResHTML.querySelector('.table:first-child tr:last-child td:last-child')
+  try {
+    const resultResp = await fetcherText(urls.ONLINE_RESULT_API, config)
 
-  if (!cgpaTd) return null
+    if (!resultResp) {
+      throw new Error('Empty response received')
+    }
 
-  const cgpaTxt = cgpaTd.text
-  const GPA = parseFloat(cgpaTxt)
+    const bodyHTML = trimStr(resultResp)
+    const parsedResHTML = parse(bodyHTML)
+    const cgpaTd = parsedResHTML.querySelector('.table:first-child tr:last-child td:last-child')
 
-  const allTrFromSecondTbodyExceptFirstRow = parsedResHTML.querySelectorAll('.table:nth-child(2) tr:not(:first-child)')
-  const results = []
-  allTrFromSecondTbodyExceptFirstRow.forEach(tr => {
-    // filter the tr childnodes that are only html elements and node type 1
-    const tds = tr.childNodes.filter(node => node.nodeType === 1)
-    // tds index = 1 - course code, 2 - course name, 3 - status, 5 - credit hr, 6 - letter grade, 7 - grade point
-    const courseCode = trimStr(tds[1].text)
-    const courseTitle = trimStr(tds[2].text)
-    const status = trimStr(tds[3].text)
-    const creditHrTxt = trimStr(tds[5].text)
-    const LetterGrade = trimStr(tds[6].text)
-    const gradePointTxt = trimStr(tds[7].text)
-    const creditHr = parseFloat(creditHrTxt)
-    const GradePoint = parseFloat(gradePointTxt)
-    results.push({ semester, courseCode, courseTitle, status, creditHr, GradePoint, LetterGrade, GPA })
-  })
-  const resultData = handleResultData(results)
+    if (!cgpaTd) {
+      console.warn(`No CGPA data found for semester ${semester}`)
+      return null
+    }
 
-  return resultData
+    const cgpaTxt = cgpaTd.text
+    const GPA = parseFloat(cgpaTxt)
+
+    const allTrFromSecondTbodyExceptFirstRow = parsedResHTML.querySelectorAll('.table:nth-child(2) tr:not(:first-child)')
+    const results = []
+
+    allTrFromSecondTbodyExceptFirstRow.forEach(tr => {
+        const tds = tr.childNodes.filter(node => node.nodeType === 1)
+        if(tds.length < 8) return;
+
+        // tds index = 1 - course code, 2 - course name, 3 - status, 5 - credit hr, 6 - letter grade, 7 - grade point
+        const courseCode = trimStr(tds[1]?.text || '')
+        const courseTitle = trimStr(tds[2]?.text || '')
+        const status = trimStr(tds[3]?.text || '')
+        const creditHrTxt = trimStr(tds[5]?.text || '')
+        const LetterGrade = trimStr(tds[6]?.text || '')
+        const gradePointTxt = trimStr(tds[7]?.text || '')
+        const creditHr = parseFloat(creditHrTxt) || 0
+        const GradePoint = parseFloat(gradePointTxt) || 0
+        results.push({ semester, courseCode, courseTitle, status, creditHr, GradePoint, LetterGrade, GPA })
+    })
+
+    const resultData = handleResultData(results)
+
+    return resultData
+  } catch (error) {
+    console.error(`Error fetching semester ${semester} for student ${studentId}:`, error.message)
+    throw error
+  }
 }
