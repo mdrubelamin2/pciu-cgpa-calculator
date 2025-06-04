@@ -1,8 +1,6 @@
-
 # PCIU CGPA Calculator
 
 Generate the CGPA (Cumulative Grade Point Average) based on your PCIU (Port City International University) results in a single click.
-
 
 ## Site Link
 
@@ -33,11 +31,13 @@ Install pciu-cgpa-calculator with npm / yarn / pnpm
 ```
 
 For Development mode:
+
 ```bash
     pnpm dev
 ```
 
 For Production mode:
+
 ```bash
     pnpm build
     pnpm start
