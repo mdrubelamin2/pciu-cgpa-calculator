@@ -9,7 +9,8 @@
     "postbuild": "bun run generate-sw",
     "generate-sw": "workbox generateSW workbox-config.js",
     "start": "bun --bun next start",
-    "lint": "bun --bun next lint"
+    "lint": "bun --bun next lint",
+    "lint:fix": "bun --bun next lint --fix"
   },
   "dependencies": {
     "@designcise/next-theme-toggle": "^4.0.0",
@@ -28,10 +29,15 @@
     "toastify-js": "^1.12.0"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@next/eslint-plugin-next": "^15.3.3",
     "babel-plugin-react-compiler": "^19.1.0-rc.2",
     "chokidar": "^4.0.3",
     "eslint": "9.28.0",
-    "eslint-config-next": "15.3.3",
+    "eslint-config-next": "^15.3.3",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.4.1",
+    "prettier": "^3.5.3",
     "workbox-cli": "^7.3.0"
   },
   "engines": {
