@@ -19,3 +19,8 @@ export const GET = async (_, { params }) => {
   trimesterResultCache.set(cacheKey, resultData)
   return NextResponse.json(resultData)
 }
+
+if (!cgpaData) {
+  res.status(404).json({ error: 'No CGPA data found for semester ' + semester })
+  return
+}
