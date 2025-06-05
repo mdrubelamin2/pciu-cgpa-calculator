@@ -31,8 +31,7 @@ ChartJS.register(
 )
 
 const generateChartData = allResults => {
-  const allResultData = [...allResults].reverse()
-  const resultData = allResultData.filter(result => result.currentGPA > 0)
+  const resultData = allResults.filter(result => result.currentGPA > 0)
 
   const data = {
     labels: resultData.map(result => result.trimester),
