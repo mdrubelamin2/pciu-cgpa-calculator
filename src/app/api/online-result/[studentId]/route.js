@@ -1,9 +1,9 @@
+import { getCache } from '@/utils/cache'
 import { isObjectEmpty, trimStr } from '@/utils/helpers'
 import { urls } from '@/utils/urls'
 import { NextResponse } from 'next/server'
 import parse from 'node-html-parser'
 import { fetchOnlineResult } from '../../helpers'
-import { getCache } from '@/utils/cache'
 
 const onlineResultCache = getCache('onlineResult', { max: 1000 })
 
@@ -77,11 +77,8 @@ export const GET = async (_, { params }) => {
     semestersList.map(async currentSemester => {
       const cacheKey = `${studentId}:${currentSemester}`
 
-      if (onlineResultCache.has(cacheKey)) {
-        const cachedResult = onlineResultCache.get(cacheKey)
-        if (cachedResult && !isObjectEmpty(cachedResult)) {
-          return cachedResult
-        }
+      if (await onlineResultCache.has(cacheKey)) {
+        return await onlineResultCache.get(cacheKey)
       }
 
       try {
@@ -93,8 +90,8 @@ export const GET = async (_, { params }) => {
           siteCookies,
         })
 
-        if (singleResult && !isObjectEmpty(singleResult)) {
-          onlineResultCache.set(cacheKey, singleResult)
+        if (!isObjectEmpty(singleResult)) {
+          await onlineResultCache.set(cacheKey, singleResult)
           return singleResult
         }
       } catch (error) {
