@@ -90,7 +90,7 @@ export const GET = async (_, { params }) => {
           siteCookies,
         })
 
-        if (!isObjectEmpty(singleResult)) {
+        if (singleResult && !isObjectEmpty(singleResult)) {
           await onlineResultCache.set(cacheKey, singleResult)
           return singleResult
         }

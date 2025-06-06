@@ -46,7 +46,7 @@ class RedisCache {
     return await redis.get(this._getKey(key))
   }
   async set(key, value) {
-    return await redis.set(this._getKey(key), value, { ex: this.ttl })
+    return await redis.set(this._getKey(key), value, { px: this.ttl })
   }
   _getKey(key) {
     return `${this.name}:${key}`
