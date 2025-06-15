@@ -53,7 +53,7 @@ class RedisCache {
   }
 }
 
-const caches = {}
+const serverCaches = {}
 const memoryCaches = {}
 
 export function getCache(name, options = defaultCacheOptions) {
@@ -61,6 +61,6 @@ export function getCache(name, options = defaultCacheOptions) {
     if (!memoryCaches[name]) memoryCaches[name] = new MemoryCache(name, options)
     return memoryCaches[name]
   }
-  if (!caches[name]) caches[name] = new RedisCache(name, options)
-  return caches[name]
+  if (!serverCaches[name]) serverCaches[name] = new RedisCache(name, options)
+  return serverCaches[name]
 }
