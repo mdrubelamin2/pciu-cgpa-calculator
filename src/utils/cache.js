@@ -10,14 +10,14 @@ try {
 }
 
 const defaultCacheOptions = {
-  ttl: 365 * 24 * 60 * 60 * 1000,
+  ttl: 120 * 24 * 60 * 60,
   max: 1000,
 }
 
 class MemoryCache {
   constructor(name, { ttl, max } = defaultCacheOptions) {
     this.name = name
-    this.cache = new LRUCache({ max, ttl })
+    this.cache = new LRUCache({ max, ttl: ttl * 1000 })
   }
   async has(key) {
     return this.cache.has(this._getKey(key))
@@ -46,7 +46,7 @@ class RedisCache {
     return await redis.get(this._getKey(key))
   }
   async set(key, value) {
-    return await redis.set(this._getKey(key), value, { px: this.ttl })
+    return await redis.set(this._getKey(key), value, { ex: this.ttl })
   }
   _getKey(key) {
     return `${this.name}:${key}`
