@@ -1,6 +1,7 @@
 import { Redis } from '@upstash/redis'
 import { parse, stringify } from 'jcof'
 import { LRUCache } from 'lru-cache'
+import { isObjectEmpty } from './helpers'
 
 let useMemoryCache = false
 let redis
@@ -18,11 +19,10 @@ const defaultCacheOptions = {
 const compress = data => stringify(data)
 
 const decompress = data => {
-  try {
-    return parse(data)
-  } catch {
+  if (!isObjectEmpty(data)) {
     return data
   }
+  return parse(data)
 }
 
 class MemoryCache {
