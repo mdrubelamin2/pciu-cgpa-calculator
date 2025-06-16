@@ -1,4 +1,5 @@
 import { Redis } from '@upstash/redis'
+import { parse, stringify } from 'jcof'
 import { LRUCache } from 'lru-cache'
 
 let useMemoryCache = false
@@ -14,6 +15,16 @@ const defaultCacheOptions = {
   max: 1000,
 }
 
+const compress = data => stringify(data)
+
+const decompress = data => {
+  try {
+    return parse(data)
+  } catch {
+    return data
+  }
+}
+
 class MemoryCache {
   constructor(name, { ttl, max } = defaultCacheOptions) {
     this.name = name
@@ -23,11 +34,10 @@ class MemoryCache {
     return this.cache.has(this._getKey(key))
   }
   async get(key) {
-    return this.cache.get(this._getKey(key)) ?? null
+    return decompress(this.cache.get(this._getKey(key)))
   }
   async set(key, value) {
-    this.cache.set(this._getKey(key), value)
-    return true
+    this.cache.set(this._getKey(key), compress(value))
   }
   _getKey(key) {
     return `${this.name}:${key}`
@@ -40,13 +50,16 @@ class RedisCache {
     this.ttl = ttl
   }
   async has(key) {
-    return (await redis.get(this._getKey(key))) !== null
+    return await redis.exists(this._getKey(key))
   }
   async get(key) {
-    return await redis.get(this._getKey(key))
+    const value = await redis.get(this._getKey(key))
+    return decompress(value)
   }
   async set(key, value) {
-    return await redis.set(this._getKey(key), value, { ex: this.ttl })
+    return await redis.set(this._getKey(key), compress(value), {
+      ex: this.ttl,
+    })
   }
   _getKey(key) {
     return `${this.name}:${key}`
