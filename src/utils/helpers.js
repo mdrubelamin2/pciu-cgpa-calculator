@@ -3,6 +3,9 @@ import Toastify from 'toastify-js'
 export const isObjectEmpty = obj =>
   obj && Object.keys(obj).length === 0 && obj.constructor === Object
 
+export const isJCOFString = str =>
+  typeof str === 'string' && /^[^;]*;[^;]*;/.test(str)
+
 export const trimStr = str => str.replace(/[\n\r]+|[\s]{2,}/g, ' ').trim()
 
 export const fetcher = (...args) =>
