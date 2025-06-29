@@ -3,9 +3,15 @@ import { urls } from '@/utils/urls'
 import { NextResponse } from 'next/server'
 import { getCache } from '@/utils/cache'
 
-const trimesterResultCache = getCache('trimesterResult', { max: 2000 })
+const trimesterResultCache = getCache('trimesterResult', {
+  ttl: 120 * 24 * 60 * 60,
+  max: 2000,
+})
 
-export const GET = async (_, { params }) => {
+export const GET = async (
+  _: Request,
+  { params }: { params: Promise<{ studentId: string; trimester: string }> }
+) => {
   const { studentId, trimester } = await params
   const cacheKey = `${studentId}:${trimester}`
 

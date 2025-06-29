@@ -10,7 +10,7 @@ export default function ShareButton() {
   const studentInfo = useAtomValue($studentInfo)
   const copyShareUrl = () => {
     const domain = window.location.origin
-    let studentId = studentInfo.studentIdNo
+    let studentId = studentInfo.studentIdNo || ''
     studentId = studentId.replace(/[^a-zA-Z0-9]/g, '')
     const shareUrl = encodeURI(`${domain}/${studentId}`)
     copyToClipboard(shareUrl)

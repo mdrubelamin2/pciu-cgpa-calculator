@@ -1,3 +1,6 @@
+/* Import Poppins font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
 *,
 ::before,
 ::after {
@@ -6,6 +9,14 @@
 
 * {
   margin: 0px;
+}
+
+/* Poppins font class */
+.font-poppins {
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  font-weight: 400;
 }
 
 img,
@@ -24,15 +35,20 @@ select {
   font: inherit;
 }
 
+/* Browser autocomplete styling fixes */
 input:-webkit-autofill,
-input:-webkit-autofill:focus {
-  transition:
-    background-color 600000s 0s,
-    color 600000s 0s;
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px var(--border-secondary-color) inset !important;
+  -webkit-text-fill-color: var(--text-primary-color) !important;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
-input[data-autocompleted] {
-  background-color: transparent !important;
+/* Firefox autocomplete fix */
+input:-moz-autofill {
+  background-color: var(--border-secondary-color) !important;
+  color: var(--text-primary-color) !important;
 }
 
 p,
@@ -78,6 +94,7 @@ html {
   --primary-4: #0053b8;
 }
 
+/* Dark mode with next-themes (class-based) */
 @media (prefers-color-scheme: dark) {
   :root.dark {
     --text-primary-color: #e9e9e9;
@@ -90,11 +107,12 @@ html {
     --border-secondary-color: #2e2e2e;
 
     --app-bg-color: #0f0f0f;
+    --btn-text-color: #e9e9e9;
   }
 
-  :root.dark img:not(.ignore-dark) {
+  .dark  img:not(.ignore-dark) {
     filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(4680%)
-      hue-rotate(116deg) brightness(114%) contrast(82%);
+    hue-rotate(116deg) brightness(114%) contrast(82%);
   }
 }
 

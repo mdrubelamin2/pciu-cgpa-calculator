@@ -5,9 +5,15 @@ import { NextResponse } from 'next/server'
 import parse from 'node-html-parser'
 import { fetchOnlineResult } from '../../helpers'
 
-const onlineResultCache = getCache('onlineResult', { max: 1000 })
+const onlineResultCache = getCache('onlineResult', {
+  ttl: 120 * 24 * 60 * 60,
+  max: 1000,
+})
 
-export const GET = async (_, { params }) => {
+export const GET = async (
+  _: Request,
+  { params }: { params: Promise<{ studentId: string }> }
+) => {
   const { studentId } = await params
   const url = urls.ONLINE_RESULT_SITE
 
@@ -27,7 +33,9 @@ export const GET = async (_, { params }) => {
     initialText = await initialReq.text()
     initialRoot = parse(initialText)
   } catch (error) {
-    console.warn(`Failed to fetch initial online result page: ${error.message}`)
+    console.warn(
+      `Failed to fetch initial online result page: ${error instanceof Error ? error.message : 'Unknown error'}`
+    )
     return NextResponse.json([])
   }
 
@@ -54,7 +62,7 @@ export const GET = async (_, { params }) => {
     semestersList.push(semester)
   }
 
-  const allResults = []
+  const allResults: any[] = []
   if (!requestVerificationToken || !semester) {
     console.warn(
       `Missing required tokens: requestVerificationToken=${!!requestVerificationToken}, semester=${!!semester}`
@@ -65,7 +73,7 @@ export const GET = async (_, { params }) => {
   // get the cookies from the fetch response
   const headers = initialReq.headers
   const cookies = headers.getSetCookie()
-  const siteCookies = []
+  const siteCookies: string[] = []
   cookies.forEach(c => {
     const cookie = c.split(';')[0]
     if (!siteCookies.includes(cookie)) {
@@ -86,7 +94,7 @@ export const GET = async (_, { params }) => {
           studentId,
           semester: currentSemester,
           requestVerificationToken,
-          RsData,
+          RsData: RsData || '',
           siteCookies,
         })
 
@@ -96,7 +104,7 @@ export const GET = async (_, { params }) => {
         }
       } catch (error) {
         console.error(
-          `Error fetching semester ${currentSemester}: ${error.message}`
+          `Error fetching semester ${currentSemester}: ${error instanceof Error ? error.message : 'Unknown error'}`
         )
       }
 

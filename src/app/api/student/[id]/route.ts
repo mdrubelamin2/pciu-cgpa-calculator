@@ -3,9 +3,15 @@ import { fetcher } from '@/utils/helpers'
 import { urls } from '@/utils/urls'
 import { NextResponse } from 'next/server'
 
-const studentInfoCache = getCache('studentInfo', { max: 500 })
+const studentInfoCache = getCache('studentInfo', {
+  ttl: 120 * 24 * 60 * 60,
+  max: 500,
+})
 
-export const GET = async (_, { params }) => {
+export const GET = async (
+  _: Request,
+  { params }: { params: Promise<{ id: string }> }
+) => {
   const { id } = await params
 
   if (await studentInfoCache.has(id)) {

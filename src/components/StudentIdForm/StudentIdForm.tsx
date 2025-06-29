@@ -28,11 +28,11 @@ export default function StudentIdForm() {
   const setEditMode = useSetAtom($editMode)
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleStudentId = e => {
+  const handleStudentId = (e: React.ChangeEvent<HTMLInputElement>) => {
     setStudentId(e.target.value.toUpperCase())
   }
 
-  const submitForm = async e => {
+  const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
       await generateStudentResult()
@@ -57,7 +57,7 @@ export default function StudentIdForm() {
     }
     sendGAEvent('event', 'STUDENT-ID', { value: studentId })
     const bodyElm = document.querySelector('body')
-    bodyElm.classList.remove('before-search')
+    bodyElm?.classList.remove('before-search')
     setStudentInfo(studentData)
     setEditMode(false)
     setAllResults([])
@@ -67,10 +67,10 @@ export default function StudentIdForm() {
       allTrimesters.indexOf(studentData.studentSession)
     )
 
-    const trimesterPromises = studentTrimesters.map(trimester =>
+    const trimesterPromises = studentTrimesters.map((trimester: string) =>
       getTrimesterResult(studentId, trimester).then(result => {
         if (!isObjectEmpty(result)) {
-          setAllResults(prevResults =>
+          setAllResults((prevResults: any[]) =>
             sortByTrimesterAndYear([...prevResults, result])
           )
         }
@@ -80,7 +80,7 @@ export default function StudentIdForm() {
 
     const onlineResultPromise = getOnlineResult(studentId).then(onlineData => {
       if (!isObjectEmpty(onlineData)) {
-        setAllResults(prevResults =>
+        setAllResults((prevResults: any[]) =>
           sortByTrimesterAndYear([...prevResults, ...onlineData])
         )
       }

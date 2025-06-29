@@ -30,24 +30,27 @@ ChartJS.register(
   Legend
 )
 
-const generateChartData = allResults => {
-  const resultData = allResults.filter(result => result.currentGPA > 0)
+const generateChartData = (allResults: any[]) => {
+  const resultData = allResults.filter((result: any) => result.currentGPA > 0)
 
   const data = {
-    labels: resultData.map(result => result.trimester),
+    labels: resultData.map((result: any) => result.trimester),
     datasets: [
       {
         label: 'SGPA ',
         backgroundColor: '#00a3ff',
         borderColor: '#00a3ff',
-        data: resultData.map(result => roundToTwoDecimal(result.currentGPA)),
+        data: resultData.map((result: any) =>
+          roundToTwoDecimal(result.currentGPA)
+        ),
       },
       {
         label: 'CGPA ',
         backgroundColor: 'rgb(255, 99, 132)',
         borderColor: 'rgb(255, 99, 132)',
         data: resultData.map(
-          (_, i) => getAverageCGPAandCredits(resultData, i).totalAverageCGPA
+          (_: any, i: number) =>
+            getAverageCGPAandCredits(resultData, i).totalAverageCGPA
         ),
       },
     ],
@@ -59,12 +62,12 @@ const generateChartData = allResults => {
 const config = {
   maintainAspectRatio: false,
   interaction: {
-    mode: 'index',
+    mode: 'index' as const,
     intersect: false,
   },
   plugins: {
     legend: {
-      position: 'top',
+      position: 'top' as const,
     },
     title: {
       display: true,

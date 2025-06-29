@@ -12,7 +12,7 @@ export default function GPATable() {
   const editMode = useAtomValue($editMode)
   const setModal = useSetAtom($modal)
   const [animationParent] = useAutoAnimate()
-  const showModal = trimesterResult => () =>
+  const showModal = (trimesterResult: any) => () =>
     setModal({ show: true, data: trimesterResult })
 
   return (

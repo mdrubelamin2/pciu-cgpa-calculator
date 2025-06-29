@@ -1,11 +1,11 @@
-const { FlatCompat } = require('@eslint/eslintrc')
-const prettierPlugin = require('eslint-plugin-prettier')
+import { FlatCompat } from '@eslint/eslintrc'
+import prettierPlugin from 'eslint-plugin-prettier'
 
 const compat = new FlatCompat({
   baseDirectory: __dirname,
 })
 
-module.exports = [
+export default [
   ...compat.config({
     extends: ['next/core-web-vitals', 'prettier'],
   }),

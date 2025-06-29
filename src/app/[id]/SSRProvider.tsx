@@ -1,10 +1,16 @@
 'use client'
 
 import { $allResults, $studentId, $studentInfo } from '@/atoms/global'
+import { SSRProviderProps } from '../../../types'
 import { Provider } from 'jotai'
 import { useHydrateAtoms } from 'jotai/utils'
 
-function Providers({ studentId, studentInfo, allResults, children }) {
+function Providers({
+  studentId,
+  studentInfo,
+  allResults,
+  children,
+}: SSRProviderProps) {
   useHydrateAtoms([
     [$studentId, studentId],
     [$studentInfo, studentInfo],
@@ -13,7 +19,7 @@ function Providers({ studentId, studentInfo, allResults, children }) {
   return children
 }
 
-export default function SSRProvider({ children, ...props }) {
+export default function SSRProvider({ children, ...props }: SSRProviderProps) {
   return (
     <Provider key={props.studentId}>
       <Providers {...props}>{children}</Providers>

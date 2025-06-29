@@ -3,14 +3,8 @@ import { ThemeProvider } from '@/components/ThemeProvider'
 import { PRIMARY_DOMAIN, SECONDARY_DOMAIN } from '@/utils/domains'
 import { GoogleAnalytics } from '@next/third-parties/google'
 import 'large-small-dynamic-viewport-units-polyfill'
-import { Poppins } from 'next/font/google'
 import 'toastify-js/src/toastify.css'
 import './globals.css'
-
-const poppins = Poppins({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-})
 
 export const metadata = {
   metadataBase: new URL(PRIMARY_DOMAIN),
@@ -32,13 +26,13 @@ export const metadata = {
   manifest: '/manifest.json',
   icons: { apple: '/images/pciu-logo.png' },
   alternates: {
-    canonical: '/',
+    canonical: PRIMARY_DOMAIN,
     languages: {
-      'en-US': '/',
+      'en-US': PRIMARY_DOMAIN,
     },
-    other: {
-      backup: SECONDARY_DOMAIN,
-    },
+  },
+  other: {
+    'alternate-domain': SECONDARY_DOMAIN,
   },
   openGraph: {
     type: 'website',
@@ -72,16 +66,20 @@ export const viewport = {
   initialScale: 1,
 }
 
-export default function RootLayout({ children }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
-    <html lang='en'>
-      <body className={`${poppins.className} before-search`}>
+    <html lang='en' suppressHydrationWarning>
+      <body className='font-poppins before-search' suppressHydrationWarning>
         <ThemeProvider>
           <ToggleThemeButton />
           {children}
         </ThemeProvider>
+        <GoogleAnalytics gaId='G-5XCDC75JBJ' />
       </body>
-      <GoogleAnalytics gaId='G-5XCDC75JBJ' />
     </html>
   )
 }

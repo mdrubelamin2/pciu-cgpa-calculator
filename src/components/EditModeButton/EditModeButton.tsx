@@ -7,7 +7,7 @@ import styles from './style.module.css'
 export default function EditModeButton() {
   const [editMode, setEditMode] = useAtom($editMode)
   const [allResults, setAllResults] = useAtom($allResults)
-  const realResults = useRef([])
+  const realResults = useRef<any[]>([])
   const setTempResults = useSetAtom($tempResults)
 
   const toggleEditMode = () => {

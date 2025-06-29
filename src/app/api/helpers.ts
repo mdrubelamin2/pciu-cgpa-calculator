@@ -2,13 +2,21 @@ import { fetcherText, handleResultData, trimStr } from '@/utils/helpers'
 import { urls } from '@/utils/urls'
 import parse from 'node-html-parser'
 
+interface FetchOnlineResultParams {
+  studentId: string
+  semester: string
+  requestVerificationToken: string
+  RsData: string
+  siteCookies: string[]
+}
+
 export const fetchOnlineResult = async ({
   studentId,
   semester,
   requestVerificationToken,
   RsData,
   siteCookies,
-}) => {
+}: FetchOnlineResultParams) => {
   const formData = new FormData()
   formData.append('__RequestVerificationToken', requestVerificationToken)
   formData.append('RsData', RsData)
@@ -47,7 +55,7 @@ export const fetchOnlineResult = async ({
     const allTrFromSecondTbodyExceptFirstRow = parsedResHTML.querySelectorAll(
       '.table:nth-child(2) tr:not(:first-child)'
     )
-    const results = []
+    const results: any[] = []
 
     allTrFromSecondTbodyExceptFirstRow.forEach(tr => {
       const tds = tr.childNodes.filter(node => node.nodeType === 1)
@@ -80,7 +88,7 @@ export const fetchOnlineResult = async ({
   } catch (error) {
     console.error(
       `Error fetching semester ${semester} for student ${studentId}:`,
-      error.message
+      error instanceof Error ? error.message : 'Unknown error'
     )
     return null
   }

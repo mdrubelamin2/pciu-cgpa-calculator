@@ -1,45 +1,51 @@
 import Toastify from 'toastify-js'
 
-export const isObjectEmpty = obj =>
+export const isObjectEmpty = (obj: any): boolean =>
   obj && Object.keys(obj).length === 0 && obj.constructor === Object
 
-export const isJCOFString = str =>
+export const isJCOFString = (str: string): boolean =>
   typeof str === 'string' && /^[^;]*;[^;]*;/.test(str)
 
-export const trimStr = str => str.replace(/[\n\r]+|[\s]{2,}/g, ' ').trim()
+export const trimStr = (str: string): string =>
+  str.replace(/[\n\r]+|[\s]{2,}/g, ' ').trim()
 
-export const fetcher = (...args) =>
+export const fetcher = (...args: Parameters<typeof fetch>) =>
   fetch(...args)
     .then(res => res.json())
-    .catch()
+    .catch(() => null)
 
-export const fetcherText = (...args) =>
+export const fetcherText = (...args: Parameters<typeof fetch>) =>
   fetch(...args)
     .then(res => res.text())
-    .catch()
+    .catch(() => '')
 
-export const roundToTwoDecimal = (num, onlyFirstTwoDecimal = false) =>
+export const roundToTwoDecimal = (
+  num: number,
+  onlyFirstTwoDecimal = false
+): number | string =>
   onlyFirstTwoDecimal ? num.toFixed(2) : Math.round(num * 100) / 100
 
-export const getStudentInfo = studentId => fetcher(`/api/student/${studentId}`)
+export const getStudentInfo = (studentId: string) =>
+  fetcher(`/api/student/${studentId}`)
 
 export const getTrimesterList = () => fetcher(`/api/trimesters`)
 
-export const getTrimesterResult = (studentId, trimester) =>
+export const getTrimesterResult = (studentId: string, trimester: string) =>
   fetcher(`/api/trimester-result/${studentId}/${trimester}`)
 
-export const getOnlineResult = studentId =>
+export const getOnlineResult = (studentId: string) =>
   fetcher(`/api/online-result/${studentId}`)
 
-export const checkIfImprovement = course => course.status === 'Improvement'
+export const checkIfImprovement = (course: any): boolean =>
+  course.status === 'Improvement'
 
-export const checkIfIncomplete = course =>
+export const checkIfIncomplete = (course: any): boolean =>
   course.status === 'Incomplete' || trimStr(course.LetterGrade) === 'I'
 
-export const checkIfWithdraw = course =>
+export const checkIfWithdraw = (course: any): boolean =>
   course.status === 'Withdraw' || trimStr(course.LetterGrade) === 'W'
 
-export const handleResultData = resultData => {
+export const handleResultData = (resultData: any[]): any => {
   if (!resultData.length) return {}
   const trimester = resultData[0].semester
   let totalCreditHrs = 0
@@ -70,18 +76,21 @@ export const handleResultData = resultData => {
   return trimesterResult
 }
 
-export const generateCurrentGPA = currentTrimester =>
+export const generateCurrentGPA = (currentTrimester: any): number =>
   currentTrimester.individuals.reduce(
-    (acc, curr) => acc + curr.GradePoint * curr.creditHr,
+    (acc: number, curr: any) => acc + curr.GradePoint * curr.creditHr,
     0
   ) / currentTrimester.completedCreditHrs
 
-export const getAverageCGPAandCredits = (resultData, toIndex) => {
+export const getAverageCGPAandCredits = (
+  resultData: any[],
+  toIndex?: number
+): any => {
   let totalCreditHrs = 0
   let totalCGPA = 0
   const allResults =
     toIndex !== undefined ? resultData.slice(0, toIndex + 1) : resultData
-  allResults.forEach(trimesterResult => {
+  allResults.forEach((trimesterResult: any) => {
     totalCGPA += trimesterResult.currentGPA * trimesterResult.totalCreditHrs
     totalCreditHrs += trimesterResult.completedCreditHrs
   })
@@ -92,8 +101,11 @@ export const getAverageCGPAandCredits = (resultData, toIndex) => {
   return { totalCreditHrs, totalAverageCGPA }
 }
 
-export const showToast = (msg = '', type = 'error') => {
-  const toastConfig = {
+export const showToast = (
+  msg = '',
+  type: 'success' | 'error' = 'error'
+): void => {
+  const toastConfig: any = {
     text: msg,
     gravity: 'bottom',
     style: {
@@ -110,7 +122,7 @@ export const showToast = (msg = '', type = 'error') => {
   Toastify(toastConfig).showToast()
 }
 
-export const formatStudentId = studentId => {
+export const formatStudentId = (studentId: string): string => {
   const decodedStudentId = decodeURIComponent(studentId)
   let formattedStudentId = decodedStudentId.replace(/[^a-zA-Z0-9]/g, '')
   formattedStudentId = formattedStudentId.replace(
@@ -123,13 +135,13 @@ export const formatStudentId = studentId => {
   return formattedStudentId
 }
 
-export const copyToClipboard = textToCopy => {
+export const copyToClipboard = (textToCopy: string): Promise<void> => {
   return new Promise((resolve, reject) => {
     // Method 1: Use Clipboard API if available and in secure context
     if (navigator.clipboard && window.isSecureContext) {
       navigator.clipboard
         .writeText(textToCopy)
-        .then(() => resolve())
+        .then(() => resolve(undefined))
         .catch(err => {
           console.warn('Clipboard API failed:', err)
           // Fall back to method 2
@@ -154,13 +166,13 @@ export const copyToClipboard = textToCopy => {
 
         // For iOS devices
         if (navigator.userAgent.match(/ipad|ipod|iphone/i)) {
-          input.contentEditable = true
+          ;(input as any).contentEditable = 'true'
           input.readOnly = false
           const range = document.createRange()
           range.selectNodeContents(input)
           const selection = window.getSelection()
-          selection.removeAllRanges()
-          selection.addRange(range)
+          selection?.removeAllRanges()
+          selection?.addRange(range)
           input.setSelectionRange(0, 999999)
         } else {
           input.select()
@@ -170,7 +182,7 @@ export const copyToClipboard = textToCopy => {
         document.body.removeChild(input)
 
         if (success) {
-          resolve()
+          resolve(undefined)
         } else {
           console.warn('execCommand failed')
           reject(new Error('Copy command failed'))
@@ -183,8 +195,12 @@ export const copyToClipboard = textToCopy => {
   })
 }
 
-export function sortByTrimesterAndYear(results) {
-  const trimesterOrder = { spring: 1, summer: 2, fall: 3 }
+export function sortByTrimesterAndYear(results: any[]): any[] {
+  const trimesterOrder: Record<string, number> = {
+    spring: 1,
+    summer: 2,
+    fall: 3,
+  }
   return [...results].sort((a, b) => {
     if (!a.trimester || !b.trimester) return 0
     const [aTrim, aYear] = a.trimester.split(' ')
@@ -193,8 +209,8 @@ export function sortByTrimesterAndYear(results) {
     const yearB = parseInt(bYear, 10) || 0
     if (yearA !== yearB) return yearA - yearB
     return (
-      (trimesterOrder[aTrim.toLowerCase()] || 0) -
-      (trimesterOrder[bTrim.toLowerCase()] || 0)
+      (trimesterOrder[aTrim?.toLowerCase()] || 0) -
+      (trimesterOrder[bTrim?.toLowerCase()] || 0)
     )
   })
 }

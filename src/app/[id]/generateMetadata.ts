@@ -1,7 +1,7 @@
 import { formatStudentId, isObjectEmpty } from '@/utils/helpers'
-import { PRIMARY_DOMAIN, SECONDARY_DOMAIN } from '@/utils/domains'
+import { PageProps } from '../../../types'
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata({ params }: PageProps) {
   try {
     const { id } = await params
     const studentId = formatStudentId(id)
@@ -30,10 +30,6 @@ export async function generateMetadata({ params }) {
       },
       alternates: {
         canonical: `/${id}`,
-        // Reference to secondary domain for SEO
-        other: {
-          backup: `${SECONDARY_DOMAIN}/${id}`,
-        },
       },
     }
   } catch (error) {

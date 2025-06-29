@@ -14,6 +14,23 @@
   padding: 10px;
   font-size: 12px;
   margin-top: 2px;
+  color: var(--text-primary-color);
+}
+
+/* Ensure consistent styling when browser autocomplete is applied */
+/* Webkit browsers (Chrome, Safari, Edge) */
+.idInput:-webkit-autofill,
+.idInput:-webkit-autofill:hover,
+.idInput:-webkit-autofill:focus,
+.idInput:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px var(--border-secondary-color) inset !important;
+  -webkit-text-fill-color: var(--text-primary-color) !important;
+}
+
+/* Firefox */
+.idInput:-moz-autofill {
+  background-color: var(--border-secondary-color) !important;
+  color: var(--text-primary-color) !important;
 }
 
 .searchBtn {

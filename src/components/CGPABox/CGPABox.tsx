@@ -7,8 +7,10 @@ import styles from './style.module.css'
 
 export default function CGPABox() {
   const allResults = useAtomValue($allResults)
-  const { totalCreditHrs, totalAverageCGPA } =
-    getAverageCGPAandCredits(allResults)
+  const { totalCreditHrs, totalAverageCGPA } = getAverageCGPAandCredits(
+    allResults,
+    allResults.length - 1
+  )
 
   return (
     <div className={styles.cgpaContainer}>

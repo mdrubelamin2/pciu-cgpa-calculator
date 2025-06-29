@@ -8,7 +8,7 @@ export const GET = async () => {
   const data = await fetcherText(url)
   const root = parse(data)
   const trimesters = root.querySelectorAll('#semester option')
-  const trimestersList = []
+  const trimestersList: string[] = []
   trimesters.forEach(trimester => {
     const optValue = trimStr(
       trimester.rawAttrs.split('value=')[1].split('"')[1]

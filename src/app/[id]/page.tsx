@@ -11,13 +11,14 @@ import {
 } from '@/utils/helpers'
 import { headers } from 'next/headers'
 import { notFound } from 'next/navigation'
+import { PageProps } from '../../../types'
 import styles from '../page.module.css'
 import SSRProvider from './SSRProvider'
 import { generateMetadata } from './generateMetadata'
 
 export { generateMetadata }
 
-export default async function Page({ params }) {
+export default async function Page({ params }: PageProps) {
   const { id } = await params
   const studentId = formatStudentId(id)
   const TOTAL_ID_LENGTH = 13 // ### ### ##### ex: CSE 019 06859
@@ -31,7 +32,7 @@ export default async function Page({ params }) {
   const studentTrimesters = allTrimesters.slice(
     allTrimesters.indexOf(studentInfo.studentSession)
   )
-  const trimesterPromises = studentTrimesters.map(trimester =>
+  const trimesterPromises = studentTrimesters.map((trimester: string) =>
     fetcher(`${url}/api/trimester-result/${studentId}/${trimester}`)
   )
   const onlineResultPromise = fetcher(`${url}/api/online-result/${studentId}`)
