@@ -35,7 +35,7 @@
 }
 
 @media all and (min-width: 480px) and (max-width: 768px) {
-  .mainContainer:not(.beforeSearch) {
+  .mainContainer:not(.beforeSearch):not(.has-student-data) {
     display: block;
   }
 
@@ -50,7 +50,7 @@
 }
 
 @media all and (max-width: 480px) {
-  .mainContainer:not(.beforeSearch) {
+  .mainContainer:not(.beforeSearch):not(.has-student-data) {
     display: block;
   }
 

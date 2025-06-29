@@ -12,7 +12,7 @@ import {
 import { headers } from 'next/headers'
 import { notFound } from 'next/navigation'
 import { PageProps } from '../../../types'
-import styles from '../page.module.css'
+import styles from './page.module.css'
 import SSRProvider from './SSRProvider'
 import { generateMetadata } from './generateMetadata'
 
