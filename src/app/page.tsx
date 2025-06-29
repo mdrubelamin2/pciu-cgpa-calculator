@@ -6,7 +6,6 @@ import LeftContainer from '@/components/LeftContainer/LeftContainer'
 import { isObjectEmpty } from '@/utils/helpers'
 import { Provider, useAtomValue } from 'jotai'
 import dynamic from 'next/dynamic'
-import styles from './page.module.css'
 
 const RightContainer = dynamic(
   () => import('@/components/RightContainer/RightContainer')
@@ -21,11 +20,9 @@ function Home() {
   const hasStudentData = !isObjectEmpty(studentInfo)
 
   return (
-    <div
-      className={`${styles.mainContainer} ${!hasStudentData && styles.beforeSearch}`}
-    >
+    <div className={`main-container ${!hasStudentData ? 'before-search' : ''}`}>
       <Heading />
-      <div className={styles.contentContainer}>
+      <div className='content-container'>
         <LeftContainer />
         <RightContainer />
       </div>

@@ -12,7 +12,7 @@ import {
 import { headers } from 'next/headers'
 import { notFound } from 'next/navigation'
 import { PageProps } from '../../../types'
-import styles from './page.module.css'
+// Using global CSS classes for shared layout styles
 import SSRProvider from './SSRProvider'
 import { generateMetadata } from './generateMetadata'
 
@@ -48,14 +48,14 @@ export default async function Page({ params }: PageProps) {
   const allResults = sortByTrimesterAndYear(validTrimesterResults)
 
   return (
-    <div className={styles.mainContainer}>
+    <div className='main-container'>
       <Heading />
       <SSRProvider
         studentId={studentId}
         studentInfo={studentInfo}
         allResults={allResults}
       >
-        <div className={styles.contentContainer}>
+        <div className='content-container'>
           <LeftContainer />
           <RightContainer />
         </div>
