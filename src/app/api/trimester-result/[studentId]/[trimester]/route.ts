@@ -4,7 +4,6 @@ import { fetcher, handleResultData } from '@/utils/helpers'
 import { urls } from '@/utils/urls'
 
 const trimesterResultCache = getCache('trimesterResult', {
-  ttl: 120 * 24 * 60 * 60,
   max: 2000,
 })
 

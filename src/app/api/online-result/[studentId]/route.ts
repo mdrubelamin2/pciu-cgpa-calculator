@@ -6,10 +6,7 @@ import { urls } from '@/utils/urls'
 import type { TrimesterResult } from '../../../../../types'
 import { fetchOnlineResult } from '../../helpers'
 
-const onlineResultCache = getCache('onlineResult', {
-  ttl: 120 * 24 * 60 * 60,
-  max: 1000,
-})
+const onlineResultCache = getCache('onlineResult')
 
 export const GET = async (
   _: Request,

@@ -3,10 +3,7 @@ import { getCache } from '@/utils/cache'
 import { fetcher } from '@/utils/helpers'
 import { urls } from '@/utils/urls'
 
-const studentInfoCache = getCache('studentInfo', {
-  ttl: 120 * 24 * 60 * 60,
-  max: 500,
-})
+const studentInfoCache = getCache('studentInfo')
 
 export const GET = async (
   _: Request,
