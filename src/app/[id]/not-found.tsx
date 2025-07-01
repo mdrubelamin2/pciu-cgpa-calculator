@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import styles from '../page.module.css'
-import { PRIMARY_DOMAIN, SECONDARY_DOMAIN } from '@/utils/domains'
 
 /**
  * Generate metadata for the student ID not-found page

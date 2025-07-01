@@ -1,11 +1,11 @@
 'use client'
 
+import { Provider, useAtomValue } from 'jotai'
+import dynamic from 'next/dynamic'
 import { $studentInfo } from '@/atoms/global'
 import Heading from '@/components/Heading/Heading'
 import LeftContainer from '@/components/LeftContainer/LeftContainer'
 import { isObjectEmpty } from '@/utils/helpers'
-import { Provider, useAtomValue } from 'jotai'
-import dynamic from 'next/dynamic'
 
 const RightContainer = dynamic(
   () => import('@/components/RightContainer/RightContainer')

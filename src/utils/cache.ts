@@ -1,8 +1,8 @@
 import { Redis } from '@upstash/redis'
 import { parse, stringify } from 'jcof'
 import { LRUCache } from 'lru-cache'
+import type { CacheOptions } from '../../types'
 import { isJCOFString } from './helpers'
-import { CacheOptions } from '../../types'
 
 let useMemoryCache = false
 let redis: Redis | undefined

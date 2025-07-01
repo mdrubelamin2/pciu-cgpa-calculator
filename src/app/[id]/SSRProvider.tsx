@@ -1,9 +1,9 @@
 'use client'
 
-import { $allResults, $studentId, $studentInfo } from '@/atoms/global'
-import { SSRProviderProps } from '../../../types'
 import { Provider } from 'jotai'
 import { useHydrateAtoms } from 'jotai/utils'
+import { $allResults, $studentId, $studentInfo } from '@/atoms/global'
+import type { SSRProviderProps } from '../../../types'
 
 function Providers({
   studentId,

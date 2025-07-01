@@ -1,7 +1,7 @@
+import parse from 'node-html-parser'
 import { fetcherText, handleResultData, trimStr } from '@/utils/helpers'
 import { urls } from '@/utils/urls'
-import parse from 'node-html-parser'
-import { Course } from '../../../types'
+import type { Course } from '../../../types'
 
 interface FetchOnlineResultParams {
   studentId: string

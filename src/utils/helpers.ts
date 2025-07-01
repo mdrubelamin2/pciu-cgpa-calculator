@@ -1,5 +1,5 @@
 import Toastify from 'toastify-js'
-import { TrimesterResult, Course, StudentInfo } from '../../types'
+import type { Course, TrimesterResult } from '../../types'
 
 export const isObjectEmpty = (obj: unknown): boolean => {
   if (!obj || typeof obj !== 'object') return true
@@ -99,7 +99,7 @@ export const getAverageCGPAandCredits = (
     totalCreditHrs += trimesterResult.completedCreditHrs
   })
   totalCGPA = totalCGPA / totalCreditHrs
-  let totalAverageCGPA = Number.isNaN(totalCGPA)
+  const totalAverageCGPA = Number.isNaN(totalCGPA)
     ? 0
     : roundToTwoDecimal(totalCGPA, true)
   return { totalCreditHrs, totalAverageCGPA }

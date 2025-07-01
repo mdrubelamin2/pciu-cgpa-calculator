@@ -1,5 +1,5 @@
 import { formatStudentId, isObjectEmpty } from '@/utils/helpers'
-import { PageProps } from '../../../types'
+import type { PageProps } from '../../../types'
 
 export async function generateMetadata({ params }: PageProps) {
   try {
@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: PageProps) {
         canonical: `/${id}`,
       },
     }
-  } catch (error) {
+  } catch (_error) {
     // Fallback metadata
     return {
       title: `Student Result | PCIU Result`,

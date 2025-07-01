@@ -1,7 +1,7 @@
+import { NextResponse } from 'next/server'
 import { getCache } from '@/utils/cache'
 import { fetcher } from '@/utils/helpers'
 import { urls } from '@/utils/urls'
-import { NextResponse } from 'next/server'
 
 const studentInfoCache = getCache('studentInfo', {
   ttl: 120 * 24 * 60 * 60,

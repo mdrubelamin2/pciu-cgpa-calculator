@@ -1,7 +1,7 @@
-import { fetcherText, trimStr } from '@/utils/helpers'
-import { urls } from '@/utils/urls'
 import { NextResponse } from 'next/server'
 import parse from 'node-html-parser'
+import { fetcherText, trimStr } from '@/utils/helpers'
+import { urls } from '@/utils/urls'
 
 export const GET = async () => {
   const url = urls.TRIMESTER_RESULT_SITE

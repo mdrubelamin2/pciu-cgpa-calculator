@@ -1,3 +1,5 @@
+import { headers } from 'next/headers'
+import { notFound } from 'next/navigation'
 import CGPAChart from '@/components/CGPAChart/CGPAChart'
 import Heading from '@/components/Heading/Heading'
 import LeftContainer from '@/components/LeftContainer/LeftContainer'
@@ -9,12 +11,10 @@ import {
   isObjectEmpty,
   sortByTrimesterAndYear,
 } from '@/utils/helpers'
-import { headers } from 'next/headers'
-import { notFound } from 'next/navigation'
-import { PageProps } from '../../../types'
+import type { PageProps } from '../../../types'
+import { generateMetadata } from './generateMetadata'
 // Using global CSS classes for shared layout styles
 import SSRProvider from './SSRProvider'
-import { generateMetadata } from './generateMetadata'
 
 export { generateMetadata }
 
@@ -24,8 +24,7 @@ export default async function Page({ params }: PageProps) {
   const TOTAL_ID_LENGTH = 13 // ### ### ##### ex: CSE 019 06859
   if (studentId.length !== TOTAL_ID_LENGTH) return notFound()
   const pageHeaders = await headers()
-  const url =
-    pageHeaders.get('x-forwarded-proto') + '://' + pageHeaders.get('host')
+  const url = `${pageHeaders.get('x-forwarded-proto')}://${pageHeaders.get('host')}`
   const studentInfo = await fetcher(`${url}/api/student/${studentId}`)
   if (isObjectEmpty(studentInfo)) return notFound()
   const allTrimesters = await fetcher(`${url}/api/trimesters`)
