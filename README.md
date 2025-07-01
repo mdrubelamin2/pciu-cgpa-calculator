@@ -18,27 +18,46 @@ CSE 019 06859
 
 **Libraries:** Node HTML Parser, Chart.js
 
+**Development Tools:** Biome (Linting & Formatting)
+
 **Hosting:** Vercel
 
 ## Installation
 
-Install pciu-cgpa-calculator with npm / yarn / pnpm
+Install pciu-cgpa-calculator with npm / yarn / pnpm / bun
 
 ```bash
   git clone https://github.com/mdrubelamin2/pciu-cgpa-calculator.git
   cd pciu-cgpa-calculator
-  pnpm install
+  bun install
 ```
 
 For Development mode:
 
 ```bash
-    pnpm dev
+    bun dev
 ```
 
 For Production mode:
 
 ```bash
-    pnpm build
-    pnpm start
+    bun build
+    bun start
+```
+
+## Development Commands
+
+**Linting & Formatting:**
+```bash
+# Check for linting and formatting issues
+bun run lint
+
+# Auto-fix linting and formatting issues
+bun run lint:fix
+
+# Format code only
+bun run format
+
+# Type checking
+bun run type-check
 ```
