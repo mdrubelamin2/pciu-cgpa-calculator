@@ -1,10 +1,10 @@
+import { NextResponse } from 'next/server'
+import parse from 'node-html-parser'
 import { getCache } from '@/utils/cache'
 import { isObjectEmpty, trimStr } from '@/utils/helpers'
 import { urls } from '@/utils/urls'
-import { NextResponse } from 'next/server'
-import parse from 'node-html-parser'
+import type { TrimesterResult } from '../../../../../types'
 import { fetchOnlineResult } from '../../helpers'
-import { TrimesterResult } from '../../../../../types'
 
 const onlineResultCache = getCache('onlineResult', {
   ttl: 120 * 24 * 60 * 60,
@@ -18,7 +18,9 @@ export const GET = async (
   const { studentId } = await params
   const url = urls.ONLINE_RESULT_SITE
 
-  let initialReq, initialText, initialRoot
+  let initialReq: Response
+  let initialText: string
+  let initialRoot: ReturnType<typeof parse>
 
   try {
     initialReq = await fetch(url, {
@@ -47,7 +49,7 @@ export const GET = async (
     .querySelector('form [name="RsData"]')
     ?.getAttribute('value')
   const semester = initialRoot.querySelector('form [name="Semester"]')
-    ?.attributes['Value']
+    ?.attributes.Value
   const semesters = initialRoot.querySelectorAll('#Semester option')
   const semestersList = []
 

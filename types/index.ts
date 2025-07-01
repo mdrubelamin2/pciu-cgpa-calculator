@@ -49,9 +49,9 @@ export interface PageProps {
 }
 
 export interface TrimesterPageProps {
-  params: { 
+  params: {
     studentId: string
-    trimester: string 
+    trimester: string
   }
 }
 
