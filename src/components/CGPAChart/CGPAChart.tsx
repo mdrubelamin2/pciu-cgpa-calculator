@@ -18,6 +18,7 @@ import {
 } from 'chart.js'
 import { useAtomValue } from 'jotai'
 import { Line } from 'react-chartjs-2'
+import { TrimesterResult } from '../../../types'
 import styles from './style.module.css'
 
 ChartJS.register(
@@ -30,17 +31,19 @@ ChartJS.register(
   Legend
 )
 
-const generateChartData = (allResults: any[]) => {
-  const resultData = allResults.filter((result: any) => result.currentGPA > 0)
+const generateChartData = (allResults: TrimesterResult[]) => {
+  const resultData = allResults.filter(
+    (result: TrimesterResult) => result.currentGPA > 0
+  )
 
   const data = {
-    labels: resultData.map((result: any) => result.trimester),
+    labels: resultData.map((result: TrimesterResult) => result.trimester),
     datasets: [
       {
         label: 'SGPA ',
         backgroundColor: '#00a3ff',
         borderColor: '#00a3ff',
-        data: resultData.map((result: any) =>
+        data: resultData.map((result: TrimesterResult) =>
           roundToTwoDecimal(result.currentGPA)
         ),
       },
@@ -49,7 +52,7 @@ const generateChartData = (allResults: any[]) => {
         backgroundColor: 'rgb(255, 99, 132)',
         borderColor: 'rgb(255, 99, 132)',
         data: resultData.map(
-          (_: any, i: number) =>
+          (_, i: number) =>
             getAverageCGPAandCredits(resultData, i).totalAverageCGPA
         ),
       },

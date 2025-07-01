@@ -1,7 +1,10 @@
 import Toastify from 'toastify-js'
+import { TrimesterResult, Course, StudentInfo } from '../../types'
 
-export const isObjectEmpty = (obj: any): boolean =>
-  obj && Object.keys(obj).length === 0 && obj.constructor === Object
+export const isObjectEmpty = (obj: unknown): boolean => {
+  if (!obj || typeof obj !== 'object') return true
+  return Object.keys(obj).length === 0 && obj.constructor === Object
+}
 
 export const isJCOFString = (str: string): boolean =>
   typeof str === 'string' && /^[^;]*;[^;]*;/.test(str)
@@ -36,18 +39,18 @@ export const getTrimesterResult = (studentId: string, trimester: string) =>
 export const getOnlineResult = (studentId: string) =>
   fetcher(`/api/online-result/${studentId}`)
 
-export const checkIfImprovement = (course: any): boolean =>
+export const checkIfImprovement = (course: Course): boolean =>
   course.status === 'Improvement'
 
-export const checkIfIncomplete = (course: any): boolean =>
+export const checkIfIncomplete = (course: Course): boolean =>
   course.status === 'Incomplete' || trimStr(course.LetterGrade) === 'I'
 
-export const checkIfWithdraw = (course: any): boolean =>
+export const checkIfWithdraw = (course: Course): boolean =>
   course.status === 'Withdraw' || trimStr(course.LetterGrade) === 'W'
 
-export const handleResultData = (resultData: any[]): any => {
-  if (!resultData.length) return {}
-  const trimester = resultData[0].semester
+export const handleResultData = (resultData: Course[]): TrimesterResult => {
+  if (!resultData.length) return {} as TrimesterResult
+  const trimester = resultData[0].semester || ''
   let totalCreditHrs = 0
   let completedCreditHrs = 0
   resultData.forEach(course => {
@@ -65,8 +68,9 @@ export const handleResultData = (resultData: any[]): any => {
   const currentGPA = GPA || 0
 
   // store the trimester result in local storage in a object
-  const trimesterResult = {
+  const trimesterResult: TrimesterResult = {
     trimester,
+    year: '', // Will be set by sortByTrimesterAndYear function
     totalCreditHrs,
     completedCreditHrs,
     currentGPA,
@@ -76,21 +80,21 @@ export const handleResultData = (resultData: any[]): any => {
   return trimesterResult
 }
 
-export const generateCurrentGPA = (currentTrimester: any): number =>
+export const generateCurrentGPA = (currentTrimester: TrimesterResult): number =>
   currentTrimester.individuals.reduce(
-    (acc: number, curr: any) => acc + curr.GradePoint * curr.creditHr,
+    (acc: number, curr: Course) => acc + curr.GradePoint * curr.creditHr,
     0
   ) / currentTrimester.completedCreditHrs
 
 export const getAverageCGPAandCredits = (
-  resultData: any[],
+  resultData: TrimesterResult[],
   toIndex?: number
-): any => {
+): { totalCreditHrs: number; totalAverageCGPA: number | string } => {
   let totalCreditHrs = 0
   let totalCGPA = 0
   const allResults =
     toIndex !== undefined ? resultData.slice(0, toIndex + 1) : resultData
-  allResults.forEach((trimesterResult: any) => {
+  allResults.forEach((trimesterResult: TrimesterResult) => {
     totalCGPA += trimesterResult.currentGPA * trimesterResult.totalCreditHrs
     totalCreditHrs += trimesterResult.completedCreditHrs
   })
@@ -105,19 +109,14 @@ export const showToast = (
   msg = '',
   type: 'success' | 'error' = 'error'
 ): void => {
-  const toastConfig: any = {
+  const toastConfig = {
     text: msg,
-    gravity: 'bottom',
+    gravity: 'bottom' as const,
     style: {
       borderRadius: '8px',
+      background: type === 'success' ? '#00a3ff' : '#f44336',
+      color: '#fff',
     },
-  }
-  if (type === 'success') {
-    toastConfig.style.background = '#00a3ff'
-    toastConfig.style.color = '#fff'
-  } else if (type === 'error') {
-    toastConfig.style.background = '#f44336'
-    toastConfig.style.color = '#fff'
   }
   Toastify(toastConfig).showToast()
 }
@@ -129,7 +128,7 @@ export const formatStudentId = (studentId: string): string => {
     /([\w]{3})(\d{3})(\d{5})/,
     '$1 $2 $3'
   )
-  formattedStudentId = formattedStudentId.replace(/(\w{3})/, (match, p1) =>
+  formattedStudentId = formattedStudentId.replace(/(\w{3})/, (_, p1) =>
     p1.toUpperCase()
   )
   return formattedStudentId
@@ -166,7 +165,10 @@ export const copyToClipboard = (textToCopy: string): Promise<void> => {
 
         // For iOS devices
         if (navigator.userAgent.match(/ipad|ipod|iphone/i)) {
-          ;(input as any).contentEditable = 'true'
+          const textareaElement = input as HTMLTextAreaElement & {
+            contentEditable: string
+          }
+          textareaElement.contentEditable = 'true'
           input.readOnly = false
           const range = document.createRange()
           range.selectNodeContents(input)
@@ -195,7 +197,9 @@ export const copyToClipboard = (textToCopy: string): Promise<void> => {
   })
 }
 
-export function sortByTrimesterAndYear(results: any[]): any[] {
+export function sortByTrimesterAndYear(
+  results: TrimesterResult[]
+): TrimesterResult[] {
   const trimesterOrder: Record<string, number> = {
     spring: 1,
     summer: 2,

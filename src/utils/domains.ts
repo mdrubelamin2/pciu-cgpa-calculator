@@ -13,7 +13,9 @@ export const SECONDARY_DOMAIN =
   'https://pciu-cgpa-calculator.vercel.app'
 
 // Get the current domain based on the request or default to primary
-export function getCurrentDomain(req?: any): string {
+export function getCurrentDomain(req?: {
+  headers?: { host?: string }
+}): string {
   if (typeof window !== 'undefined') {
     return window.location.origin
   }

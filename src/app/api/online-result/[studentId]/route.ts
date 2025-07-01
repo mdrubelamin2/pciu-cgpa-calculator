@@ -4,6 +4,7 @@ import { urls } from '@/utils/urls'
 import { NextResponse } from 'next/server'
 import parse from 'node-html-parser'
 import { fetchOnlineResult } from '../../helpers'
+import { TrimesterResult } from '../../../../../types'
 
 const onlineResultCache = getCache('onlineResult', {
   ttl: 120 * 24 * 60 * 60,
@@ -62,7 +63,7 @@ export const GET = async (
     semestersList.push(semester)
   }
 
-  const allResults: any[] = []
+  const allResults: TrimesterResult[] = []
   if (!requestVerificationToken || !semester) {
     console.warn(
       `Missing required tokens: requestVerificationToken=${!!requestVerificationToken}, semester=${!!semester}`
@@ -113,8 +114,12 @@ export const GET = async (
   )
 
   results.forEach(result => {
-    if (result.status === 'fulfilled' && result.value) {
-      allResults.push(result.value)
+    if (
+      result.status === 'fulfilled' &&
+      result.value &&
+      !isObjectEmpty(result.value)
+    ) {
+      allResults.push(result.value as TrimesterResult)
     }
   })
 

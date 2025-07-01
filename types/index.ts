@@ -16,6 +16,8 @@ export interface Course {
   LetterGrade: string
   GradePoint: number
   status?: string
+  semester?: string
+  GPA?: number
 }
 
 export interface Grade {

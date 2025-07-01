@@ -4,6 +4,7 @@ import { $allResults, $editMode, $modal } from '@/atoms/global'
 import { roundToTwoDecimal } from '@/utils/helpers'
 import { useAtomValue, useSetAtom } from 'jotai'
 import Image from 'next/image'
+import { TrimesterResult } from '../../../types'
 import styles from './style.module.css'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 
@@ -12,7 +13,7 @@ export default function GPATable() {
   const editMode = useAtomValue($editMode)
   const setModal = useSetAtom($modal)
   const [animationParent] = useAutoAnimate()
-  const showModal = (trimesterResult: any) => () =>
+  const showModal = (trimesterResult: TrimesterResult) => () =>
     setModal({ show: true, data: trimesterResult })
 
   return (

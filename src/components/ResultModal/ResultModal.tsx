@@ -10,6 +10,7 @@ import {
 } from '@/utils/helpers'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import Image from 'next/image'
+import { TrimesterResult, Course, Grade } from '../../../types'
 import styles from './style.module.css'
 
 const convertGradeToClassName = (letter: string) => {
@@ -52,24 +53,31 @@ export default function ResultModal() {
   }
 
   const handleGradeChange =
-    (trimesterData: any) => (e: React.ChangeEvent<HTMLSelectElement>) => {
-      const newTrimesterResult = structuredClone(trimesterResult as any)
+    (trimesterData: Course) => (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const newTrimesterResult = structuredClone(
+        trimesterResult as TrimesterResult
+      )
       const { value: letterGrade } = e.target
       const grade = grades.find(grade => grade.letter === letterGrade)
       const courseIndex = newTrimesterResult.individuals.findIndex(
-        (item: any) => item.courseCode === trimesterData.courseCode
+        (item: Course) => item.courseCode === trimesterData.courseCode
       )
-      newTrimesterResult.individuals[courseIndex].LetterGrade = grade?.letter
-      newTrimesterResult.individuals[courseIndex].GradePoint = grade?.point
-      setAllResults((prev: any[]) => {
+      if (courseIndex !== -1 && grade) {
+        newTrimesterResult.individuals[courseIndex].LetterGrade = grade.letter
+        newTrimesterResult.individuals[courseIndex].GradePoint = grade.point
+      }
+      setAllResults((prev: TrimesterResult[]) => {
         const newAllResults = structuredClone(prev)
         const trimesterIndex = prev.findIndex(
-          (item: any) => item.trimester === (trimesterResult as any).trimester
+          (item: TrimesterResult) =>
+            item.trimester === (trimesterResult as TrimesterResult).trimester
         )
-        const { individuals } = newTrimesterResult
-        const newResultData = handleResultData(individuals)
-        newResultData.currentGPA = generateCurrentGPA(newResultData)
-        newAllResults[trimesterIndex] = newResultData
+        if (trimesterIndex !== -1) {
+          const { individuals } = newTrimesterResult
+          const newResultData = handleResultData(individuals)
+          newResultData.currentGPA = generateCurrentGPA(newResultData)
+          newAllResults[trimesterIndex] = newResultData
+        }
         return newAllResults
       })
       setModal(prev => {
@@ -82,8 +90,8 @@ export default function ResultModal() {
   const checkIfGradeEdittable = (courseCode: string): boolean => {
     const reversedResults = [...allResults].reverse()
     const resultIndx = reversedResults.findIndex(
-      (trimester: any) =>
-        trimester.trimester === (trimesterResult as any).trimester
+      (trimester: TrimesterResult) =>
+        trimester.trimester === (trimesterResult as TrimesterResult).trimester
     )
     const remainingResults = reversedResults.slice(resultIndx + 1)
     const courseExists = remainingResults.some(trimester =>
@@ -92,8 +100,11 @@ export default function ResultModal() {
       )
     )
     // check if the course is not improvement course
-    const isImprovementCourse = (trimesterResult as any).individuals.some(
-      (item: any) => item.courseCode === courseCode && checkIfImprovement(item)
+    const isImprovementCourse = (
+      trimesterResult as TrimesterResult
+    ).individuals.some(
+      (item: Course) =>
+        item.courseCode === courseCode && checkIfImprovement(item)
     )
     return !courseExists && !isImprovementCourse
   }
@@ -106,14 +117,14 @@ export default function ResultModal() {
         <div className={styles.heading}>
           <p
             className={styles.title}
-          >{`${(trimesterResult as any).trimester} Trimester Result`}</p>
+          >{`${(trimesterResult as TrimesterResult).trimester} Trimester Result`}</p>
           <span className={styles.closeBtn} onClick={closeModal}>
             <Image src='/images/close.svg' alt='' width={24} height={24} />
           </span>
         </div>
         <div className={styles.modalContent}>
-          {(trimesterResult as any)?.individuals?.map(
-            (item: any, indx: number) => (
+          {(trimesterResult as TrimesterResult)?.individuals?.map(
+            (item: Course, indx: number) => (
               <div key={indx} className={styles.gridContainer}>
                 <div className={`${styles.gridItem} ${styles.itemNoOne}`}>
                   <div className={styles.center}>
@@ -154,7 +165,9 @@ export default function ResultModal() {
                         </select>
                         <GradeUndoButton
                           courseIndex={indx}
-                          trimester={(trimesterResult as any).trimester}
+                          trimester={
+                            (trimesterResult as TrimesterResult).trimester
+                          }
                         />
                       </>
                     ) : (

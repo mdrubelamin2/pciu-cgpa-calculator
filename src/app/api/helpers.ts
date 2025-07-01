@@ -1,6 +1,7 @@
 import { fetcherText, handleResultData, trimStr } from '@/utils/helpers'
 import { urls } from '@/utils/urls'
 import parse from 'node-html-parser'
+import { Course } from '../../../types'
 
 interface FetchOnlineResultParams {
   studentId: string
@@ -55,7 +56,7 @@ export const fetchOnlineResult = async ({
     const allTrFromSecondTbodyExceptFirstRow = parsedResHTML.querySelectorAll(
       '.table:nth-child(2) tr:not(:first-child)'
     )
-    const results: any[] = []
+    const results: Course[] = []
 
     allTrFromSecondTbodyExceptFirstRow.forEach(tr => {
       const tds = tr.childNodes.filter(node => node.nodeType === 1)

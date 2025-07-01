@@ -2,12 +2,13 @@ import { $allResults, $editMode, $tempResults } from '@/atoms/global'
 import { useAtom, useSetAtom } from 'jotai'
 import Image from 'next/image'
 import { useRef } from 'react'
+import { TrimesterResult } from '../../../types'
 import styles from './style.module.css'
 
 export default function EditModeButton() {
   const [editMode, setEditMode] = useAtom($editMode)
   const [allResults, setAllResults] = useAtom($allResults)
-  const realResults = useRef<any[]>([])
+  const realResults = useRef<TrimesterResult[]>([])
   const setTempResults = useSetAtom($tempResults)
 
   const toggleEditMode = () => {

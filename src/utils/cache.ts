@@ -17,9 +17,9 @@ const defaultCacheOptions: CacheOptions = {
   max: 1000,
 }
 
-const compress = (data: any): string => stringify(data)
+const compress = (data: unknown): string => stringify(data)
 
-const decompress = (data: string): any =>
+const decompress = (data: string): unknown =>
   isJCOFString(data) ? parse(data) : data
 
 class MemoryCache {
@@ -33,10 +33,10 @@ class MemoryCache {
   async has(key: string): Promise<boolean> {
     return this.cache.has(this._getKey(key))
   }
-  async get(key: string): Promise<any> {
+  async get(key: string): Promise<unknown> {
     return decompress(this.cache.get(this._getKey(key)) || '')
   }
-  async set(key: string, value: any): Promise<void> {
+  async set(key: string, value: unknown): Promise<void> {
     this.cache.set(this._getKey(key), compress(value))
   }
   _getKey(key: string): string {
@@ -59,12 +59,12 @@ class RedisCache {
     if (!redis) return false
     return (await redis.exists(this._getKey(key))) > 0
   }
-  async get(key: string): Promise<any> {
+  async get(key: string): Promise<unknown> {
     if (!redis) return null
     const value = await redis.get(this._getKey(key))
     return value ? decompress(value as string) : null
   }
-  async set(key: string, value: any): Promise<void> {
+  async set(key: string, value: unknown): Promise<void> {
     if (!redis) return
     await redis.set(this._getKey(key), compress(value), {
       ex: this.ttl,

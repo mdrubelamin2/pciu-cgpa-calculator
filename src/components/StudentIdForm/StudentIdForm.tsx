@@ -19,6 +19,7 @@ import { sendGAEvent } from '@next/third-parties/google'
 import { InputMask } from '@react-input/mask'
 import { useAtom, useSetAtom } from 'jotai'
 import { useState } from 'react'
+import { TrimesterResult } from '../../../types'
 import styles from './style.module.css'
 
 export default function StudentIdForm() {
@@ -70,7 +71,7 @@ export default function StudentIdForm() {
     const trimesterPromises = studentTrimesters.map((trimester: string) =>
       getTrimesterResult(studentId, trimester).then(result => {
         if (!isObjectEmpty(result)) {
-          setAllResults((prevResults: any[]) =>
+          setAllResults((prevResults: TrimesterResult[]) =>
             sortByTrimesterAndYear([...prevResults, result])
           )
         }
@@ -80,7 +81,7 @@ export default function StudentIdForm() {
 
     const onlineResultPromise = getOnlineResult(studentId).then(onlineData => {
       if (!isObjectEmpty(onlineData)) {
-        setAllResults((prevResults: any[]) =>
+        setAllResults((prevResults: TrimesterResult[]) =>
           sortByTrimesterAndYear([...prevResults, ...onlineData])
         )
       }

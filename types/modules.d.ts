@@ -1,8 +1,8 @@
 // Type declarations for modules without TypeScript support
 
 declare module 'jcof' {
-  export function parse(data: string): any
-  export function stringify(data: any): string
+  export function parse(data: string): unknown
+  export function stringify(data: unknown): string
 }
 
 declare module 'toastify-js' {
@@ -22,7 +22,7 @@ declare module 'toastify-js' {
       background?: string
       color?: string
       borderRadius?: string
-      [key: string]: any
+      [key: string]: string | undefined
     }
   }
 
@@ -46,9 +46,12 @@ declare module '@react-input/mask' {
 
   export function InputMask(props: MaskInputProps): JSX.Element
   export function Mask(props: MaskInputProps): JSX.Element
-  export function useMask(): any
+  export function useMask(): {
+    value: string
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  }
   export function format(value: string, mask: string): string
-  export function formatToParts(value: string, mask: string): any[]
+  export function formatToParts(value: string, mask: string): string[]
   export function generatePattern(mask: string): RegExp
   export function unformat(value: string, mask: string): string
 }
