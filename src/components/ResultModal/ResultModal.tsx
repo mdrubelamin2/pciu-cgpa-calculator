@@ -1,5 +1,7 @@
 'use client'
 
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
+import Image from 'next/image'
 import { $allResults, $editMode, $modal, $tempResults } from '@/atoms/global'
 import {
   checkIfImprovement,
@@ -8,9 +10,7 @@ import {
   roundToTwoDecimal,
   trimStr,
 } from '@/utils/helpers'
-import { useAtom, useAtomValue, useSetAtom } from 'jotai'
-import Image from 'next/image'
-import { TrimesterResult, Course, Grade } from '../../../types'
+import type { Course, TrimesterResult } from '../../../types'
 import styles from './style.module.css'
 
 const convertGradeToClassName = (letter: string) => {
@@ -19,8 +19,8 @@ const convertGradeToClassName = (letter: string) => {
 
   if (grade === '-') return 'i'
   if (!stat) return grade
-  if (stat == '+') return grade.replace(stat, 'Plus')
-  if (stat == '-') return grade.replace(stat, 'Minus')
+  if (stat === '+') return grade.replace(stat, 'Plus')
+  if (stat === '-') return grade.replace(stat, 'Minus')
 }
 
 const grades = [
@@ -44,7 +44,7 @@ export default function ResultModal() {
   const [allResults, setAllResults] = useAtom($allResults)
   const { show, data: trimesterResult } = modal
 
-  const closeModal = () => setModal({ show: false, data: {} })
+  const closeModal = () => setModal({ show: false, data: null })
 
   const closeOutsideModal = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -109,23 +109,34 @@ export default function ResultModal() {
     return !courseExists && !isImprovementCourse
   }
 
-  if (!show) return null
+  if (!show || !trimesterResult) return null
 
   return (
-    <div className={styles.modal} onClick={closeOutsideModal}>
+    <div
+      className={styles.modal}
+      onClick={closeOutsideModal}
+      onKeyDown={e => e.key === 'Escape' && closeModal()}
+      role='dialog'
+      aria-modal='true'
+    >
       <div className={styles.modalContainer}>
         <div className={styles.heading}>
           <p
             className={styles.title}
           >{`${(trimesterResult as TrimesterResult).trimester} Trimester Result`}</p>
-          <span className={styles.closeBtn} onClick={closeModal}>
+          <button
+            type='button'
+            className={styles.closeBtn}
+            onClick={closeModal}
+            aria-label='Close modal'
+          >
             <Image src='/images/close.svg' alt='' width={24} height={24} />
-          </span>
+          </button>
         </div>
         <div className={styles.modalContent}>
           {(trimesterResult as TrimesterResult)?.individuals?.map(
             (item: Course, indx: number) => (
-              <div key={indx} className={styles.gridContainer}>
+              <div key={item.courseCode} className={styles.gridContainer}>
                 <div className={`${styles.gridItem} ${styles.itemNoOne}`}>
                   <div className={styles.center}>
                     <span className={styles.serialNo}>{indx + 1}</span>
@@ -157,8 +168,8 @@ export default function ResultModal() {
                           onChange={handleGradeChange(item)}
                           value={trimStr(item.LetterGrade)}
                         >
-                          {grades.map((grade, indx) => (
-                            <option key={indx} value={grade.letter}>
+                          {grades.map(grade => (
+                            <option key={grade.letter} value={grade.letter}>
                               {grade.letter}
                             </option>
                           ))}
@@ -253,7 +264,7 @@ const GradeUndoButton = ({
   }
 
   return (
-    <button className={styles.undoBtn} onClick={undoGradeChange}>
+    <button type='button' className={styles.undoBtn} onClick={undoGradeChange}>
       <Image
         src='/images/undo.svg'
         alt='Undo'
