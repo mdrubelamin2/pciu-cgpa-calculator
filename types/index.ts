@@ -68,8 +68,8 @@ export interface SSRProviderProps extends ChildrenProps {
 
 // Cache Types
 export interface CacheOptions {
-  ttl: number
-  max: number
+  ttl?: number
+  max?: number
 }
 
 // Chart Data Types

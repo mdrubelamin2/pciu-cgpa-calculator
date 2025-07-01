@@ -12,10 +12,10 @@ try {
   useMemoryCache = true
 }
 
-const defaultCacheOptions: CacheOptions = {
+const defaultCacheOptions = {
   ttl: 120 * 24 * 60 * 60,
   max: 1000,
-}
+} as const
 
 const compress = (data: unknown): string => stringify(data)
 
@@ -26,8 +26,10 @@ class MemoryCache {
   private name: string
   private cache: LRUCache<string, string>
 
-  constructor(name: string, { ttl, max }: CacheOptions = defaultCacheOptions) {
+  constructor(name: string, options: CacheOptions = defaultCacheOptions) {
     this.name = name
+    const ttl = options.ttl ?? defaultCacheOptions.ttl
+    const max = options.max ?? defaultCacheOptions.max
     this.cache = new LRUCache({ max, ttl: ttl * 1000 })
   }
   async has(key: string): Promise<boolean> {
@@ -50,10 +52,10 @@ class RedisCache {
 
   constructor(
     name: string,
-    { ttl }: Pick<CacheOptions, 'ttl'> = defaultCacheOptions
+    options: Pick<CacheOptions, 'ttl'> = defaultCacheOptions
   ) {
     this.name = name
-    this.ttl = ttl
+    this.ttl = options.ttl ?? defaultCacheOptions.ttl
   }
   async has(key: string): Promise<boolean> {
     if (!redis) return false
