@@ -1,12 +1,12 @@
 'use client'
 
-import { $allResults, $editMode, $modal } from '@/atoms/global'
-import { roundToTwoDecimal } from '@/utils/helpers'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { useAtomValue, useSetAtom } from 'jotai'
 import Image from 'next/image'
-import { TrimesterResult } from '../../../types'
+import { $allResults, $editMode, $modal } from '@/atoms/global'
+import { roundToTwoDecimal } from '@/utils/helpers'
+import type { TrimesterResult } from '../../../types'
 import styles from './style.module.css'
-import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 export default function GPATable() {
   const allResults = useAtomValue($allResults)
@@ -37,6 +37,7 @@ export default function GPATable() {
               </td>
               <td>
                 <button
+                  type='button'
                   className={styles.detailsBtn}
                   onClick={showModal(allResults[indx])}
                 >

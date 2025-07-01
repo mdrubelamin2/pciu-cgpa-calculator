@@ -3,9 +3,8 @@ import styles from './style.module.css'
 
 export default function PageLoader() {
   return (
-    <div
+    <output
       className={styles.loadingContainer}
-      role='status'
       aria-label='Loading page content'
     >
       <Image
@@ -19,6 +18,6 @@ export default function PageLoader() {
       <span data-text='Loading…' className={styles.loading} aria-live='polite'>
         Loading…
       </span>
-    </div>
+    </output>
   )
 }

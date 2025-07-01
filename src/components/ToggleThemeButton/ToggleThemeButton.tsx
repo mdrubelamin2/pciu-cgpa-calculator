@@ -1,9 +1,9 @@
 'use client'
 
-import { useTheme } from 'next-themes'
-import styles from './style.module.css'
 import Image from 'next/image'
+import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
+import styles from './style.module.css'
 
 export default function ToggleThemeButton() {
   const [mounted, setMounted] = useState(false)
@@ -55,6 +55,7 @@ export default function ToggleThemeButton() {
 
   return (
     <button
+      type='button'
       className={styles.btn}
       onClick={toggleTheme}
       aria-label={getAriaLabel()}

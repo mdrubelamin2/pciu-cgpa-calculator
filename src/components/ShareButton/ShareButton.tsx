@@ -1,9 +1,9 @@
 'use client'
 
-import { $studentInfo } from '@/atoms/global'
-import { copyToClipboard, showToast } from '@/utils/helpers'
 import { useAtomValue } from 'jotai'
 import Image from 'next/image'
+import { $studentInfo } from '@/atoms/global'
+import { copyToClipboard, showToast } from '@/utils/helpers'
 import styles from './style.module.css'
 
 export default function ShareButton() {
@@ -19,7 +19,7 @@ export default function ShareButton() {
   }
 
   return (
-    <button className={styles.btn} onClick={copyShareUrl}>
+    <button type='button' className={styles.btn} onClick={copyShareUrl}>
       <Image
         src='/images/share.svg'
         className='share-img'

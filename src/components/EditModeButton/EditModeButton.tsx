@@ -1,8 +1,8 @@
-import { $allResults, $editMode, $tempResults } from '@/atoms/global'
 import { useAtom, useSetAtom } from 'jotai'
 import Image from 'next/image'
 import { useRef } from 'react'
-import { TrimesterResult } from '../../../types'
+import { $allResults, $editMode, $tempResults } from '@/atoms/global'
+import type { TrimesterResult } from '../../../types'
 import styles from './style.module.css'
 
 export default function EditModeButton() {
@@ -25,7 +25,7 @@ export default function EditModeButton() {
   }
 
   return (
-    <button className={styles.btn} onClick={toggleEditMode}>
+    <button type='button' className={styles.btn} onClick={toggleEditMode}>
       {!editMode && (
         <Image src='/images/edit.svg' width={12} height={12} alt='Edit' />
       )}
