@@ -1,3 +1,6 @@
+/* Import Poppins font from Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
 *,
 ::before,
 ::after {
@@ -6,6 +9,15 @@
 
 * {
   margin: 0px;
+}
+
+/* Poppins font class */
+.font-poppins {
+  font-family:
+    "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  font-weight: 400;
 }
 
 img,
@@ -24,15 +36,90 @@ select {
   font: inherit;
 }
 
+/* Browser autocomplete styling fixes */
 input:-webkit-autofill,
-input:-webkit-autofill:focus {
-  transition:
-    background-color 600000s 0s,
-    color 600000s 0s;
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px var(--border-secondary-color) inset !important;
+  -webkit-text-fill-color: var(--text-primary-color) !important;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
-input[data-autocompleted] {
-  background-color: transparent !important;
+/* Firefox autocomplete fix */
+input:-moz-autofill {
+  background-color: var(--border-secondary-color) !important;
+  color: var(--text-primary-color) !important;
+}
+
+/* Shared layout styles */
+.main-container {
+  border: 1px solid var(--border-secondary-color);
+  background: var(--bg-primary-color);
+  width: 60vw;
+  padding: 30px 50px 50px;
+  border-radius: 15px;
+  margin: 10px;
+}
+
+.content-container {
+  display: flex;
+  gap: 45px;
+  margin-top: 25px;
+}
+
+.main-container.before-search .content-container {
+  display: block;
+  gap: 0;
+}
+
+.main-container.before-search {
+  width: 500px;
+}
+
+@media all and (min-width: 1280px) {
+  .main-container {
+    max-width: 1024px;
+  }
+}
+
+@media all and (min-width: 768px) and (max-width: 1024px) {
+  .main-container {
+    width: 80vw;
+  }
+}
+
+@media all and (min-width: 480px) and (max-width: 768px) {
+  .main-container:not(.before-search) {
+    display: block;
+  }
+
+  .main-container {
+    margin: 0;
+    width: 100%;
+  }
+
+  .content-container {
+    flex-direction: column;
+  }
+}
+
+@media all and (max-width: 480px) {
+  .main-container:not(.before-search) {
+    display: block;
+  }
+
+  .main-container {
+    width: 100%;
+    border-radius: 0;
+    margin: 0;
+    padding: 20px 30px 30px;
+  }
+
+  .content-container {
+    flex-direction: column;
+    gap: 20px;
+  }
 }
 
 p,
@@ -78,6 +165,7 @@ html {
   --primary-4: #0053b8;
 }
 
+/* Dark mode with next-themes (class-based) */
 @media (prefers-color-scheme: dark) {
   :root.dark {
     --text-primary-color: #e9e9e9;
@@ -90,9 +178,10 @@ html {
     --border-secondary-color: #2e2e2e;
 
     --app-bg-color: #0f0f0f;
+    --btn-text-color: #e9e9e9;
   }
 
-  :root.dark img:not(.ignore-dark) {
+  .dark img:not(.ignore-dark) {
     filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(4680%)
       hue-rotate(116deg) brightness(114%) contrast(82%);
   }
@@ -100,12 +189,8 @@ html {
 
 body {
   width: 100%;
-  /* For browsers that don't support CSS variables */
-  min-height: 100vh;
-  /* This is the "polyfill" */
+  /* Use dynamic viewport height with polyfill fallback */
   min-height: calc(var(--1dvh, 1vh) * 100);
-  /* This is for future browsers that support svh, dvh and lvh viewport units */
-  min-height: 100dvh;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   background-color: var(--app-bg-color);
