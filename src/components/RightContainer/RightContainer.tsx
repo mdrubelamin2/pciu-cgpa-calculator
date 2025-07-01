@@ -1,12 +1,12 @@
 'use client'
 
+import { useAtomValue } from 'jotai'
 import { $studentInfo } from '@/atoms/global'
 import { isObjectEmpty } from '@/utils/helpers'
-import { useAtomValue } from 'jotai'
 import EditModeButton from '../EditModeButton/EditModeButton'
 import GPATable from '../GPATable/GPATable'
-import styles from './style.module.css'
 import ShareButton from '../ShareButton/ShareButton'
+import styles from './style.module.css'
 
 export default function RightContainer() {
   const studentInfo = useAtomValue($studentInfo)

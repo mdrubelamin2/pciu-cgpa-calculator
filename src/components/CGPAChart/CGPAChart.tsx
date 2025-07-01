@@ -1,11 +1,5 @@
 'use client'
 
-import { $allResults, $studentInfo } from '@/atoms/global'
-import {
-  getAverageCGPAandCredits,
-  isObjectEmpty,
-  roundToTwoDecimal,
-} from '@/utils/helpers'
 import {
   CategoryScale,
   Chart as ChartJS,
@@ -18,7 +12,13 @@ import {
 } from 'chart.js'
 import { useAtomValue } from 'jotai'
 import { Line } from 'react-chartjs-2'
-import { TrimesterResult } from '../../../types'
+import { $allResults, $studentInfo } from '@/atoms/global'
+import {
+  getAverageCGPAandCredits,
+  isObjectEmpty,
+  roundToTwoDecimal,
+} from '@/utils/helpers'
+import type { TrimesterResult } from '../../../types'
 import styles from './style.module.css'
 
 ChartJS.register(

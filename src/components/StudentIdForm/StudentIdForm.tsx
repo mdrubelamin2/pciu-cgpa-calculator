@@ -1,5 +1,9 @@
 'use client'
 
+import { sendGAEvent } from '@next/third-parties/google'
+import { InputMask } from '@react-input/mask'
+import { useAtom, useSetAtom } from 'jotai'
+import { useState } from 'react'
 import {
   $allResults,
   $editMode,
@@ -15,11 +19,7 @@ import {
   showToast,
   sortByTrimesterAndYear,
 } from '@/utils/helpers'
-import { sendGAEvent } from '@next/third-parties/google'
-import { InputMask } from '@react-input/mask'
-import { useAtom, useSetAtom } from 'jotai'
-import { useState } from 'react'
-import { TrimesterResult } from '../../../types'
+import type { TrimesterResult } from '../../../types'
 import styles from './style.module.css'
 
 export default function StudentIdForm() {

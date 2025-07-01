@@ -1,9 +1,9 @@
 'use client'
 
-import { $studentInfo } from '@/atoms/global'
 import { useAtomValue } from 'jotai'
-import styles from './style.module.css'
+import { $studentInfo } from '@/atoms/global'
 import { isObjectEmpty } from '@/utils/helpers'
+import styles from './style.module.css'
 
 export default function StudentInfo() {
   const studentInfo = useAtomValue($studentInfo)

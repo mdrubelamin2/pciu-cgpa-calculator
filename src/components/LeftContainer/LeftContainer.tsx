@@ -1,8 +1,8 @@
 'use client'
 
+import { useAtomValue } from 'jotai'
 import { $studentInfo } from '@/atoms/global'
 import { isObjectEmpty } from '@/utils/helpers'
-import { useAtomValue } from 'jotai'
 import CGPABox from '../CGPABox/CGPABox'
 import StudentIdForm from '../StudentIdForm/StudentIdForm'
 import StudentInfo from '../StudentInfo/StudentInfo'

@@ -1,8 +1,8 @@
 'use client'
 
+import { useAtomValue } from 'jotai'
 import { $allResults } from '@/atoms/global'
 import { getAverageCGPAandCredits } from '@/utils/helpers'
-import { useAtomValue } from 'jotai'
 import styles from './style.module.css'
 
 export default function CGPABox() {
